@@ -5,7 +5,7 @@ export default function Header({ lastUpdated, onRefresh }) {
     <header className="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/50">
       <div className="px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Smart Water Management</h1>
+          <h1 className="text-2xl font-bold text-white">Smart Water Management - IIT Kharagpur</h1>
           <p className="text-slate-400 text-sm flex items-center gap-2 mt-1">
             <Clock className="w-4 h-4" />
             Last updated: {lastUpdated.toLocaleTimeString()}
