@@ -12,6 +12,7 @@ import {
   DataUpload,
   MetricsGrid
 } from './ui';
+import Analytics from './pages/Analytics';
 
 // Mock data generator for demonstration
 const generateTimeSeriesData = () => {
@@ -81,6 +82,10 @@ export default function Dashboard() {
         {/* Header */}
         <Header lastUpdated={lastUpdated} onRefresh={handleRefresh} />
 
+        {/* Conditional Page Rendering */}
+        {activeTab === 'analytics' ? (
+          <Analytics sidebarOpen={sidebarOpen} />
+        ) : (
         <div className="p-6 space-y-6">
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -129,6 +134,7 @@ export default function Dashboard() {
           {/* Additional Metrics */}
           <MetricsGrid sensorData={sensorData} />
         </div>
+        )}
       </main>
     </div>
   );
