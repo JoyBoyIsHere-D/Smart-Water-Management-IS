@@ -4,6 +4,7 @@ import Overview from './components/pages/Overview'
 import WaterQuality from './components/pages/WaterQuality'
 import Anomalies from './components/pages/Anomalies'
 import Analytics from './components/pages/Analytics'
+import FederatedLearning from './components/pages/FederatedLearning'
 import DataUploadPage from './components/pages/DataUploadPage'
 import Settings from './components/pages/Settings'
 import './App.css'
@@ -16,6 +17,7 @@ function App() {
         <Route path="quality" element={<WaterQuality />} />
         <Route path="anomalies" element={<Anomalies />} />
         <Route path="analytics" element={<Analytics />} />
+        <Route path="federated" element={<FederatedLearning />} />
         <Route path="upload" element={<DataUploadPage />} />
         <Route path="settings" element={<Settings />} />
       </Route>
