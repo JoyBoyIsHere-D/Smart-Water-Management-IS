@@ -130,14 +130,22 @@ export default function FederatedLearning() {
 
   const fetchAllClientsData = async () => {
     setLoading(prev => ({ ...prev, data: true }));
+    setError(null);
     try {
       const response = await fetch(`${ADMIN_SERVER}/api/all-clients-data`);
       if (response.ok) {
         const data = await response.json();
+        console.log('Fetched clients data:', data);
         setClientsData(data.clients_data || []);
+        if (data.clients_data?.length === 0) {
+          setError('No clients registered. Add clients first in the Clients tab.');
+        }
+      } else {
+        setError(`Server error: ${response.status}`);
       }
     } catch (err) {
-      setError('Failed to fetch clients data');
+      console.error('Fetch error:', err);
+      setError('Failed to fetch clients data. Make sure admin server is running.');
     }
     setLoading(prev => ({ ...prev, data: false }));
   };

@@ -174,23 +174,30 @@ def fetch_all_clients_data():
     """Fetch data from all registered clients"""
     results = []
     
+    print(f"\n[DEBUG] Fetching data from {len(CLIENTS)} clients...")
+    
     for client in CLIENTS:
         try:
+            print(f"[DEBUG] Connecting to {client['id']} at {client['ip']}:{client['port']}...")
             response = requests.get(
                 f"http://{client['ip']}:{client['port']}/api/local-data",
                 timeout=10
             )
+            print(f"[DEBUG] Response status: {response.status_code}")
             if response.ok:
                 data = response.json()
                 data['connection_status'] = 'connected'
+                print(f"[DEBUG] Got data from {client['id']}: {len(data.get('latest_readings', []))} readings")
                 results.append(data)
             else:
+                print(f"[DEBUG] Error from {client['id']}: HTTP {response.status_code}")
                 results.append({
                     "client_id": client['id'],
                     "connection_status": 'error',
                     "error": f"HTTP {response.status_code}"
                 })
         except Exception as e:
+            print(f"[DEBUG] Exception for {client['id']}: {str(e)}")
             results.append({
                 "client_id": client['id'],
                 "connection_status": 'failed',

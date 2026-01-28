@@ -19,8 +19,33 @@ from sklearn.model_selection import train_test_split
 import os
 import time
 
+import json
+import math
+
 app = Flask(__name__)
 CORS(app)
+
+def clean_for_json(obj):
+    """Convert NaN and Inf values to None for JSON serialization"""
+    if isinstance(obj, dict):
+        return {k: clean_for_json(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [clean_for_json(item) for item in obj]
+    elif isinstance(obj, float):
+        if math.isnan(obj) or math.isinf(obj):
+            return None
+        return obj
+    elif isinstance(obj, np.floating):
+        if np.isnan(obj) or np.isinf(obj):
+            return None
+        return float(obj)
+    elif isinstance(obj, np.integer):
+        return int(obj)
+    elif isinstance(obj, np.ndarray):
+        return clean_for_json(obj.tolist())
+    elif pd.isna(obj):
+        return None
+    return obj
 
 # ==================== CONFIGURATION ====================
 # CHANGE THESE FOR EACH CLIENT DEVICE
@@ -148,10 +173,11 @@ def get_local_data():
     
     df = local_data['df']
     
-    # Get latest readings (last 10 records)
-    latest = df.tail(10).to_dict(orient='records')
+    # Get latest readings (last 10 records) - clean NaN values
+    latest_df = df.tail(10).fillna('')  # Replace NaN with empty string
+    latest = latest_df.to_dict(orient='records')
     
-    # Calculate statistics
+    # Calculate statistics - handle NaN
     statistics = {}
     stat_columns = {
         'pressure_bar': 'avg_pressure',
@@ -163,23 +189,26 @@ def get_local_data():
     
     for col, stat_name in stat_columns.items():
         if col in df.columns:
-            statistics[stat_name] = float(df[col].mean())
+            val = df[col].mean()
+            statistics[stat_name] = float(val) if pd.notna(val) else 0.0
     
     # Quality distribution
     unsafe_count = int(df['unsafe'].sum())
     safe_count = len(df) - unsafe_count
     
-    return jsonify({
+    response_data = {
         "client_id": CLIENT_ID,
         "total_records": len(df),
-        "latest_readings": latest,
-        "statistics": statistics,
+        "latest_readings": clean_for_json(latest),
+        "statistics": clean_for_json(statistics),
         "quality_distribution": {
             "safe": safe_count,
             "unsafe": unsafe_count,
             "unsafe_percentage": round(unsafe_count / len(df) * 100, 2)
         }
-    })
+    }
+    
+    return jsonify(response_data)
 
 @app.route('/api/model-metrics', methods=['GET'])
 def get_model_metrics():
