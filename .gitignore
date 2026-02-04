@@ -23,3 +23,26 @@ dist-ssr
 *.sln
 *.sw?
 Learning.md
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+ENV/
+env/
+*.egg-info/
+.eggs/
+
+# Model files
+*.h5
+*.pkl
+*.joblib

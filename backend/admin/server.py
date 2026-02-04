@@ -6,7 +6,7 @@ Run with: uvicorn server:app --host 0.0.0.0 --port 5000 --reload
 Or: python server.py
 """
 
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
@@ -24,6 +24,37 @@ import os
 import json
 import math
 
+# Add parent directory to path for imports
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Import authentication
+try:
+    from auth.routes import router as auth_router
+    from auth.jwt_handler import get_current_user, get_optional_user
+    from auth.supabase_client import get_supabase_client
+    from config import settings, validate_settings
+    AUTH_AVAILABLE = True
+    
+    # Initialize Supabase connection and print status
+    supabase_client = get_supabase_client()
+    if supabase_client:
+        SUPABASE_CONNECTED = True
+    else:
+        SUPABASE_CONNECTED = False
+        print("⚠️  Warning: Supabase not connected. Auth will not work.")
+        
+except ImportError as e:
+    print(f"Warning: Auth module not available: {e}")
+    AUTH_AVAILABLE = False
+    SUPABASE_CONNECTED = False
+    
+    # Dummy functions when auth not available
+    async def get_current_user():
+        return {"id": "anonymous", "email": "anonymous@example.com"}
+    
+    async def get_optional_user():
+        return None
+
 # TensorFlow/Keras imports
 try:
     import tensorflow as tf
@@ -36,14 +67,15 @@ except ImportError:
     TF_AVAILABLE = False
     print("Warning: TensorFlow not available. Model training will be simulated.")
 
-# Add parent directory to path for shared utilities
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 app = FastAPI(
     title="Federated Learning Admin Server",
     version="2.0.0",
     description="Aggregates data from multiple client devices and coordinates federated learning with real model training"
 )
+
+# Include auth routes
+if AUTH_AVAILABLE:
+    app.include_router(auth_router)
 
 # CORS middleware
 app.add_middleware(
@@ -859,7 +891,8 @@ async def health_check():
         "status": "online",
         "server": "admin",
         "registered_clients": len(CLIENTS),
-        "training_active": training_status['is_training']
+        "training_active": training_status['is_training'],
+        "auth_available": AUTH_AVAILABLE
     }
 
 @app.get("/")
@@ -870,7 +903,19 @@ async def index():
         "version": "2.0.0",
         "framework": "FastAPI",
         "tensorflow_available": TF_AVAILABLE,
+        "auth_available": AUTH_AVAILABLE,
         "endpoints": {
+            "Authentication": {
+                "POST /api/auth/register": "Register new user",
+                "POST /api/auth/login": "Login with email/password",
+                "POST /api/auth/refresh": "Refresh access token",
+                "POST /api/auth/logout": "Logout user",
+                "GET /api/auth/me": "Get current user info",
+                "PUT /api/auth/profile": "Update user profile",
+                "POST /api/auth/password-reset": "Request password reset",
+                "POST /api/auth/password-update": "Update password",
+                "GET /api/auth/verify": "Verify token validity"
+            },
             "Client Management": {
                 "GET /api/clients": "List registered clients",
                 "POST /api/clients": "Register new client",
@@ -907,11 +952,24 @@ if __name__ == '__main__':
     print("  FEDERATED LEARNING ADMIN SERVER v2.0 (FastAPI)")
     print("="*60)
     print(f"\n  TensorFlow available: {TF_AVAILABLE}")
+    print(f"  Auth available: {AUTH_AVAILABLE}")
+    if AUTH_AVAILABLE:
+        print(f"  Supabase connected: {SUPABASE_CONNECTED}")
     print(f"  Data path: {DATA_PATH}")
     print(f"  Model path: {MODEL_PATH}")
+    
+    # Validate settings if auth is available
+    if AUTH_AVAILABLE:
+        validate_settings()
+    
     print("\nServer starting on http://0.0.0.0:5000")
     print("\nAPI Endpoints:")
-    print("  Client Management:")
+    print("  Authentication:")
+    print("    - POST /api/auth/register    - Register new user")
+    print("    - POST /api/auth/login       - Login")
+    print("    - POST /api/auth/refresh     - Refresh token")
+    print("    - GET  /api/auth/me          - Get current user")
+    print("\n  Client Management:")
     print("    - GET  /api/clients          - List clients")
     print("    - POST /api/clients          - Register client")
     print("    - GET  /api/clients/health   - Check clients health")
