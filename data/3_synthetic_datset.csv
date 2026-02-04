@@ -1,0 +1,301 @@
+timestamp,device_id,pressure_bar,pressure_status,flow_rate_lpm,total_volume_l,tds_ppm,tds_status,ph,ph_status,temperature_c,wifi_status,signal_strength_dbm,sensor_status,alert
+2025-02-01 00:00:00,ESP32_WA_02,2.67,Normal,1.29,0.13,369,Moderate,6.55,Acidic,29.14,Connected,-67,OK,None
+2025-02-01 00:10:00,ESP32_WA_02,2.64,Normal,1.21,0.25,531,Moderate,6.23,Acidic,31.27,Connected,-69,OK,pH Out of Range
+2025-02-01 00:20:00,ESP32_WA_02,3.22,Normal,4.3,0.68,524,Moderate,7.48,Neutral,29.85,Disconnected,-72,Fault,Sensor Fault
+2025-02-01 00:30:00,ESP32_WA_02,2.07,Normal,1.53,0.83,622,Poor,6.88,Neutral,23.41,Connected,-80,OK,None
+2025-02-01 00:40:00,ESP32_WA_02,3.07,Normal,4.23,1.26,473,Moderate,6.37,Acidic,19.33,Connected,-74,OK,pH Out of Range
+2025-02-01 00:50:00,ESP32_WA_02,1.84,Normal,4.81,1.74,569,Moderate,7.32,Neutral,31.33,Connected,-84,OK,None
+2025-02-01 01:00:00,ESP32_WA_02,2.6,Normal,4.53,2.19,422,Moderate,7.55,Neutral,31.75,Connected,-81,OK,None
+2025-02-01 01:10:00,ESP32_WA_02,2.58,Normal,1.64,2.35,99,Good,6.96,Neutral,22.19,Connected,-67,OK,None
+2025-02-01 01:20:00,ESP32_WA_02,3.26,Normal,1.12,2.47,695,Poor,7.21,Neutral,26.93,Connected,-56,OK,None
+2025-02-01 01:30:00,ESP32_WA_02,2.69,Normal,4.77,2.94,424,Moderate,7.17,Neutral,26.0,Connected,-93,OK,None
+2025-02-01 01:40:00,ESP32_WA_02,2.39,Normal,2.59,3.2,377,Moderate,6.46,Acidic,25.13,Connected,-79,OK,None
+2025-02-01 01:50:00,ESP32_WA_02,3.39,Normal,8.43,4.04,418,Moderate,7.03,Neutral,25.26,Connected,-91,OK,None
+2025-02-01 02:00:00,ESP32_WA_02,3.51,Normal,4.46,4.49,171,Good,7.37,Neutral,24.66,Connected,-66,OK,None
+2025-02-01 02:10:00,ESP32_WA_02,2.36,Normal,2.2,4.71,124,Good,7.45,Neutral,21.54,Connected,-66,OK,None
+2025-02-01 02:20:00,ESP32_WA_02,3.05,Normal,11.19,5.83,408,Moderate,7.43,Neutral,27.7,Connected,-51,OK,None
+2025-02-01 02:30:00,ESP32_WA_02,2.48,Normal,7.23,6.55,272,Good,7.03,Neutral,25.15,Connected,-91,OK,None
+2025-02-01 02:40:00,ESP32_WA_02,2.78,Normal,1.61,6.71,231,Good,6.92,Neutral,30.88,Connected,-87,OK,None
+2025-02-01 02:50:00,ESP32_WA_02,2.83,Normal,10.15,7.73,723,Poor,7.1,Neutral,28.86,Connected,-45,OK,None
+2025-02-01 03:00:00,ESP32_WA_02,2.06,Normal,0.9,7.82,323,Moderate,6.88,Neutral,19.0,Connected,-56,OK,None
+2025-02-01 03:10:00,ESP32_WA_02,2.73,Normal,4.87,8.31,331,Moderate,7.11,Neutral,25.87,Connected,-57,OK,None
+2025-02-01 03:20:00,ESP32_WA_02,2.17,Normal,1.64,8.47,674,Poor,6.53,Acidic,25.3,Connected,-56,OK,None
+2025-02-01 03:30:00,ESP32_WA_02,2.21,Normal,1.52,8.62,409,Moderate,6.24,Acidic,30.11,Connected,-65,OK,pH Out of Range
+2025-02-01 03:40:00,ESP32_WA_02,2.47,Normal,3.16,8.94,855,Poor,7.14,Neutral,29.06,Connected,-74,OK,High TDS
+2025-02-01 03:50:00,ESP32_WA_02,1.71,Normal,3.96,9.33,437,Moderate,7.42,Neutral,25.85,Connected,-65,OK,None
+2025-02-01 04:00:00,ESP32_WA_02,1.96,Normal,1.91,9.52,408,Moderate,7.47,Neutral,23.58,Connected,-62,OK,None
+2025-02-01 04:10:00,ESP32_WA_02,2.82,Normal,7.57,10.28,339,Moderate,6.67,Acidic,23.69,Connected,-86,OK,None
+2025-02-01 04:20:00,ESP32_WA_02,3.02,Normal,4.51,10.73,425,Moderate,7.24,Neutral,22.83,Connected,-70,OK,None
+2025-02-01 04:30:00,ESP32_WA_02,3.13,Normal,6.1,11.34,633,Poor,7.14,Neutral,24.28,Connected,-78,OK,None
+2025-02-01 04:40:00,ESP32_WA_02,2.47,Normal,1.55,11.5,408,Moderate,7.37,Neutral,30.33,Connected,-45,OK,None
+2025-02-01 04:50:00,ESP32_WA_02,3.05,Normal,6.04,12.1,410,Moderate,7.31,Neutral,28.07,Connected,-74,OK,None
+2025-02-01 05:00:00,ESP32_WA_02,3.48,Normal,0.86,12.19,329,Moderate,6.5,Acidic,19.61,Disconnected,-63,Fault,Sensor Fault
+2025-02-01 05:10:00,ESP32_WA_02,3.29,Normal,7.55,12.94,219,Good,6.99,Neutral,31.89,Connected,-63,OK,None
+2025-02-01 05:20:00,ESP32_WA_02,2.01,Normal,0.6,13.0,318,Moderate,7.29,Neutral,29.68,Connected,-85,OK,None
+2025-02-01 05:30:00,ESP32_WA_02,1.83,Normal,1.37,13.14,334,Moderate,7.56,Neutral,28.01,Connected,-63,OK,None
+2025-02-01 05:40:00,ESP32_WA_02,2.9,Normal,1.01,13.24,531,Moderate,6.39,Acidic,20.83,Connected,-66,OK,pH Out of Range
+2025-02-01 05:50:00,ESP32_WA_02,3.32,Normal,1.7,13.41,468,Moderate,6.79,Acidic,25.88,Connected,-82,OK,None
+2025-02-01 06:00:00,ESP32_WA_02,2.69,Normal,0.56,13.47,469,Moderate,7.55,Neutral,21.43,Connected,-79,OK,None
+2025-02-01 06:10:00,ESP32_WA_02,3.18,Normal,0.29,13.5,266,Good,6.88,Neutral,19.13,Connected,-55,OK,None
+2025-02-01 06:20:00,ESP32_WA_02,2.82,Normal,1.99,13.69,190,Good,6.8,Neutral,26.11,Disconnected,-77,Fault,Sensor Fault
+2025-02-01 06:30:00,ESP32_WA_02,2.81,Normal,4.19,14.11,388,Moderate,6.83,Neutral,37.29,Connected,-76,OK,None
+2025-02-01 06:40:00,ESP32_WA_02,2.85,Normal,3.36,14.45,563,Moderate,7.28,Neutral,25.11,Connected,-55,OK,None
+2025-02-01 06:50:00,ESP32_WA_02,2.81,Normal,2.81,14.73,322,Moderate,7.32,Neutral,20.9,Connected,-59,OK,None
+2025-02-01 07:00:00,ESP32_WA_02,2.49,Normal,3.34,15.07,500,Moderate,7.07,Neutral,26.07,Connected,-74,OK,None
+2025-02-01 07:10:00,ESP32_WA_02,3.62,Normal,0.53,15.12,372,Moderate,7.6,Neutral,24.6,Connected,-95,OK,None
+2025-02-01 07:20:00,ESP32_WA_02,3.16,Normal,4.02,15.52,241,Good,7.89,Alkaline,26.66,Connected,-79,OK,None
+2025-02-01 07:30:00,ESP32_WA_02,2.42,Normal,3.47,15.87,726,Poor,6.52,Acidic,23.12,Connected,-68,OK,None
+2025-02-01 07:40:00,ESP32_WA_02,2.56,Normal,4.46,16.31,434,Moderate,6.61,Acidic,23.61,Disconnected,-75,Fault,Sensor Fault
+2025-02-01 07:50:00,ESP32_WA_02,2.18,Normal,6.28,16.94,686,Poor,6.75,Acidic,27.03,Connected,-56,OK,None
+2025-02-01 08:00:00,ESP32_WA_02,2.94,Normal,1.62,17.1,609,Poor,6.53,Acidic,28.64,Connected,-76,OK,None
+2025-02-01 08:10:00,ESP32_WA_02,1.99,Normal,0.64,17.17,272,Good,6.72,Acidic,26.58,Disconnected,-58,Fault,Sensor Fault
+2025-02-01 08:20:00,ESP32_WA_02,2.53,Normal,5.25,17.69,536,Moderate,7.25,Neutral,27.99,Connected,-69,OK,None
+2025-02-01 08:30:00,ESP32_WA_02,3.07,Normal,2.64,17.96,441,Moderate,7.06,Neutral,33.46,Connected,-73,OK,None
+2025-02-01 08:40:00,ESP32_WA_02,2.98,Normal,4.78,18.43,556,Moderate,7.6,Neutral,20.82,Connected,-76,OK,None
+2025-02-01 08:50:00,ESP32_WA_02,2.99,Normal,10.85,19.52,367,Moderate,7.08,Neutral,31.26,Connected,-58,OK,None
+2025-02-01 09:00:00,ESP32_WA_02,2.11,Normal,7.9,20.31,500,Moderate,6.67,Acidic,25.93,Connected,-50,OK,None
+2025-02-01 09:10:00,ESP32_WA_02,3.08,Normal,4.48,20.76,292,Good,7.01,Neutral,26.47,Connected,-57,OK,None
+2025-02-01 09:20:00,ESP32_WA_02,2.63,Normal,2.48,21.0,342,Moderate,7.13,Neutral,35.79,Connected,-86,OK,None
+2025-02-01 09:30:00,ESP32_WA_02,3.36,Normal,4.58,21.46,618,Poor,7.23,Neutral,28.93,Connected,-84,OK,None
+2025-02-01 09:40:00,ESP32_WA_02,2.56,Normal,2.53,21.72,549,Moderate,6.96,Neutral,38.0,Connected,-86,OK,None
+2025-02-01 09:50:00,ESP32_WA_02,3.54,Normal,1.08,21.82,604,Poor,6.88,Neutral,26.49,Connected,-58,OK,None
+2025-02-01 10:00:00,ESP32_WA_02,2.91,Normal,5.48,22.37,284,Good,6.86,Neutral,22.81,Connected,-45,OK,None
+2025-02-01 10:10:00,ESP32_WA_02,3.07,Normal,4.04,22.78,616,Poor,7.25,Neutral,22.67,Connected,-53,OK,None
+2025-02-01 10:20:00,ESP32_WA_02,2.5,Normal,0.41,22.82,544,Moderate,7.34,Neutral,24.18,Connected,-65,OK,None
+2025-02-01 10:30:00,ESP32_WA_02,2.5,Normal,7.0,23.52,405,Moderate,6.0,Acidic,23.31,Connected,-80,OK,pH Out of Range
+2025-02-01 10:40:00,ESP32_WA_02,2.51,Normal,8.08,24.32,202,Good,7.24,Neutral,24.9,Connected,-81,OK,None
+2025-02-01 10:50:00,ESP32_WA_02,3.2,Normal,1.28,24.45,600,Poor,6.69,Acidic,28.14,Connected,-57,OK,None
+2025-02-01 11:00:00,ESP32_WA_02,2.48,Normal,1.18,24.57,526,Moderate,7.28,Neutral,22.38,Connected,-58,OK,None
+2025-02-01 11:10:00,ESP32_WA_02,2.64,Normal,1.64,24.74,284,Good,6.57,Acidic,27.97,Connected,-95,OK,None
+2025-02-01 11:20:00,ESP32_WA_02,3.28,Normal,1.97,24.93,285,Good,7.19,Neutral,28.02,Connected,-71,OK,None
+2025-02-01 11:30:00,ESP32_WA_02,2.96,Normal,1.59,25.09,183,Good,6.58,Acidic,27.14,Connected,-67,OK,None
+2025-02-01 11:40:00,ESP32_WA_02,2.57,Normal,4.1,25.5,743,Poor,7.9,Alkaline,23.0,Connected,-83,OK,None
+2025-02-01 11:50:00,ESP32_WA_02,2.84,Normal,3.3,25.83,475,Moderate,6.49,Acidic,28.14,Connected,-76,OK,None
+2025-02-01 12:00:00,ESP32_WA_02,2.0,Normal,11.3,26.96,364,Moderate,6.72,Acidic,22.96,Connected,-65,OK,None
+2025-02-01 12:10:00,ESP32_WA_02,1.95,Normal,0.96,27.06,252,Good,6.85,Neutral,22.43,Connected,-45,OK,None
+2025-02-01 12:20:00,ESP32_WA_02,2.92,Normal,1.49,27.21,693,Poor,6.95,Neutral,24.94,Connected,-64,OK,None
+2025-02-01 12:30:00,ESP32_WA_02,4.08,Normal,2.82,27.49,614,Poor,7.52,Neutral,24.38,Connected,-71,OK,None
+2025-02-01 12:40:00,ESP32_WA_02,3.71,Normal,1.9,27.68,90,Good,7.19,Neutral,29.37,Connected,-81,OK,None
+2025-02-01 12:50:00,ESP32_WA_02,3.96,Normal,4.92,28.17,770,Poor,6.97,Neutral,31.76,Connected,-79,OK,None
+2025-02-01 13:00:00,ESP32_WA_02,2.99,Normal,3.62,28.53,503,Moderate,7.22,Neutral,22.0,Connected,-89,OK,None
+2025-02-01 13:10:00,ESP32_WA_02,2.44,Normal,1.64,28.7,460,Moderate,7.26,Neutral,24.44,Connected,-68,OK,None
+2025-02-01 13:20:00,ESP32_WA_02,3.23,Normal,5.21,29.22,184,Good,7.17,Neutral,27.01,Disconnected,-60,Fault,Sensor Fault
+2025-02-01 13:30:00,ESP32_WA_02,2.1,Normal,5.01,29.72,571,Moderate,7.25,Neutral,32.05,Connected,-82,OK,None
+2025-02-01 13:40:00,ESP32_WA_02,1.5,Normal,6.4,30.36,509,Moderate,7.44,Neutral,26.45,Connected,-84,OK,None
+2025-02-01 13:50:00,ESP32_WA_02,2.91,Normal,1.3,30.49,525,Moderate,7.03,Neutral,27.75,Connected,-89,OK,None
+2025-02-01 14:00:00,ESP32_WA_02,3.22,Normal,3.82,30.87,209,Good,6.35,Acidic,27.26,Connected,-55,OK,pH Out of Range
+2025-02-01 14:10:00,ESP32_WA_02,3.05,Normal,2.95,31.16,292,Good,7.21,Neutral,30.97,Connected,-68,OK,None
+2025-02-01 14:20:00,ESP32_WA_02,3.48,Normal,1.8,31.34,456,Moderate,7.46,Neutral,30.28,Connected,-81,OK,None
+2025-02-01 14:30:00,ESP32_WA_02,3.08,Normal,5.92,31.94,722,Poor,7.09,Neutral,21.41,Connected,-76,OK,None
+2025-02-01 14:40:00,ESP32_WA_02,2.87,Normal,9.72,32.91,428,Moderate,7.43,Neutral,19.0,Connected,-71,OK,None
+2025-02-01 14:50:00,ESP32_WA_02,2.17,Normal,8.96,33.8,385,Moderate,7.0,Neutral,26.06,Connected,-60,OK,None
+2025-02-01 15:00:00,ESP32_WA_02,2.64,Normal,1.01,33.91,493,Moderate,6.12,Acidic,34.19,Disconnected,-90,Fault,pH Out of Range
+2025-02-01 15:10:00,ESP32_WA_02,2.11,Normal,6.54,34.56,588,Moderate,6.58,Acidic,29.38,Disconnected,-65,Fault,Sensor Fault
+2025-02-01 15:20:00,ESP32_WA_02,2.52,Normal,3.83,34.94,144,Good,6.92,Neutral,29.6,Connected,-70,OK,None
+2025-02-01 15:30:00,ESP32_WA_02,3.65,Normal,1.38,35.08,325,Moderate,6.96,Neutral,28.45,Connected,-68,OK,None
+2025-02-01 15:40:00,ESP32_WA_02,2.81,Normal,6.29,35.71,119,Good,6.84,Neutral,26.56,Connected,-76,OK,None
+2025-02-01 15:50:00,ESP32_WA_02,2.89,Normal,2.66,35.98,617,Poor,6.25,Acidic,28.12,Connected,-65,OK,pH Out of Range
+2025-02-01 16:00:00,ESP32_WA_02,2.35,Normal,2.95,36.27,454,Moderate,6.74,Acidic,20.07,Connected,-68,OK,None
+2025-02-01 16:10:00,ESP32_WA_02,4.0,Normal,5.96,36.87,262,Good,6.66,Acidic,25.53,Connected,-53,OK,None
+2025-02-01 16:20:00,ESP32_WA_02,1.71,Normal,3.5,37.22,313,Moderate,6.9,Neutral,27.42,Connected,-64,OK,None
+2025-02-01 16:30:00,ESP32_WA_02,2.24,Normal,0.95,37.31,342,Moderate,6.77,Acidic,30.86,Connected,-62,OK,None
+2025-02-01 16:40:00,ESP32_WA_02,3.17,Normal,1.31,37.44,328,Moderate,7.69,Alkaline,30.34,Connected,-95,OK,None
+2025-02-01 16:50:00,ESP32_WA_02,2.32,Normal,1.79,37.62,182,Good,7.3,Neutral,25.24,Connected,-80,OK,None
+2025-02-01 17:00:00,ESP32_WA_02,2.3,Normal,2.47,37.87,220,Good,6.94,Neutral,26.27,Connected,-61,OK,None
+2025-02-01 17:10:00,ESP32_WA_02,2.95,Normal,4.46,38.32,448,Moderate,7.35,Neutral,24.87,Disconnected,-49,Fault,Sensor Fault
+2025-02-01 17:20:00,ESP32_WA_02,3.07,Normal,3.3,38.64,373,Moderate,6.56,Acidic,30.41,Connected,-54,OK,None
+2025-02-01 17:30:00,ESP32_WA_02,3.04,Normal,0.86,38.73,90,Good,7.38,Neutral,21.26,Disconnected,-82,Fault,Sensor Fault
+2025-02-01 17:40:00,ESP32_WA_02,2.27,Normal,0.53,38.78,468,Moderate,6.86,Neutral,28.61,Connected,-59,OK,None
+2025-02-01 17:50:00,ESP32_WA_02,3.08,Normal,2.24,39.01,270,Good,7.28,Neutral,25.98,Connected,-88,OK,None
+2025-02-01 18:00:00,ESP32_WA_02,2.1,Normal,4.65,39.47,321,Moderate,6.22,Acidic,29.97,Disconnected,-72,Fault,pH Out of Range
+2025-02-01 18:10:00,ESP32_WA_02,2.24,Normal,0.97,39.57,479,Moderate,7.39,Neutral,25.81,Connected,-47,OK,None
+2025-02-01 18:20:00,ESP32_WA_02,2.2,Normal,3.21,39.89,303,Moderate,6.58,Acidic,20.39,Connected,-77,OK,None
+2025-02-01 18:30:00,ESP32_WA_02,2.86,Normal,12.0,41.09,313,Moderate,6.88,Neutral,20.37,Connected,-69,OK,None
+2025-02-01 18:40:00,ESP32_WA_02,2.52,Normal,1.2,41.21,237,Good,7.07,Neutral,24.36,Connected,-56,OK,None
+2025-02-01 18:50:00,ESP32_WA_02,2.22,Normal,6.88,41.9,495,Moderate,6.76,Acidic,24.52,Connected,-55,OK,None
+2025-02-01 19:00:00,ESP32_WA_02,2.72,Normal,2.29,42.13,527,Moderate,6.41,Acidic,23.29,Disconnected,-52,Fault,Sensor Fault
+2025-02-01 19:10:00,ESP32_WA_02,2.19,Normal,3.34,42.46,269,Good,6.65,Acidic,25.42,Connected,-78,OK,None
+2025-02-01 19:20:00,ESP32_WA_02,2.45,Normal,1.2,42.58,262,Good,6.81,Neutral,27.93,Connected,-59,OK,None
+2025-02-01 19:30:00,ESP32_WA_02,2.54,Normal,10.1,43.59,145,Good,7.11,Neutral,21.43,Connected,-69,OK,None
+2025-02-01 19:40:00,ESP32_WA_02,2.42,Normal,0.46,43.64,419,Moderate,6.83,Neutral,27.41,Connected,-67,OK,None
+2025-02-01 19:50:00,ESP32_WA_02,2.2,Normal,1.99,43.84,435,Moderate,6.44,Acidic,30.07,Connected,-60,OK,None
+2025-02-01 20:00:00,ESP32_WA_02,2.08,Normal,3.26,44.16,600,Poor,6.85,Neutral,25.08,Connected,-83,OK,None
+2025-02-01 20:10:00,ESP32_WA_02,3.25,Normal,1.38,44.3,441,Moderate,7.21,Neutral,31.89,Connected,-67,OK,None
+2025-02-01 20:20:00,ESP32_WA_02,1.67,Normal,0.66,44.37,293,Good,7.08,Neutral,30.09,Connected,-69,OK,None
+2025-02-01 20:30:00,ESP32_WA_02,2.85,Normal,12.0,45.57,90,Good,7.45,Neutral,32.03,Connected,-88,OK,None
+2025-02-01 20:40:00,ESP32_WA_02,2.3,Normal,2.5,45.82,281,Good,7.07,Neutral,30.45,Disconnected,-45,Fault,Sensor Fault
+2025-02-01 20:50:00,ESP32_WA_02,2.35,Normal,5.77,46.39,338,Moderate,7.21,Neutral,24.74,Connected,-77,OK,None
+2025-02-01 21:00:00,ESP32_WA_02,1.81,Normal,7.98,47.19,258,Good,7.12,Neutral,23.6,Connected,-95,OK,None
+2025-02-01 21:10:00,ESP32_WA_02,2.68,Normal,2.32,47.42,445,Moderate,6.64,Acidic,31.8,Disconnected,-88,Fault,Sensor Fault
+2025-02-01 21:20:00,ESP32_WA_02,2.42,Normal,1.94,47.62,800,Poor,7.47,Neutral,27.78,Connected,-71,OK,None
+2025-02-01 21:30:00,ESP32_WA_02,3.23,Normal,0.36,47.65,441,Moderate,7.11,Neutral,19.0,Connected,-84,OK,None
+2025-02-01 21:40:00,ESP32_WA_02,2.42,Normal,7.96,48.45,492,Moderate,6.93,Neutral,22.64,Connected,-93,OK,None
+2025-02-01 21:50:00,ESP32_WA_02,2.16,Normal,6.83,49.13,741,Poor,6.72,Acidic,31.19,Connected,-70,OK,None
+2025-02-01 22:00:00,ESP32_WA_02,2.1,Normal,3.58,49.49,216,Good,7.14,Neutral,33.1,Connected,-55,OK,None
+2025-02-01 22:10:00,ESP32_WA_02,3.18,Normal,12.0,50.69,309,Moderate,7.15,Neutral,33.26,Connected,-68,OK,None
+2025-02-01 22:20:00,ESP32_WA_02,2.98,Normal,1.01,50.79,284,Good,6.83,Neutral,27.69,Connected,-91,OK,None
+2025-02-01 22:30:00,ESP32_WA_02,2.53,Normal,7.71,51.56,349,Moderate,6.72,Acidic,21.28,Connected,-70,OK,None
+2025-02-01 22:40:00,ESP32_WA_02,3.53,Normal,1.49,51.71,313,Moderate,7.76,Alkaline,25.63,Connected,-71,OK,None
+2025-02-01 22:50:00,ESP32_WA_02,2.83,Normal,0.55,51.77,607,Poor,6.0,Acidic,19.0,Connected,-73,OK,pH Out of Range
+2025-02-01 23:00:00,ESP32_WA_02,2.55,Normal,2.96,52.06,535,Moderate,7.79,Alkaline,28.42,Connected,-68,OK,None
+2025-02-01 23:10:00,ESP32_WA_02,2.96,Normal,0.52,52.11,219,Good,7.82,Alkaline,24.23,Connected,-54,OK,None
+2025-02-01 23:20:00,ESP32_WA_02,2.15,Normal,2.52,52.37,305,Moderate,7.17,Neutral,24.61,Connected,-50,OK,None
+2025-02-01 23:30:00,ESP32_WA_02,2.75,Normal,1.31,52.5,376,Moderate,7.26,Neutral,27.84,Connected,-64,OK,None
+2025-02-01 23:40:00,ESP32_WA_02,2.13,Normal,1.71,52.67,502,Moderate,6.92,Neutral,25.71,Connected,-67,OK,None
+2025-02-01 23:50:00,ESP32_WA_02,2.99,Normal,1.35,52.8,599,Moderate,7.12,Neutral,33.44,Connected,-64,OK,None
+2025-02-02 00:00:00,ESP32_WA_02,3.02,Normal,1.64,52.97,382,Moderate,6.86,Neutral,19.88,Connected,-95,OK,None
+2025-02-02 00:10:00,ESP32_WA_02,2.65,Normal,6.49,53.62,429,Moderate,6.5,Acidic,30.44,Connected,-59,OK,None
+2025-02-02 00:20:00,ESP32_WA_02,3.24,Normal,5.84,54.2,260,Good,7.8,Alkaline,29.5,Connected,-63,OK,None
+2025-02-02 00:30:00,ESP32_WA_02,2.35,Normal,2.93,54.49,424,Moderate,6.63,Acidic,25.45,Connected,-86,OK,None
+2025-02-02 00:40:00,ESP32_WA_02,2.97,Normal,1.69,54.66,298,Good,7.43,Neutral,30.28,Connected,-64,OK,None
+2025-02-02 00:50:00,ESP32_WA_02,2.64,Normal,2.89,54.95,289,Good,6.86,Neutral,30.47,Connected,-72,OK,None
+2025-02-02 01:00:00,ESP32_WA_02,2.12,Normal,1.24,55.08,555,Moderate,6.73,Acidic,26.32,Connected,-89,OK,None
+2025-02-02 01:10:00,ESP32_WA_02,3.04,Normal,5.61,55.64,183,Good,6.86,Neutral,26.65,Connected,-85,OK,None
+2025-02-02 01:20:00,ESP32_WA_02,3.55,Normal,3.52,55.99,651,Poor,6.43,Acidic,23.55,Disconnected,-76,Fault,Sensor Fault
+2025-02-02 01:30:00,ESP32_WA_02,4.25,Normal,2.91,56.28,743,Poor,6.8,Neutral,25.79,Connected,-55,OK,None
+2025-02-02 01:40:00,ESP32_WA_02,2.75,Normal,3.12,56.59,509,Moderate,6.68,Acidic,27.19,Connected,-68,OK,None
+2025-02-02 01:50:00,ESP32_WA_02,2.94,Normal,0.15,56.61,431,Moderate,7.38,Neutral,19.0,Connected,-81,OK,None
+2025-02-02 02:00:00,ESP32_WA_02,3.55,Normal,0.63,56.67,670,Poor,6.29,Acidic,26.11,Connected,-77,OK,pH Out of Range
+2025-02-02 02:10:00,ESP32_WA_02,2.18,Normal,1.56,56.83,192,Good,7.07,Neutral,27.5,Connected,-45,OK,None
+2025-02-02 02:20:00,ESP32_WA_02,3.46,Normal,5.91,57.42,657,Poor,7.36,Neutral,26.5,Connected,-63,OK,None
+2025-02-02 02:30:00,ESP32_WA_02,1.87,Normal,1.65,57.58,436,Moderate,7.64,Alkaline,19.72,Connected,-84,OK,None
+2025-02-02 02:40:00,ESP32_WA_02,2.12,Normal,4.94,58.08,495,Moderate,6.91,Neutral,19.0,Connected,-50,OK,None
+2025-02-02 02:50:00,ESP32_WA_02,2.59,Normal,3.97,58.47,339,Moderate,6.87,Neutral,27.83,Disconnected,-76,Fault,Sensor Fault
+2025-02-02 03:00:00,ESP32_WA_02,2.51,Normal,2.67,58.74,278,Good,6.48,Acidic,26.73,Connected,-45,OK,None
+2025-02-02 03:10:00,ESP32_WA_02,3.18,Normal,0.81,58.82,642,Poor,7.09,Neutral,30.13,Disconnected,-49,Fault,Sensor Fault
+2025-02-02 03:20:00,ESP32_WA_02,2.17,Normal,0.44,58.86,586,Moderate,7.74,Alkaline,23.82,Connected,-64,OK,None
+2025-02-02 03:30:00,ESP32_WA_02,2.64,Normal,2.22,59.09,90,Good,7.35,Neutral,28.08,Connected,-74,OK,None
+2025-02-02 03:40:00,ESP32_WA_02,2.53,Normal,5.59,59.65,646,Poor,6.0,Acidic,25.18,Connected,-71,OK,pH Out of Range
+2025-02-02 03:50:00,ESP32_WA_02,2.78,Normal,0.3,59.68,230,Good,7.95,Alkaline,26.36,Connected,-58,OK,None
+2025-02-02 04:00:00,ESP32_WA_02,3.01,Normal,12.0,60.88,376,Moderate,7.41,Neutral,26.37,Connected,-54,OK,None
+2025-02-02 04:10:00,ESP32_WA_02,3.17,Normal,2.61,61.14,373,Moderate,7.21,Neutral,31.18,Connected,-72,OK,None
+2025-02-02 04:20:00,ESP32_WA_02,2.86,Normal,12.0,62.34,576,Moderate,6.92,Neutral,25.04,Connected,-82,OK,None
+2025-02-02 04:30:00,ESP32_WA_02,2.89,Normal,1.75,62.51,90,Good,6.4,Acidic,25.53,Connected,-84,OK,None
+2025-02-02 04:40:00,ESP32_WA_02,2.73,Normal,0.58,62.57,233,Good,7.42,Neutral,27.63,Connected,-76,OK,None
+2025-02-02 04:50:00,ESP32_WA_02,1.92,Normal,0.51,62.62,353,Moderate,6.31,Acidic,23.54,Connected,-77,OK,pH Out of Range
+2025-02-02 05:00:00,ESP32_WA_02,1.79,Normal,4.46,63.07,578,Moderate,6.67,Acidic,31.94,Connected,-67,OK,None
+2025-02-02 05:10:00,ESP32_WA_02,2.88,Normal,1.11,63.18,139,Good,6.84,Neutral,24.13,Connected,-80,OK,None
+2025-02-02 05:20:00,ESP32_WA_02,2.01,Normal,3.12,63.49,319,Moderate,7.23,Neutral,25.41,Connected,-63,OK,None
+2025-02-02 05:30:00,ESP32_WA_02,2.31,Normal,1.99,63.69,90,Good,6.11,Acidic,28.19,Connected,-84,OK,pH Out of Range
+2025-02-02 05:40:00,ESP32_WA_02,2.81,Normal,2.12,63.9,172,Good,7.94,Alkaline,26.77,Connected,-76,OK,None
+2025-02-02 05:50:00,ESP32_WA_02,2.52,Normal,0.46,63.95,599,Moderate,6.91,Neutral,30.43,Connected,-62,OK,None
+2025-02-02 06:00:00,ESP32_WA_02,2.3,Normal,4.98,64.44,630,Poor,7.52,Neutral,26.24,Connected,-71,OK,None
+2025-02-02 06:10:00,ESP32_WA_02,2.25,Normal,0.68,64.51,622,Poor,7.02,Neutral,31.32,Connected,-70,OK,None
+2025-02-02 06:20:00,ESP32_WA_02,2.72,Normal,0.66,64.58,559,Moderate,7.62,Alkaline,24.87,Connected,-45,OK,None
+2025-02-02 06:30:00,ESP32_WA_02,3.43,Normal,0.86,64.66,843,Poor,6.42,Acidic,25.69,Connected,-95,OK,None
+2025-02-02 06:40:00,ESP32_WA_02,1.85,Normal,0.6,64.72,605,Poor,7.18,Neutral,28.19,Connected,-61,OK,None
+2025-02-02 06:50:00,ESP32_WA_02,2.58,Normal,3.96,65.12,492,Moderate,7.12,Neutral,25.62,Connected,-77,OK,None
+2025-02-02 07:00:00,ESP32_WA_02,3.18,Normal,4.13,65.53,219,Good,6.81,Neutral,32.95,Connected,-45,OK,None
+2025-02-02 07:10:00,ESP32_WA_02,2.83,Normal,3.82,65.92,371,Moderate,8.03,Alkaline,23.13,Connected,-57,OK,None
+2025-02-02 07:20:00,ESP32_WA_02,2.4,Normal,2.61,66.18,430,Moderate,7.12,Neutral,24.05,Connected,-69,OK,None
+2025-02-02 07:30:00,ESP32_WA_02,2.72,Normal,1.63,66.34,472,Moderate,6.89,Neutral,21.65,Connected,-70,OK,None
+2025-02-02 07:40:00,ESP32_WA_02,2.9,Normal,9.9,67.33,760,Poor,6.85,Neutral,21.11,Connected,-76,OK,None
+2025-02-02 07:50:00,ESP32_WA_02,3.21,Normal,1.8,67.51,329,Moderate,7.49,Neutral,30.87,Connected,-63,OK,None
+2025-02-02 08:00:00,ESP32_WA_02,1.9,Normal,1.54,67.66,362,Moderate,6.24,Acidic,26.11,Connected,-71,OK,pH Out of Range
+2025-02-02 08:10:00,ESP32_WA_02,2.27,Normal,0.95,67.76,318,Moderate,7.32,Neutral,32.94,Connected,-69,OK,None
+2025-02-02 08:20:00,ESP32_WA_02,2.84,Normal,3.61,68.12,657,Poor,6.76,Acidic,26.67,Connected,-65,OK,None
+2025-02-02 08:30:00,ESP32_WA_02,2.92,Normal,3.93,68.51,391,Moderate,6.74,Acidic,25.29,Connected,-63,OK,None
+2025-02-02 08:40:00,ESP32_WA_02,2.82,Normal,2.82,68.79,160,Good,7.08,Neutral,30.43,Connected,-78,OK,None
+2025-02-02 08:50:00,ESP32_WA_02,2.91,Normal,2.44,69.04,576,Moderate,6.7,Acidic,24.95,Connected,-58,OK,None
+2025-02-02 09:00:00,ESP32_WA_02,3.14,Normal,4.55,69.49,629,Poor,7.5,Neutral,24.07,Connected,-67,OK,None
+2025-02-02 09:10:00,ESP32_WA_02,2.93,Normal,3.78,69.87,501,Moderate,6.99,Neutral,28.76,Connected,-60,OK,None
+2025-02-02 09:20:00,ESP32_WA_02,3.98,Normal,3.82,70.25,90,Good,7.65,Alkaline,22.98,Connected,-60,OK,None
+2025-02-02 09:30:00,ESP32_WA_02,2.36,Normal,0.66,70.32,369,Moderate,6.4,Acidic,30.59,Connected,-74,OK,None
+2025-02-02 09:40:00,ESP32_WA_02,2.52,Normal,7.46,71.07,509,Moderate,6.68,Acidic,25.96,Disconnected,-72,Fault,Sensor Fault
+2025-02-02 09:50:00,ESP32_WA_02,1.97,Normal,2.51,71.32,692,Poor,6.87,Neutral,20.33,Connected,-67,OK,None
+2025-02-02 10:00:00,ESP32_WA_02,3.0,Normal,10.72,72.39,537,Moderate,6.36,Acidic,29.31,Connected,-70,OK,pH Out of Range
+2025-02-02 10:10:00,ESP32_WA_02,2.82,Normal,1.28,72.52,217,Good,7.28,Neutral,21.7,Connected,-71,OK,None
+2025-02-02 10:20:00,ESP32_WA_02,2.62,Normal,9.4,73.46,90,Good,7.17,Neutral,30.21,Connected,-81,OK,None
+2025-02-02 10:30:00,ESP32_WA_02,2.13,Normal,2.29,73.69,457,Moderate,6.79,Acidic,25.73,Connected,-60,OK,None
+2025-02-02 10:40:00,ESP32_WA_02,3.68,Normal,6.1,74.3,282,Good,6.9,Neutral,32.41,Connected,-63,OK,None
+2025-02-02 10:50:00,ESP32_WA_02,2.91,Normal,5.14,74.81,297,Good,6.0,Acidic,32.28,Disconnected,-79,Fault,pH Out of Range
+2025-02-02 11:00:00,ESP32_WA_02,3.11,Normal,0.77,74.89,500,Moderate,6.5,Acidic,24.51,Connected,-66,OK,None
+2025-02-02 11:10:00,ESP32_WA_02,2.03,Normal,1.03,74.99,520,Moderate,7.6,Neutral,22.97,Connected,-60,OK,None
+2025-02-02 11:20:00,ESP32_WA_02,2.87,Normal,2.66,75.26,358,Moderate,7.26,Neutral,28.76,Connected,-67,OK,None
+2025-02-02 11:30:00,ESP32_WA_02,2.95,Normal,4.33,75.69,613,Poor,6.84,Neutral,25.77,Connected,-71,OK,None
+2025-02-02 11:40:00,ESP32_WA_02,3.56,Normal,3.68,76.06,122,Good,7.44,Neutral,19.94,Connected,-46,OK,None
+2025-02-02 11:50:00,ESP32_WA_02,2.99,Normal,3.49,76.41,558,Moderate,7.39,Neutral,26.18,Connected,-83,OK,None
+2025-02-02 12:00:00,ESP32_WA_02,3.24,Normal,4.24,76.83,249,Good,7.21,Neutral,34.73,Connected,-51,OK,None
+2025-02-02 12:10:00,ESP32_WA_02,1.92,Normal,2.7,77.1,333,Moderate,6.98,Neutral,34.56,Connected,-54,OK,None
+2025-02-02 12:20:00,ESP32_WA_02,2.6,Normal,2.3,77.33,531,Moderate,7.4,Neutral,31.31,Connected,-72,OK,None
+2025-02-02 12:30:00,ESP32_WA_02,2.74,Normal,0.66,77.4,727,Poor,7.27,Neutral,19.26,Connected,-84,OK,None
+2025-02-02 12:40:00,ESP32_WA_02,2.65,Normal,6.18,78.01,436,Moderate,6.76,Acidic,25.93,Connected,-78,OK,None
+2025-02-02 12:50:00,ESP32_WA_02,2.56,Normal,5.79,78.59,375,Moderate,6.99,Neutral,19.0,Connected,-80,OK,None
+2025-02-02 13:00:00,ESP32_WA_02,2.54,Normal,10.22,79.61,850,Poor,6.99,Neutral,31.14,Connected,-71,OK,None
+2025-02-02 13:10:00,ESP32_WA_02,3.35,Normal,4.51,80.07,378,Moderate,7.13,Neutral,23.21,Connected,-66,OK,None
+2025-02-02 13:20:00,ESP32_WA_02,2.49,Normal,1.34,80.2,473,Moderate,6.58,Acidic,20.44,Connected,-79,OK,None
+2025-02-02 13:30:00,ESP32_WA_02,3.07,Normal,1.52,80.35,318,Moderate,7.81,Alkaline,32.75,Connected,-63,OK,None
+2025-02-02 13:40:00,ESP32_WA_02,3.05,Normal,3.45,80.7,346,Moderate,7.35,Neutral,25.29,Connected,-95,OK,None
+2025-02-02 13:50:00,ESP32_WA_02,2.52,Normal,3.48,81.04,211,Good,6.83,Neutral,37.83,Connected,-67,OK,None
+2025-02-02 14:00:00,ESP32_WA_02,2.77,Normal,11.38,82.18,90,Good,7.44,Neutral,23.24,Disconnected,-61,Fault,Sensor Fault
+2025-02-02 14:10:00,ESP32_WA_02,1.51,Normal,1.59,82.34,432,Moderate,7.39,Neutral,24.94,Disconnected,-82,Fault,Sensor Fault
+2025-02-02 14:20:00,ESP32_WA_02,2.4,Normal,3.05,82.65,90,Good,6.59,Acidic,30.82,Connected,-47,OK,None
+2025-02-02 14:30:00,ESP32_WA_02,3.25,Normal,3.55,83.0,469,Moderate,7.45,Neutral,23.95,Connected,-80,OK,None
+2025-02-02 14:40:00,ESP32_WA_02,2.38,Normal,3.77,83.38,285,Good,6.88,Neutral,30.62,Connected,-56,OK,None
+2025-02-02 14:50:00,ESP32_WA_02,1.67,Normal,7.41,84.12,248,Good,6.19,Acidic,22.57,Connected,-64,OK,pH Out of Range
+2025-02-02 15:00:00,ESP32_WA_02,3.19,Normal,3.42,84.46,448,Moderate,6.93,Neutral,28.98,Connected,-59,OK,None
+2025-02-02 15:10:00,ESP32_WA_02,2.05,Normal,6.26,85.09,452,Moderate,7.45,Neutral,28.51,Connected,-61,OK,None
+2025-02-02 15:20:00,ESP32_WA_02,3.38,Normal,5.6,85.65,372,Moderate,6.39,Acidic,20.62,Connected,-49,OK,pH Out of Range
+2025-02-02 15:30:00,ESP32_WA_02,2.68,Normal,4.53,86.1,391,Moderate,7.29,Neutral,19.0,Connected,-72,OK,None
+2025-02-02 15:40:00,ESP32_WA_02,2.05,Normal,4.48,86.55,676,Poor,6.52,Acidic,24.52,Connected,-69,OK,None
+2025-02-02 15:50:00,ESP32_WA_02,2.36,Normal,4.5,87.0,593,Moderate,7.05,Neutral,27.46,Connected,-75,OK,None
+2025-02-02 16:00:00,ESP32_WA_02,3.48,Normal,2.55,87.25,733,Poor,7.65,Alkaline,23.87,Connected,-71,OK,None
+2025-02-02 16:10:00,ESP32_WA_02,2.79,Normal,5.92,87.85,197,Good,7.13,Neutral,29.95,Connected,-80,OK,None
+2025-02-02 16:20:00,ESP32_WA_02,2.66,Normal,1.32,87.98,509,Moderate,6.26,Acidic,29.33,Connected,-76,OK,pH Out of Range
+2025-02-02 16:30:00,ESP32_WA_02,2.78,Normal,4.86,88.46,144,Good,7.17,Neutral,29.9,Connected,-92,OK,None
+2025-02-02 16:40:00,ESP32_WA_02,2.61,Normal,2.97,88.76,90,Good,7.46,Neutral,24.05,Connected,-73,OK,None
+2025-02-02 16:50:00,ESP32_WA_02,2.38,Normal,1.18,88.88,431,Moderate,6.0,Acidic,25.18,Connected,-81,OK,pH Out of Range
+2025-02-02 17:00:00,ESP32_WA_02,3.01,Normal,5.96,89.47,344,Moderate,7.25,Neutral,30.78,Connected,-45,OK,None
+2025-02-02 17:10:00,ESP32_WA_02,3.43,Normal,2.97,89.77,475,Moderate,6.99,Neutral,25.21,Connected,-70,OK,None
+2025-02-02 17:20:00,ESP32_WA_02,2.74,Normal,2.74,90.05,542,Moderate,7.16,Neutral,27.42,Connected,-52,OK,None
+2025-02-02 17:30:00,ESP32_WA_02,3.49,Normal,2.1,90.26,819,Poor,7.59,Neutral,19.22,Connected,-68,OK,None
+2025-02-02 17:40:00,ESP32_WA_02,3.25,Normal,4.82,90.74,418,Moderate,6.66,Acidic,23.13,Connected,-74,OK,None
+2025-02-02 17:50:00,ESP32_WA_02,1.94,Normal,1.23,90.86,308,Moderate,6.49,Acidic,27.57,Connected,-72,OK,None
+2025-02-02 18:00:00,ESP32_WA_02,3.05,Normal,3.13,91.17,534,Moderate,7.17,Neutral,19.63,Connected,-56,OK,None
+2025-02-02 18:10:00,ESP32_WA_02,3.37,Normal,5.96,91.77,593,Moderate,6.64,Acidic,19.82,Connected,-48,OK,None
+2025-02-02 18:20:00,ESP32_WA_02,1.69,Normal,1.66,91.94,583,Moderate,7.31,Neutral,24.48,Connected,-87,OK,None
+2025-02-02 18:30:00,ESP32_WA_02,2.42,Normal,4.48,92.38,450,Moderate,7.56,Neutral,25.75,Connected,-66,OK,None
+2025-02-02 18:40:00,ESP32_WA_02,2.93,Normal,2.33,92.62,708,Poor,6.33,Acidic,25.33,Connected,-82,OK,pH Out of Range
+2025-02-02 18:50:00,ESP32_WA_02,2.25,Normal,1.28,92.74,663,Poor,6.38,Acidic,20.69,Connected,-70,OK,pH Out of Range
+2025-02-02 19:00:00,ESP32_WA_02,2.69,Normal,3.0,93.04,613,Poor,6.29,Acidic,34.11,Connected,-65,OK,pH Out of Range
+2025-02-02 19:10:00,ESP32_WA_02,2.52,Normal,4.02,93.45,516,Moderate,6.89,Neutral,29.2,Disconnected,-86,Fault,Sensor Fault
+2025-02-02 19:20:00,ESP32_WA_02,2.2,Normal,6.62,94.11,176,Good,6.7,Acidic,26.97,Connected,-59,OK,None
+2025-02-02 19:30:00,ESP32_WA_02,2.6,Normal,3.78,94.49,474,Moderate,7.81,Alkaline,28.23,Connected,-68,OK,None
+2025-02-02 19:40:00,ESP32_WA_02,2.45,Normal,1.88,94.67,133,Good,6.96,Neutral,25.11,Connected,-57,OK,None
+2025-02-02 19:50:00,ESP32_WA_02,2.62,Normal,3.66,95.04,598,Moderate,6.0,Acidic,30.99,Connected,-75,OK,pH Out of Range
+2025-02-02 20:00:00,ESP32_WA_02,2.63,Normal,2.65,95.31,643,Poor,7.0,Neutral,26.87,Connected,-60,OK,None
+2025-02-02 20:10:00,ESP32_WA_02,2.3,Normal,7.65,96.07,295,Good,6.93,Neutral,22.79,Connected,-60,OK,None
+2025-02-02 20:20:00,ESP32_WA_02,2.24,Normal,2.25,96.3,262,Good,7.4,Neutral,33.34,Connected,-58,OK,None
+2025-02-02 20:30:00,ESP32_WA_02,2.33,Normal,0.94,96.39,330,Moderate,6.83,Neutral,19.0,Connected,-71,OK,None
+2025-02-02 20:40:00,ESP32_WA_02,2.88,Normal,1.76,96.57,277,Good,6.3,Acidic,33.42,Connected,-71,OK,pH Out of Range
+2025-02-02 20:50:00,ESP32_WA_02,2.13,Normal,2.84,96.85,414,Moderate,6.62,Acidic,21.12,Connected,-64,OK,None
+2025-02-02 21:00:00,ESP32_WA_02,3.31,Normal,3.42,97.19,356,Moderate,7.4,Neutral,30.95,Connected,-92,OK,None
+2025-02-02 21:10:00,ESP32_WA_02,2.19,Normal,10.41,98.23,500,Moderate,6.81,Neutral,31.68,Connected,-74,OK,None
+2025-02-02 21:20:00,ESP32_WA_02,3.58,Normal,7.54,98.99,361,Moderate,6.95,Neutral,26.92,Connected,-77,OK,None
+2025-02-02 21:30:00,ESP32_WA_02,2.52,Normal,0.35,99.02,609,Poor,6.49,Acidic,27.12,Connected,-77,OK,None
+2025-02-02 21:40:00,ESP32_WA_02,2.41,Normal,2.66,99.29,474,Moderate,6.25,Acidic,19.0,Disconnected,-77,Fault,pH Out of Range
+2025-02-02 21:50:00,ESP32_WA_02,2.37,Normal,4.11,99.7,425,Moderate,6.85,Neutral,31.09,Connected,-67,OK,None
+2025-02-02 22:00:00,ESP32_WA_02,2.88,Normal,0.16,99.71,539,Moderate,7.22,Neutral,23.89,Disconnected,-67,Fault,Sensor Fault
+2025-02-02 22:10:00,ESP32_WA_02,2.73,Normal,1.02,99.82,223,Good,7.2,Neutral,25.56,Connected,-75,OK,None
+2025-02-02 22:20:00,ESP32_WA_02,2.19,Normal,2.96,100.11,385,Moderate,7.61,Alkaline,38.0,Connected,-67,OK,None
+2025-02-02 22:30:00,ESP32_WA_02,2.74,Normal,1.95,100.31,789,Poor,6.6,Acidic,34.56,Connected,-66,OK,None
+2025-02-02 22:40:00,ESP32_WA_02,2.89,Normal,3.27,100.63,372,Moderate,8.09,Alkaline,30.74,Connected,-73,OK,None
+2025-02-02 22:50:00,ESP32_WA_02,2.75,Normal,0.54,100.69,753,Poor,7.23,Neutral,23.86,Connected,-49,OK,None
+2025-02-02 23:00:00,ESP32_WA_02,3.31,Normal,4.22,101.11,530,Moderate,6.27,Acidic,24.31,Connected,-78,OK,pH Out of Range
+2025-02-02 23:10:00,ESP32_WA_02,1.5,Normal,6.52,101.76,354,Moderate,7.19,Neutral,25.49,Connected,-65,OK,None
+2025-02-02 23:20:00,ESP32_WA_02,2.55,Normal,1.07,101.87,425,Moderate,7.66,Alkaline,26.73,Connected,-68,OK,None
+2025-02-02 23:30:00,ESP32_WA_02,2.35,Normal,8.75,102.74,401,Moderate,7.02,Neutral,23.43,Connected,-67,OK,None
+2025-02-02 23:40:00,ESP32_WA_02,2.9,Normal,0.9,102.84,267,Good,7.47,Neutral,20.84,Connected,-73,OK,None
+2025-02-02 23:50:00,ESP32_WA_02,3.63,Normal,1.9,103.02,348,Moderate,7.09,Neutral,28.64,Connected,-62,OK,None
+2025-02-03 00:00:00,ESP32_WA_02,1.98,Normal,3.02,103.33,535,Moderate,6.56,Acidic,26.44,Connected,-76,OK,None
+2025-02-03 00:10:00,ESP32_WA_02,2.25,Normal,3.29,103.66,473,Moderate,8.06,Alkaline,32.25,Connected,-74,OK,None
+2025-02-03 00:20:00,ESP32_WA_02,2.56,Normal,4.02,104.06,800,Poor,7.55,Neutral,32.5,Disconnected,-78,Fault,Sensor Fault
+2025-02-03 00:30:00,ESP32_WA_02,3.15,Normal,1.52,104.21,535,Moderate,7.38,Neutral,30.55,Connected,-45,OK,None
+2025-02-03 00:40:00,ESP32_WA_02,3.21,Normal,1.34,104.34,614,Poor,7.39,Neutral,35.46,Disconnected,-81,Fault,Sensor Fault
+2025-02-03 00:50:00,ESP32_WA_02,2.33,Normal,1.3,104.47,332,Moderate,7.26,Neutral,32.6,Connected,-74,OK,None
+2025-02-03 01:00:00,ESP32_WA_02,3.12,Normal,7.47,105.22,471,Moderate,7.68,Alkaline,30.8,Connected,-66,OK,None
+2025-02-03 01:10:00,ESP32_WA_02,2.66,Normal,8.12,106.03,323,Moderate,7.02,Neutral,23.1,Disconnected,-63,Fault,Sensor Fault
+2025-02-03 01:20:00,ESP32_WA_02,3.21,Normal,3.95,106.43,202,Good,7.7,Alkaline,28.04,Connected,-50,OK,None
+2025-02-03 01:30:00,ESP32_WA_02,2.74,Normal,5.97,107.02,415,Moderate,7.37,Neutral,29.99,Connected,-76,OK,None
+2025-02-03 01:40:00,ESP32_WA_02,2.97,Normal,2.83,107.31,637,Poor,7.28,Neutral,27.97,Connected,-65,OK,None
+2025-02-03 01:50:00,ESP32_WA_02,2.71,Normal,4.24,107.73,579,Moderate,7.28,Neutral,25.46,Disconnected,-64,Fault,Sensor Fault
