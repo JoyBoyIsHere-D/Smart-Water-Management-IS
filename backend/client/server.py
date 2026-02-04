@@ -1,5 +1,5 @@
 """
-Federated Learning Client Server
+Federated Learning Client Server (FastAPI)
 Run this on each client device/laptop to share local data and participate in federated learning.
 
 IMPORTANT: Change CLIENT_ID and CLIENT_PORT for each device!
@@ -7,23 +7,46 @@ IMPORTANT: Change CLIENT_ID and CLIENT_PORT for each device!
 - Device 2: CLIENT_ID = "client_2", CLIENT_PORT = 5002
 - Device 3: CLIENT_ID = "client_3", CLIENT_PORT = 5003
 
-Run with: python server.py
+Run with: uvicorn server:app --host 0.0.0.0 --port 5001 --reload
+Or: python server.py
 """
 
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import Optional, List, Dict, Any
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import os
 import time
-
-import json
 import math
+import asyncio
 
-app = Flask(__name__)
-CORS(app)
+# ==================== CONFIGURATION ====================
+# CHANGE THESE FOR EACH CLIENT DEVICE
+CLIENT_ID = "client_1"  # Change to client_2, client_3, etc.
+CLIENT_PORT = 5001      # Change to 5002, 5003, etc.
+DATA_FILE = "data/synthetic_dataset.csv"  # Path to your local data file
+# =======================================================
+
+app = FastAPI(
+    title=f"Federated Learning Client - {CLIENT_ID}",
+    version="1.0.0",
+    description="Client server for federated learning"
+)
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ==================== Helper Functions ====================
 
 def clean_for_json(obj):
     """Convert NaN and Inf values to None for JSON serialization"""
@@ -47,13 +70,6 @@ def clean_for_json(obj):
         return None
     return obj
 
-# ==================== CONFIGURATION ====================
-# CHANGE THESE FOR EACH CLIENT DEVICE
-CLIENT_ID = "client_1"  # Change to client_2, client_3, etc.
-CLIENT_PORT = 5001      # Change to 5002, 5003, etc.
-DATA_FILE = "data/synthetic_dataset.csv"  # Path to your local data file
-# =======================================================
-
 # Global variables
 local_data = None
 local_model = None
@@ -66,6 +82,16 @@ model_metrics = {
     "f1_score": 0.0,
     "last_trained": None
 }
+
+# ==================== Pydantic Models ====================
+
+class TrainRequest(BaseModel):
+    round: int = 1
+
+class WeightsUpdate(BaseModel):
+    weights: Any
+
+# ==================== Data Loading ====================
 
 def load_local_data():
     """Load and preprocess local dataset"""
@@ -120,19 +146,16 @@ def load_local_data():
     scaler = StandardScaler()
     df_scaled = df.copy()
     
-    # Only scale if columns exist
     existing_numerical = [c for c in numerical_cols if c in df.columns]
     if existing_numerical:
         df_scaled[existing_numerical] = scaler.fit_transform(df[existing_numerical])
     
-    # Encode categorical
     existing_categorical = [c for c in categorical_cols if c in df.columns]
     if existing_categorical:
         df_encoded = pd.get_dummies(df_scaled, columns=existing_categorical, drop_first=True)
     else:
         df_encoded = df_scaled
     
-    # Define features
     feature_cols = existing_numerical + [col for col in df_encoded.columns 
                                          if any(col.startswith(c) for c in categorical_cols)]
     features = [f for f in feature_cols if f in df_encoded.columns]
@@ -151,30 +174,27 @@ def load_local_data():
 
 # ==================== API Endpoints ====================
 
-@app.route('/api/health', methods=['GET'])
-def health_check():
+@app.get("/api/health")
+async def health_check():
     """Client health check"""
-    return jsonify({
+    return {
         "status": "online",
         "client_id": CLIENT_ID,
         "port": CLIENT_PORT,
         "data_loaded": local_data is not None,
         "model_trained": model_metrics['last_trained'] is not None
-    })
+    }
 
-@app.route('/api/local-data', methods=['GET'])
-def get_local_data():
+@app.get("/api/local-data")
+async def get_local_data():
     """Return local water quality data summary"""
     if local_data is None:
-        return jsonify({
-            "client_id": CLIENT_ID,
-            "error": "No data loaded"
-        }), 404
+        raise HTTPException(status_code=404, detail="No data loaded")
     
     df = local_data['df']
     
     # Get latest readings (last 10 records) - clean NaN values
-    latest_df = df.tail(10).fillna('')  # Replace NaN with empty string
+    latest_df = df.tail(10).fillna('')
     latest = latest_df.to_dict(orient='records')
     
     # Calculate statistics - handle NaN
@@ -196,7 +216,7 @@ def get_local_data():
     unsafe_count = int(df['unsafe'].sum())
     safe_count = len(df) - unsafe_count
     
-    response_data = {
+    return {
         "client_id": CLIENT_ID,
         "total_records": len(df),
         "latest_readings": clean_for_json(latest),
@@ -207,82 +227,77 @@ def get_local_data():
             "unsafe_percentage": round(unsafe_count / len(df) * 100, 2)
         }
     }
-    
-    return jsonify(response_data)
 
-@app.route('/api/model-metrics', methods=['GET'])
-def get_model_metrics():
+@app.get("/api/model-metrics")
+async def get_model_metrics():
     """Return local model performance metrics"""
-    return jsonify({
+    return {
         "client_id": CLIENT_ID,
         **model_metrics
-    })
+    }
 
-@app.route('/api/train', methods=['POST'])
-def train_local_model():
+@app.post("/api/train")
+async def train_local_model(request: TrainRequest):
     """Train the local model (called by admin during federated learning)"""
     global model_metrics
     
     if local_data is None:
-        return jsonify({"error": "No data loaded"}), 400
+        raise HTTPException(status_code=400, detail="No data loaded")
     
     try:
-        # Simulate training (in production, this would train an actual model)
-        data = request.json or {}
-        round_num = data.get('round', 1)
+        round_num = request.round
         
         # Simulate training delay
-        time.sleep(1)
+        await asyncio.sleep(1)
         
         # Simulate metrics improvement over rounds
         base_accuracy = 0.75 + (round_num * 0.02)
         noise = np.random.random() * 0.05
         
         model_metrics = {
-            "accuracy": min(0.95, base_accuracy + noise),
-            "precision": min(0.93, base_accuracy - 0.02 + noise),
-            "recall": min(0.91, base_accuracy - 0.05 + noise),
-            "f1_score": min(0.92, base_accuracy - 0.03 + noise),
+            "accuracy": float(min(0.95, base_accuracy + noise)),
+            "precision": float(min(0.93, base_accuracy - 0.02 + noise)),
+            "recall": float(min(0.91, base_accuracy - 0.05 + noise)),
+            "f1_score": float(min(0.92, base_accuracy - 0.03 + noise)),
             "last_trained": time.strftime('%Y-%m-%d %H:%M:%S'),
             "training_round": round_num
         }
         
-        return jsonify({
+        return {
             "client_id": CLIENT_ID,
             "status": "training_complete",
             "round": round_num,
             "metrics": model_metrics
-        })
+        }
         
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        raise HTTPException(status_code=500, detail=str(e))
 
-@app.route('/api/weights', methods=['GET'])
-def get_model_weights():
+@app.get("/api/weights")
+async def get_model_weights():
     """Return current model weights (for federated averaging)"""
-    # In production, this would return actual model weights
-    return jsonify({
+    return {
         "client_id": CLIENT_ID,
         "weights": "placeholder",
         "message": "Implement actual weight extraction here"
-    })
+    }
 
-@app.route('/api/weights', methods=['POST'])
-def set_model_weights():
+@app.post("/api/weights")
+async def set_model_weights(update: WeightsUpdate):
     """Update model with global weights (from federated server)"""
-    # In production, this would set actual model weights
-    return jsonify({
+    return {
         "client_id": CLIENT_ID,
         "status": "weights_updated",
         "message": "Implement actual weight update here"
-    })
+    }
 
-@app.route('/', methods=['GET'])
-def index():
+@app.get("/")
+async def index():
     """Client API information"""
-    return jsonify({
+    return {
         "name": f"Federated Learning Client - {CLIENT_ID}",
         "version": "1.0.0",
+        "framework": "FastAPI",
         "endpoints": {
             "GET /api/health": "Client health check",
             "GET /api/local-data": "Get local data summary",
@@ -291,14 +306,13 @@ def index():
             "GET /api/weights": "Get model weights",
             "POST /api/weights": "Update model weights"
         }
-    })
+    }
 
-if __name__ == '__main__':
-    print("\n" + "="*60)
-    print(f"  FEDERATED LEARNING CLIENT: {CLIENT_ID}")
-    print("="*60)
-    
-    # Load data on startup
+# ==================== Startup Event ====================
+
+@app.on_event("startup")
+async def startup_event():
+    """Load data on startup"""
     print(f"\nSearching for data file...")
     load_local_data()
     
@@ -307,7 +321,13 @@ if __name__ == '__main__':
         print(f"✓ Features: {len(local_data['features'])}")
     else:
         print("✗ No data loaded - place synthetic_dataset.csv in data/ folder")
+
+if __name__ == '__main__':
+    import uvicorn
     
+    print("\n" + "="*60)
+    print(f"  FEDERATED LEARNING CLIENT: {CLIENT_ID} (FastAPI)")
+    print("="*60)
     print(f"\nClient server starting on http://0.0.0.0:{CLIENT_PORT}")
     print("\nTo register with admin server, use:")
     print(f'  IP: <your-ip-address>')
@@ -315,4 +335,4 @@ if __name__ == '__main__':
     print(f'  Client ID: {CLIENT_ID}')
     print("\n" + "="*60 + "\n")
     
-    app.run(host='0.0.0.0', port=CLIENT_PORT, debug=True)
+    uvicorn.run(app, host="0.0.0.0", port=CLIENT_PORT)

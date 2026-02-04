@@ -1,7 +1,13 @@
 # Federated Learning Server Dependencies
-flask>=2.3.0
-flask-cors>=4.0.0
-requests>=2.31.0
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+httpx>=0.25.0
+pydantic>=2.5.0
 numpy>=1.24.0
 pandas>=2.0.0
 scikit-learn>=1.3.0
+
+# Machine Learning / Deep Learning
+tensorflow>=2.15.0
+keras>=3.0.0
+joblib>=1.3.0
