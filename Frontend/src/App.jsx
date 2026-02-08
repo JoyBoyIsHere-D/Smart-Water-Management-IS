@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
+import UserLayout from './components/UserLayout'
 import ProtectedRoute from './components/ProtectedRoute'
 import Overview from './components/pages/Overview'
 import WaterQuality from './components/pages/WaterQuality'
@@ -10,6 +11,9 @@ import DataUploadPage from './components/pages/DataUploadPage'
 import Settings from './components/pages/Settings'
 import UserManagement from './components/pages/UserManagement'
 import UserDashboard from './components/pages/UserDashboard'
+import UserAnalytics from './components/pages/UserAnalytics'
+import UserAlerts from './components/pages/UserAlerts'
+import UserProfile from './components/pages/UserProfile'
 import Login from './components/pages/Login'
 import Signup from './components/pages/Signup'
 import './App.css'
@@ -21,12 +25,17 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      {/* Portal-user dashboard (protected, no admin layout) */}
+      {/* Portal-user routes (protected, with user navbar) */}
       <Route path="/user" element={
         <ProtectedRoute>
-          <UserDashboard />
+          <UserLayout />
         </ProtectedRoute>
-      } />
+      }>
+        <Route index element={<UserDashboard />} />
+        <Route path="analytics" element={<UserAnalytics />} />
+        <Route path="alerts" element={<UserAlerts />} />
+        <Route path="profile" element={<UserProfile />} />
+      </Route>
       
       {/* Admin Protected Routes */}
       <Route path="/" element={
