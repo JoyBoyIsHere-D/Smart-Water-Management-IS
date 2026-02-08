@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import {
-  Droplets, Activity, AlertTriangle, Upload, TrendingUp, Settings, Waves, X, Menu, ChevronLeft, Network
+  Droplets, Activity, AlertTriangle, Upload, TrendingUp, Settings, Waves, X, Menu, ChevronLeft, Network, Users
 } from 'lucide-react';
 
 const navItems = [
@@ -10,6 +10,7 @@ const navItems = [
   { icon: TrendingUp, label: 'Analytics', path: '/analytics' },
   { icon: Network, label: 'Federated Learning', path: '/federated' },
   { icon: Upload, label: 'Data Upload', path: '/upload' },
+  { icon: Users, label: 'User Management', path: '/users' },
   { icon: Settings, label: 'Settings', path: '/settings' },
 ];
 

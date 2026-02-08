@@ -38,7 +38,7 @@ except ImportError:
     print("Warning: TensorFlow not available. Model training will be simulated.")
 
 # Import route modules
-from routes import clients_router, data_router, model_router, training_router
+from routes import clients_router, data_router, model_router, training_router, users_router
 
 # Create FastAPI app
 app = FastAPI(
@@ -64,6 +64,7 @@ app.include_router(clients_router)
 app.include_router(data_router)
 app.include_router(model_router)
 app.include_router(training_router)
+app.include_router(users_router)
 
 # Lifecycle events
 if AUTH_AVAILABLE:

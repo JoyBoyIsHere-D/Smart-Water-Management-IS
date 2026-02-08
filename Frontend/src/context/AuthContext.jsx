@@ -6,6 +6,7 @@ const API_URL = 'http://localhost:5000';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null); // 'admin' | 'user'
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,7 +17,19 @@ export function AuthProvider({ children }) {
 
   const checkAuth = async () => {
     const token = localStorage.getItem('access_token');
+    const storedRole = localStorage.getItem('user_role');
     if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    // For portal users we don't have a /api/auth/me – restore from localStorage
+    if (storedRole === 'user') {
+      const stored = localStorage.getItem('portal_user');
+      if (stored) {
+        setUser(JSON.parse(stored));
+        setUserRole('user');
+      }
       setLoading(false);
       return;
     }
@@ -31,6 +44,7 @@ export function AuthProvider({ children }) {
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
+        setUserRole('admin');
       } else {
         // Token invalid, try refresh
         await refreshToken();
@@ -39,6 +53,8 @@ export function AuthProvider({ children }) {
       console.error('Auth check failed:', err);
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
+      localStorage.removeItem('user_role');
+      localStorage.removeItem('portal_user');
     }
     setLoading(false);
   };
@@ -85,7 +101,9 @@ export function AuthProvider({ children }) {
       if (response.ok) {
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('refresh_token', data.refresh_token);
+        localStorage.setItem('user_role', 'admin');
         setUser(data.user);
+        setUserRole('admin');
         return { success: true };
       } else {
         setError(data.detail || 'Login failed');
@@ -129,6 +147,37 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Portal-user login (unique ID only, no password)
+  const userLogin = async (uniqueId) => {
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/api/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ unique_id: uniqueId })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('refresh_token', data.refresh_token);
+        localStorage.setItem('user_role', 'user');
+        localStorage.setItem('portal_user', JSON.stringify(data.user));
+        setUser(data.user);
+        setUserRole('user');
+        return { success: true };
+      } else {
+        setError(data.detail || 'Login failed');
+        return { success: false, error: data.detail };
+      }
+    } catch (err) {
+      const errorMsg = 'Connection failed. Make sure the server is running.';
+      setError(errorMsg);
+      return { success: false, error: errorMsg };
+    }
+  };
+
   const logout = async () => {
     const token = localStorage.getItem('access_token');
     
@@ -147,7 +196,10 @@ export function AuthProvider({ children }) {
 
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_role');
+    localStorage.removeItem('portal_user');
     setUser(null);
+    setUserRole(null);
   };
 
   const updateProfile = async (profileData) => {
@@ -178,10 +230,12 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
+    userRole,
     loading,
     error,
     isAuthenticated: !!user,
     login,
+    userLogin,
     register,
     logout,
     updateProfile,

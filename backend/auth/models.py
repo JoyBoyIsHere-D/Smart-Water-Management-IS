@@ -111,3 +111,59 @@ class AuthResponse(BaseModel):
     success: bool
     message: str
     data: Optional[dict] = None
+
+
+# ==================== Portal User Models ====================
+
+class PortalUserCreate(BaseModel):
+    """Admin creates a portal user."""
+    unique_id: str = Field(..., min_length=3, description="Unique login ID assigned by admin")
+    full_name: str = Field(..., min_length=1)
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    address: Optional[str] = None
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "unique_id": "WU-2024-001",
+                "full_name": "Jane Doe",
+                "email": "jane@example.com",
+                "phone": "+91-9876543210",
+                "address": "123 Water Lane"
+            }
+        }
+
+
+class PortalUserUpdate(BaseModel):
+    """Update a portal user."""
+    full_name: Optional[str] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    is_active: Optional[bool] = None
+
+
+class PortalUserLogin(BaseModel):
+    """Portal user login – unique_id only, no password."""
+    unique_id: str
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "unique_id": "WU-2024-001"
+            }
+        }
+
+
+class PortalUserResponse(BaseModel):
+    """Portal user data returned to client."""
+    id: str
+    unique_id: str
+    full_name: str
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    is_active: bool = True
+    created_at: Optional[datetime] = None
+    last_sign_in: Optional[datetime] = None
