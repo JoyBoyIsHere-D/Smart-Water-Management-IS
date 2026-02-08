@@ -14,10 +14,8 @@ load_dotenv()
 class Settings(BaseSettings):
     """Application settings loaded from environment variables"""
     
-    # Supabase Configuration
-    SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
-    SUPABASE_KEY: str = os.getenv("SUPABASE_KEY", "")
-    SUPABASE_SERVICE_KEY: str = os.getenv("SUPABASE_SERVICE_KEY", "")
+    # PostgreSQL Configuration
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
     
     # JWT Configuration
     JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "your-secret-key-change-in-production")
@@ -41,10 +39,8 @@ def validate_settings():
     """Validate that required settings are configured"""
     errors = []
     
-    if not settings.SUPABASE_URL:
-        errors.append("SUPABASE_URL is not configured")
-    if not settings.SUPABASE_KEY:
-        errors.append("SUPABASE_KEY is not configured")
+    if not settings.DATABASE_URL:
+        errors.append("DATABASE_URL is not configured")
     
     if errors:
         print("⚠️  Configuration warnings:")
@@ -52,6 +48,6 @@ def validate_settings():
             print(f"   - {error}")
         print("   Authentication features may not work properly.\n")
     else:
-        print("✓ Supabase configuration loaded successfully\n")
+        print("✓ PostgreSQL configuration loaded successfully\n")
     
     return len(errors) == 0

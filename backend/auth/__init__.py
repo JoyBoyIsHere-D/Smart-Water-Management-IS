@@ -1,5 +1,5 @@
 """
-Authentication module for JWT-based authentication with Supabase.
+Authentication module for pure JWT-based authentication with PostgreSQL.
 """
 
 from .jwt_handler import (
@@ -10,9 +10,11 @@ from .jwt_handler import (
     get_current_active_user
 )
 
-from .supabase_client import (
-    get_supabase_client,
-    supabase
+from .database import (
+    get_pool,
+    close_pool,
+    ensure_tables,
+    check_database_health
 )
 
 from .models import (
@@ -23,17 +25,28 @@ from .models import (
     TokenRefresh
 )
 
+from .utils import (
+    hash_password,
+    verify_password,
+    row_to_user_data
+)
+
 __all__ = [
     "create_access_token",
-    "create_refresh_token", 
+    "create_refresh_token",
     "verify_token",
     "get_current_user",
     "get_current_active_user",
-    "get_supabase_client",
-    "supabase",
+    "get_pool",
+    "close_pool",
+    "ensure_tables",
+    "check_database_health",
     "UserCreate",
     "UserLogin",
     "UserResponse",
     "TokenResponse",
-    "TokenRefresh"
+    "TokenRefresh",
+    "hash_password",
+    "verify_password",
+    "row_to_user_data"
 ]
