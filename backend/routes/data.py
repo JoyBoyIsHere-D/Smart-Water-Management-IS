@@ -13,7 +13,7 @@ from routes.clients import get_clients
 
 router = APIRouter(prefix="/api", tags=["Data"])
 
-DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "synthetic_dataset.csv")
+DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "synthetic_dataset.csv")
 
 
 @router.get("/remote-data")

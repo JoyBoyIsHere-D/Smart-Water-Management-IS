@@ -48,7 +48,7 @@ function App() {
         <Route path="anomalies" element={<Anomalies />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="federated" element={<FederatedLearning />} />
-        <Route path="upload" element={<DataUploadPage />} />
+        {/* <Route path="upload" element={<DataUploadPage />} /> */}
         <Route path="users" element={<UserManagement />} />
         <Route path="settings" element={<Settings />} />
       </Route>

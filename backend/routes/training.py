@@ -16,7 +16,7 @@ router = APIRouter(prefix="/api/training", tags=["Federated Training"])
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "federated_water_quality_model.h5")
 SCALER_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "water_quality_scaler.pkl")
-DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "synthetic_dataset.csv")
+DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "synthetic_dataset.csv")
 
 # Training status
 training_status = {

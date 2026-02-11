@@ -6,7 +6,7 @@ import {
   Settings, StopCircle, History, Beaker, AlertTriangle
 } from 'lucide-react';
 
-const ADMIN_SERVER = 'http://localhost:5000';
+const ADMIN_SERVER = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const getStatusColor = (status) => {
   switch (status) {

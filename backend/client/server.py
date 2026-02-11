@@ -40,7 +40,12 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",  # Vite dev server
+        "http://localhost:3000",  # Alternative dev port
+        "http://localhost:5000",  # Admin server
+        "https://smart-water-management-is.vercel.app",  # Production frontend
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -101,10 +106,8 @@ def load_local_data():
     possible_paths = [
         DATA_FILE,
         "synthetic_dataset.csv",
-        "../data/synthetic_dataset.csv",
-        "../../data/synthetic_dataset.csv",
+        os.path.join(os.path.dirname(__file__), "..", "data", "synthetic_dataset.csv"),
         os.path.join(os.path.dirname(__file__), "data", "synthetic_dataset.csv"),
-        os.path.join(os.path.dirname(__file__), "..", "..", "data", "synthetic_dataset.csv"),
     ]
     
     data_path = None
@@ -320,7 +323,7 @@ async def startup_event():
         print(f"✓ Loaded {len(local_data['df'])} records")
         print(f"✓ Features: {len(local_data['features'])}")
     else:
-        print("✗ No data loaded - place synthetic_dataset.csv in data/ folder")
+        print("✗ No data loaded - place synthetic_dataset.csv in backend/data/ folder")
 
 if __name__ == '__main__':
     import uvicorn

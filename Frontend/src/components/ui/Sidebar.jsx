@@ -9,7 +9,7 @@ const navItems = [
   { icon: AlertTriangle, label: 'Anomalies', path: '/anomalies' },
   { icon: TrendingUp, label: 'Analytics', path: '/analytics' },
   { icon: Network, label: 'Federated Learning', path: '/federated' },
-  { icon: Upload, label: 'Data Upload', path: '/upload' },
+  // { icon: Upload, label: 'Data Upload', path: '/upload' },
   { icon: Users, label: 'User Management', path: '/users' },
   { icon: Settings, label: 'Settings', path: '/settings' },
 ];
