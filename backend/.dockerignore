@@ -1,0 +1,28 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment files (injected at runtime)
+.env
+
+# Git
+.git/
+.gitignore
+
+# Dev/test files
+*.log
+*.md
+tests/
+.pytest_cache/
+
+# ML model files (large — mount as volume if needed)
+*.h5

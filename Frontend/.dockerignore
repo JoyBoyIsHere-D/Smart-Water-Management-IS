@@ -1,0 +1,18 @@
+# Dependencies (reinstalled during build)
+node_modules/
+
+# Previous build output
+dist/
+
+# Environment files (set before build)
+.env
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+
+# Dev files
+*.md

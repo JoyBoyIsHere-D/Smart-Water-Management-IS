@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+
+  # ─── PostgreSQL Database ──────────────────────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: water-db
+    environment:
+      POSTGRES_USER: ${DB_USER:-wateradmin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-waterpassword}
+      POSTGRES_DB: ${DB_NAME:-water_management}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data   # Persists data across restarts
+    ports:
+      - "5432:5432"                              # Expose for local DB tools (optional)
+    networks:
+      - water-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-wateradmin}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Admin Backend (FastAPI on port 5000) ────────────────────────────────
+  backend-admin:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: water-backend-admin
+    command: python admin/server.py
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    environment:
+      # Override DATABASE_URL so it points to the 'db' container, not localhost
+      DATABASE_URL: postgresql://${DB_USER:-wateradmin}:${DB_PASSWORD:-waterpassword}@db:5432/${DB_NAME:-water_management}
+    volumes:
+      - ./backend/data:/app/data                 # Persist CSV data files
+    networks:
+      - water-network
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ─── Client Backend (FastAPI on port 5001) ───────────────────────────────
+  backend-client:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: water-backend-client
+    command: python client/server.py
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend/data:/app/data
+    networks:
+      - water-network
+    depends_on:
+      - backend-admin
+    restart: unless-stopped
+
+  # ─── Frontend (React/Vite served via 'serve' on port 3000) ───────────────
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: water-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - water-network
+    depends_on:
+      - backend-admin
+      - backend-client
+    restart: unless-stopped
+
+# ─── Networks ────────────────────────────────────────────────────────────────
+networks:
+  water-network:
+    driver: bridge
+
+# ─── Volumes ─────────────────────────────────────────────────────────────────
+volumes:
+  postgres-data:    # Named volume — survives container restarts and rebuilds
