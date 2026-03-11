@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { API_URL } from '../../config/api';
 import {
   Users, UserPlus, Trash2, Edit3, Search, AlertCircle, Loader2,
   CheckCircle, XCircle, ChevronDown, ChevronUp, X, Filter, 
   UserCheck, UserX, Shield, Mail, Phone, MapPin, Calendar,
   TrendingUp, Activity
 } from 'lucide-react';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function UserManagement() {
   const { user } = useAuth();

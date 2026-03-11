@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
+import { API_URL as ADMIN_SERVER } from '../../config/api';
 import { 
   Network, Server, Activity, Play, RefreshCw, Plus, Trash2, 
   CheckCircle, XCircle, Clock, Wifi, WifiOff, Database,
   TrendingUp, Users, Cpu, BarChart3, Download, Brain, 
   Settings, StopCircle, History, Beaker, AlertTriangle
 } from 'lucide-react';
-
-const ADMIN_SERVER = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const getStatusColor = (status) => {
   switch (status) {

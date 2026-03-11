@@ -1,15 +1,14 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { API_URL } from '../config/api';
 
 const AuthContext = createContext(null);
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null); // 'admin' | 'user'
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  console.log(API_URL)
   // Check for existing auth on mount
   useEffect(() => {
     checkAuth();
