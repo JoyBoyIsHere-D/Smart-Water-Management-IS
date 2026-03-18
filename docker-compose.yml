@@ -1,11 +1,8 @@
-version: '3.8'
-
 services:
 
   # ─── PostgreSQL Database ──────────────────────────────────────────────────
   db:
     image: postgres:15-alpine
-    container_name: water-db
     environment:
       POSTGRES_USER: ${DB_USER:-wateradmin}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-waterpassword}
@@ -13,7 +10,7 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data   # Persists data across restarts
     ports:
-      - "5432:5432"                              # Expose for local DB tools (optional)
+      - "${DB_HOST_PORT:-5432}:5432"             # Host port configurable to avoid clashes
     networks:
       - water-network
     restart: unless-stopped
@@ -28,10 +25,9 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: water-backend-admin
     command: python admin/server.py
     ports:
-      - "5000:5000"
+      - "${BACKEND_ADMIN_HOST_PORT:-5000}:5000"
     env_file:
       - ./backend/.env
     environment:
@@ -51,10 +47,9 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: water-backend-client
     command: python client/server.py
     ports:
-      - "5001:5001"
+      - "${BACKEND_CLIENT_HOST_PORT:-5001}:5001"
     env_file:
       - ./backend/.env
     volumes:
@@ -70,9 +65,8 @@ services:
     build:
       context: ./Frontend
       dockerfile: Dockerfile
-    container_name: water-frontend
     ports:
-      - "3000:3000"
+      - "${FRONTEND_HOST_PORT:-3000}:3000"
     networks:
       - water-network
     depends_on:

@@ -53,6 +53,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",  # Vite dev server
         "http://localhost:3000",  # Alternative dev port
+        "http://10.29.8.13:3001",  # Institute frontend
         "https://smart-water-management-is.vercel.app",  # Production frontend
         "*",  # Temporary: Allow all origins for testing
     ],
