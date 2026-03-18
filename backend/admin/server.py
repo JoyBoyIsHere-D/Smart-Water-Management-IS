@@ -22,6 +22,14 @@ try:
 except ImportError as e:
     print(f"Warning: Auth module not available: {e}")
     AUTH_AVAILABLE = False
+
+    class settings:
+        SERVER_HOST = os.getenv("SERVER_HOST", "0.0.0.0")
+        SERVER_PORT = int(os.getenv("SERVER_PORT", "5000"))
+        CORS_ALLOW_ORIGINS = os.getenv(
+            "CORS_ALLOW_ORIGINS",
+            "http://localhost:5173,http://localhost:3000,https://smart-water-management-is.vercel.app"
+        )
     
     async def ensure_tables():
         pass
@@ -47,16 +55,17 @@ app = FastAPI(
     description="Coordinates federated learning across multiple client devices"
 )
 
+
+def parse_cors_origins(origins_csv: str):
+    return [origin.strip() for origin in origins_csv.split(",") if origin.strip()]
+
+
+cors_allow_origins = parse_cors_origins(settings.CORS_ALLOW_ORIGINS)
+
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",  # Vite dev server
-        "http://localhost:3000",  # Alternative dev port
-        "http://10.29.8.13:3001",  # Institute frontend
-        "https://smart-water-management-is.vercel.app",  # Production frontend
-        "*",  # Temporary: Allow all origins for testing
-    ],
+    allow_origins=cors_allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -169,6 +178,6 @@ if __name__ == '__main__':
     if AUTH_AVAILABLE:
         validate_settings()
     
-    print("Starting server on http://0.0.0.0:5000\n")
-    
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+    print(f"Starting server on http://{settings.SERVER_HOST}:{settings.SERVER_PORT}\n")
+
+    uvicorn.run(app, host=settings.SERVER_HOST, port=settings.SERVER_PORT)

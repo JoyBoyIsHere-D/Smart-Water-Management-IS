@@ -27,6 +27,12 @@ class Settings(BaseSettings):
     SERVER_HOST: str = os.getenv("SERVER_HOST", "0.0.0.0")
     SERVER_PORT: int = int(os.getenv("SERVER_PORT", "5000"))
     DEBUG: bool = os.getenv("DEBUG", "True").lower() == "true"
+
+    # CORS (comma-separated list of origins)
+    CORS_ALLOW_ORIGINS: str = os.getenv(
+        "CORS_ALLOW_ORIGINS",
+        "http://localhost:5173,http://localhost:3000,https://smart-water-management-is.vercel.app"
+    )
     
     class Config:
         env_file = ".env"

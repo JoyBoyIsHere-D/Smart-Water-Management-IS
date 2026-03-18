@@ -2,12 +2,13 @@
 Federated Learning Client Server (FastAPI)
 Run this on each client device/laptop to share local data and participate in federated learning.
 
-IMPORTANT: Change CLIENT_ID and CLIENT_PORT for each device!
-- Device 1: CLIENT_ID = "client_1", CLIENT_PORT = 5001
-- Device 2: CLIENT_ID = "client_2", CLIENT_PORT = 5002
-- Device 3: CLIENT_ID = "client_3", CLIENT_PORT = 5003
+Configure via environment variables:
+- CLIENT_ID (default: client_1)
+- CLIENT_HOST (default: 0.0.0.0)
+- CLIENT_PORT (default: 5001)
+- DATA_FILE (default: data/synthetic_dataset.csv)
 
-Run with: uvicorn server:app --host 0.0.0.0 --port 5001 --reload
+Run with: uvicorn server:app --host $CLIENT_HOST --port $CLIENT_PORT --reload
 Or: python server.py
 """
 
@@ -25,10 +26,24 @@ import math
 import asyncio
 
 # ==================== CONFIGURATION ====================
-# CHANGE THESE FOR EACH CLIENT DEVICE
-CLIENT_ID = "client_1"  # Change to client_2, client_3, etc.
-CLIENT_PORT = 5001      # Change to 5002, 5003, etc.
-DATA_FILE = "data/synthetic_dataset.csv"  # Path to your local data file
+CLIENT_ID = os.getenv("CLIENT_ID", "client_1")
+CLIENT_HOST = os.getenv("CLIENT_HOST", "0.0.0.0")
+CLIENT_PORT = int(os.getenv("CLIENT_PORT", "5001"))
+DATA_FILE = os.getenv("DATA_FILE", "data/synthetic_dataset.csv")
+
+
+def parse_cors_origins():
+    origins_csv = os.getenv(
+        "CLIENT_CORS_ALLOW_ORIGINS",
+        os.getenv(
+            "CORS_ALLOW_ORIGINS",
+            "http://localhost:5173,http://localhost:3000,http://localhost:5000,https://smart-water-management-is.vercel.app"
+        )
+    )
+    return [origin.strip() for origin in origins_csv.split(",") if origin.strip()]
+
+
+CORS_ALLOW_ORIGINS = parse_cors_origins()
 # =======================================================
 
 app = FastAPI(
@@ -40,13 +55,7 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",  # Vite dev server
-        "http://localhost:3000",  # Alternative dev port
-        "http://10.29.8.13:3001",  # Institute frontend
-        "http://localhost:5000",  # Admin server
-        "https://smart-water-management-is.vercel.app",  # Production frontend
-    ],
+    allow_origins=CORS_ALLOW_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -332,11 +341,11 @@ if __name__ == '__main__':
     print("\n" + "="*60)
     print(f"  FEDERATED LEARNING CLIENT: {CLIENT_ID} (FastAPI)")
     print("="*60)
-    print(f"\nClient server starting on http://0.0.0.0:{CLIENT_PORT}")
+    print(f"\nClient server starting on http://{CLIENT_HOST}:{CLIENT_PORT}")
     print("\nTo register with admin server, use:")
     print(f'  IP: <your-ip-address>')
     print(f'  Port: {CLIENT_PORT}')
     print(f'  Client ID: {CLIENT_ID}')
     print("\n" + "="*60 + "\n")
     
-    uvicorn.run(app, host="0.0.0.0", port=CLIENT_PORT)
+    uvicorn.run(app, host=CLIENT_HOST, port=CLIENT_PORT)
