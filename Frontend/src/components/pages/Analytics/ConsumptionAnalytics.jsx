@@ -52,26 +52,26 @@ export default function ConsumptionAnalytics() {
   const maxConsumption = Math.max(...dailyConsumption.map(d => d.consumption));
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
       {/* Daily Consumption Chart */}
-      <div className="lg:col-span-2 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500">
-            <Droplets className="w-5 h-5 text-white" />
+      <div className="lg:col-span-2 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-3 sm:p-4 lg:p-6">
+        <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+          <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 flex-shrink-0">
+            <Droplets className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-white">Daily Consumption</h3>
-            <p className="text-sm text-slate-400">Water usage by day of week</p>
+          <div className="min-w-0">
+            <h3 className="text-base sm:text-lg font-semibold text-white">Daily Consumption</h3>
+            <p className="text-xs sm:text-sm text-slate-400 hidden sm:block">Water usage by day of week</p>
           </div>
         </div>
 
-        <ResponsiveContainer width="100%" height={280}>
-          <BarChart data={dailyConsumption}>
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart data={dailyConsumption} margin={{ top: 5, right: 5, left: -15, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-            <XAxis dataKey="day" stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 12 }} />
-            <YAxis 
-              stroke="#64748b" 
-              tick={{ fill: '#94a3b8', fontSize: 12 }}
+            <XAxis dataKey="day" stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 10 }} />
+            <YAxis
+              stroke="#64748b"
+              tick={{ fill: '#94a3b8', fontSize: 10 }}
               tickFormatter={(value) => `${(value / 1000).toFixed(0)}K`}
             />
             <Tooltip
@@ -79,14 +79,15 @@ export default function ConsumptionAnalytics() {
                 backgroundColor: '#1e293b',
                 border: '1px solid #334155',
                 borderRadius: '12px',
-                color: '#fff'
+                color: '#fff',
+                fontSize: '12px'
               }}
               formatter={(value) => [`${(value / 1000).toFixed(1)}K L`, 'Consumption']}
             />
-            <Bar dataKey="consumption" radius={[8, 8, 0, 0]}>
+            <Bar dataKey="consumption" radius={[6, 6, 0, 0]}>
               {dailyConsumption.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
+                <Cell
+                  key={`cell-${index}`}
                   fill={`rgba(6, 182, 212, ${0.4 + (entry.consumption / maxConsumption) * 0.6})`}
                 />
               ))}
@@ -96,84 +97,84 @@ export default function ConsumptionAnalytics() {
       </div>
 
       {/* Quick Stats */}
-      <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">Consumption Stats</h3>
-        
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-3 bg-slate-700/30 rounded-xl">
-            <div className="flex items-center gap-3">
-              <Droplets className="w-5 h-5 text-cyan-400" />
-              <span className="text-slate-300">Weekly Total</span>
+      <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-3 sm:p-4 lg:p-6">
+        <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Consumption Stats</h3>
+
+        <div className="space-y-2 sm:space-y-4">
+          <div className="flex items-center justify-between p-2 sm:p-3 bg-slate-700/30 rounded-lg sm:rounded-xl">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Droplets className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 flex-shrink-0" />
+              <span className="text-slate-300 text-xs sm:text-base">Weekly Total</span>
             </div>
-            <span className="text-white font-bold">{stats.totalWeekly} L</span>
+            <span className="text-white font-bold text-sm sm:text-base">{stats.totalWeekly} L</span>
           </div>
-          
-          <div className="flex items-center justify-between p-3 bg-slate-700/30 rounded-xl">
-            <div className="flex items-center gap-3">
-              <TrendingUp className="w-5 h-5 text-emerald-400" />
-              <span className="text-slate-300">Daily Average</span>
+
+          <div className="flex items-center justify-between p-2 sm:p-3 bg-slate-700/30 rounded-lg sm:rounded-xl">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400 flex-shrink-0" />
+              <span className="text-slate-300 text-xs sm:text-base">Daily Average</span>
             </div>
-            <span className="text-white font-bold">{stats.avgDaily} L</span>
+            <span className="text-white font-bold text-sm sm:text-base">{stats.avgDaily} L</span>
           </div>
-          
-          <div className="flex items-center justify-between p-3 bg-slate-700/30 rounded-xl">
-            <div className="flex items-center gap-3">
-              <Clock className="w-5 h-5 text-amber-400" />
-              <span className="text-slate-300">Peak Hour</span>
+
+          <div className="flex items-center justify-between p-2 sm:p-3 bg-slate-700/30 rounded-lg sm:rounded-xl">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 flex-shrink-0" />
+              <span className="text-slate-300 text-xs sm:text-base">Peak Hour</span>
             </div>
-            <span className="text-white font-bold">{stats.peakHour}</span>
+            <span className="text-white font-bold text-sm sm:text-base">{stats.peakHour}</span>
           </div>
-          
-          <div className="flex items-center justify-between p-3 bg-slate-700/30 rounded-xl">
-            <div className="flex items-center gap-3">
-              <Zap className="w-5 h-5 text-purple-400" />
-              <span className="text-slate-300">Peak Day</span>
+
+          <div className="flex items-center justify-between p-2 sm:p-3 bg-slate-700/30 rounded-lg sm:rounded-xl">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
+              <span className="text-slate-300 text-xs sm:text-base">Peak Day</span>
             </div>
-            <span className="text-white font-bold">{stats.peakDay}</span>
+            <span className="text-white font-bold text-sm sm:text-base">{stats.peakDay}</span>
           </div>
-          
-          <div className="flex items-center justify-between p-3 bg-slate-700/30 rounded-xl">
-            <div className="flex items-center gap-3">
-              <TrendingDown className="w-5 h-5 text-red-400" />
-              <span className="text-slate-300">Est. Wastage</span>
+
+          <div className="flex items-center justify-between p-2 sm:p-3 bg-slate-700/30 rounded-lg sm:rounded-xl">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <TrendingDown className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 flex-shrink-0" />
+              <span className="text-slate-300 text-xs sm:text-base">Est. Wastage</span>
             </div>
-            <span className="text-white font-bold">{stats.wastageEstimate}</span>
+            <span className="text-white font-bold text-sm sm:text-base">{stats.wastageEstimate}</span>
           </div>
         </div>
       </div>
 
       {/* Hourly Usage Heatmap */}
-      <div className="lg:col-span-3 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500">
-            <Clock className="w-5 h-5 text-white" />
+      <div className="lg:col-span-3 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-3 sm:p-4 lg:p-6">
+        <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+          <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex-shrink-0">
+            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-white">Hourly Usage Heatmap</h3>
-            <p className="text-sm text-slate-400">Usage intensity by hour and day</p>
+          <div className="min-w-0">
+            <h3 className="text-base sm:text-lg font-semibold text-white">Hourly Usage Heatmap</h3>
+            <p className="text-xs sm:text-sm text-slate-400 hidden sm:block">Usage intensity by hour and day</p>
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <div className="min-w-[600px]">
+        <div className="overflow-x-auto -mx-3 px-3 sm:mx-0 sm:px-0">
+          <div className="min-w-[500px] sm:min-w-[600px]">
             {/* Hour labels */}
-            <div className="flex mb-2 pl-12">
+            <div className="flex mb-1.5 sm:mb-2 pl-8 sm:pl-12">
               {Array.from({ length: 24 }, (_, i) => (
-                <div key={i} className="flex-1 text-center text-xs text-slate-500">
+                <div key={i} className="flex-1 text-center text-[8px] sm:text-xs text-slate-500">
                   {i.toString().padStart(2, '0')}
                 </div>
               ))}
             </div>
-            
+
             {/* Heatmap rows */}
             {days.map((day, dayIndex) => (
-              <div key={day} className="flex items-center mb-1">
-                <div className="w-12 text-sm text-slate-400">{day}</div>
-                <div className="flex-1 flex gap-0.5">
+              <div key={day} className="flex items-center mb-0.5 sm:mb-1">
+                <div className="w-8 sm:w-12 text-xs sm:text-sm text-slate-400">{day}</div>
+                <div className="flex-1 flex gap-px sm:gap-0.5">
                   {hourlyUsage[dayIndex].map((value, hourIndex) => (
                     <div
                       key={hourIndex}
-                      className="flex-1 h-8 rounded-sm transition-all hover:scale-110"
+                      className="flex-1 h-5 sm:h-8 rounded-sm transition-all hover:scale-110"
                       style={{ backgroundColor: getHeatColor(value) }}
                       title={`${day} ${hourIndex}:00 - Usage: ${value}/10`}
                     />
@@ -181,20 +182,20 @@ export default function ConsumptionAnalytics() {
                 </div>
               </div>
             ))}
-            
+
             {/* Legend */}
-            <div className="flex items-center justify-end mt-4 gap-2">
-              <span className="text-xs text-slate-400">Low</span>
-              <div className="flex gap-0.5">
+            <div className="flex items-center justify-end mt-3 sm:mt-4 gap-1.5 sm:gap-2">
+              <span className="text-[10px] sm:text-xs text-slate-400">Low</span>
+              <div className="flex gap-px sm:gap-0.5">
                 {[1, 3, 5, 7, 9].map(v => (
                   <div
                     key={v}
-                    className="w-6 h-4 rounded-sm"
+                    className="w-4 h-3 sm:w-6 sm:h-4 rounded-sm"
                     style={{ backgroundColor: getHeatColor(v) }}
                   />
                 ))}
               </div>
-              <span className="text-xs text-slate-400">High</span>
+              <span className="text-[10px] sm:text-xs text-slate-400">High</span>
             </div>
           </div>
         </div>

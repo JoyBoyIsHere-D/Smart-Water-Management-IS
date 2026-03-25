@@ -320,24 +320,24 @@ export default function FederatedLearning() {
   ];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600">
-            <Network className="w-6 h-6 text-white" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex-shrink-0">
+            <Network className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-white">Federated Learning</h1>
-            <p className="text-slate-400">Connect and aggregate data from multiple devices</p>
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold text-white">Federated Learning</h1>
+            <p className="text-slate-400 text-xs sm:text-sm truncate">Connect and aggregate data from multiple devices</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={checkClientsHealth}
             disabled={loading.clients}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 hover:text-white transition-all duration-200"
+            className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 hover:text-white transition-all duration-200 text-sm w-full sm:w-auto"
           >
             <RefreshCw className={`w-4 h-4 ${loading.clients ? 'animate-spin' : ''}`} />
             Refresh
@@ -347,135 +347,135 @@ export default function FederatedLearning() {
 
       {/* Error Alert */}
       {error && (
-        <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-4 flex items-center justify-between">
-          <span className="text-red-400">{error}</span>
-          <button onClick={() => setError(null)} className="text-red-400 hover:text-red-300">
+        <div className="bg-red-500/20 border border-red-500/30 rounded-xl p-3 sm:p-4 flex items-center justify-between gap-3">
+          <span className="text-red-400 text-sm">{error}</span>
+          <button onClick={() => setError(null)} className="text-red-400 hover:text-red-300 flex-shrink-0">
             <XCircle className="w-5 h-5" />
           </button>
         </div>
       )}
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-slate-400 font-medium">Total Clients</span>
-            <div className="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600">
-              <Users className="w-5 h-5 text-white" />
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-slate-400 font-medium text-xs sm:text-sm">Total Clients</span>
+            <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600">
+              <Users className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
           </div>
-          <div className="text-4xl font-bold text-white">{clients.length}</div>
-          <div className="flex items-center gap-2 mt-2">
-            <span className="text-sm text-slate-400">Registered devices</span>
+          <div className="text-2xl sm:text-4xl font-bold text-white">{clients.length}</div>
+          <div className="flex items-center gap-2 mt-1 sm:mt-2">
+            <span className="text-xs sm:text-sm text-slate-400">Registered devices</span>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-slate-400 font-medium">Online Clients</span>
-            <div className="p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-green-600">
-              <Wifi className="w-5 h-5 text-white" />
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-slate-400 font-medium text-xs sm:text-sm">Online Clients</span>
+            <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-emerald-500 to-green-600">
+              <Wifi className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
           </div>
-          <div className="text-4xl font-bold text-white">
+          <div className="text-2xl sm:text-4xl font-bold text-white">
             {clients.filter(c => c.status === 'online').length}
           </div>
-          <div className="flex items-center gap-2 mt-2">
-            <span className="text-sm text-emerald-400">Connected & ready</span>
+          <div className="flex items-center gap-2 mt-1 sm:mt-2">
+            <span className="text-xs sm:text-sm text-emerald-400">Connected & ready</span>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-slate-400 font-medium">Training Status</span>
-            <div className={`p-2 rounded-lg bg-gradient-to-br ${trainingStatus?.is_training ? 'from-amber-500 to-orange-600' : 'from-cyan-500 to-blue-600'}`}>
-              <Cpu className="w-5 h-5 text-white" />
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-slate-400 font-medium text-xs sm:text-sm">Training Status</span>
+            <div className={`p-1.5 sm:p-2 rounded-lg bg-gradient-to-br ${trainingStatus?.is_training ? 'from-amber-500 to-orange-600' : 'from-cyan-500 to-blue-600'}`}>
+              <Cpu className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
           </div>
-          <div className="text-4xl font-bold text-white">
+          <div className="text-2xl sm:text-4xl font-bold text-white">
             {trainingStatus?.is_training ? 'Active' : 'Idle'}
           </div>
           {trainingStatus?.is_training && (
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-sm text-amber-400">
+            <div className="flex items-center gap-2 mt-1 sm:mt-2">
+              <span className="text-xs sm:text-sm text-amber-400">
                 Round {trainingStatus.current_round}/{trainingStatus.total_rounds}
               </span>
             </div>
           )}
         </div>
 
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-slate-400 font-medium">Global Accuracy</span>
-            <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600">
-              <BarChart3 className="w-5 h-5 text-white" />
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-slate-400 font-medium text-xs sm:text-sm">Global Accuracy</span>
+            <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600">
+              <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
           </div>
-          <div className="text-4xl font-bold text-white">
-            {trainingStatus?.global_metrics?.accuracy 
+          <div className="text-2xl sm:text-4xl font-bold text-white">
+            {trainingStatus?.global_metrics?.accuracy
               ? `${(trainingStatus.global_metrics.accuracy * 100).toFixed(1)}%`
               : '--'}
           </div>
-          <div className="flex items-center gap-2 mt-2">
-            <TrendingUp className="w-4 h-4 text-emerald-400" />
-            <span className="text-sm text-emerald-400">Federated model</span>
+          <div className="flex items-center gap-2 mt-1 sm:mt-2">
+            <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
+            <span className="text-xs sm:text-sm text-emerald-400">Federated model</span>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50">
-        <div className="flex border-b border-slate-700/50">
+      <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50">
+        <div className="flex border-b border-slate-700/50 overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-6 py-4 font-medium transition-all duration-200 ${
+              className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 font-medium transition-all duration-200 whitespace-nowrap text-sm sm:text-base ${
                 activeTab === tab.id
                   ? 'text-cyan-400 border-b-2 border-cyan-400 bg-cyan-500/10'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <tab.icon className="w-5 h-5" />
+              <tab.icon className="w-4 h-4 sm:w-5 sm:h-5" />
               {tab.label}
             </button>
           ))}
         </div>
 
-        <div className="p-6">
+        <div className="p-3 sm:p-6">
           {/* Clients Tab */}
           {activeTab === 'clients' && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Add Client Form */}
-              <div className="bg-slate-800/30 rounded-xl p-4">
-                <h3 className="text-lg font-semibold text-white mb-4">Register New Client</h3>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="bg-slate-800/30 rounded-xl p-3 sm:p-4">
+                <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Register New Client</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                   <input
                     type="text"
                     placeholder="IP Address (e.g., 192.168.1.100)"
                     value={newClient.ip}
                     onChange={(e) => setNewClient({ ...newClient, ip: e.target.value })}
-                    className="bg-slate-700/50 border border-slate-600/50 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500/50"
+                    className="bg-slate-700/50 border border-slate-600/50 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500/50 text-sm"
                   />
                   <input
                     type="text"
                     placeholder="Port (default: 5001)"
                     value={newClient.port}
                     onChange={(e) => setNewClient({ ...newClient, port: e.target.value })}
-                    className="bg-slate-700/50 border border-slate-600/50 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500/50"
+                    className="bg-slate-700/50 border border-slate-600/50 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500/50 text-sm"
                   />
                   <input
                     type="text"
                     placeholder="Client ID (e.g., client_1)"
                     value={newClient.id}
                     onChange={(e) => setNewClient({ ...newClient, id: e.target.value })}
-                    className="bg-slate-700/50 border border-slate-600/50 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500/50"
+                    className="bg-slate-700/50 border border-slate-600/50 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500/50 text-sm"
                   />
                   <button
                     onClick={addClient}
-                    className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium hover:opacity-90 transition-all duration-200"
+                    className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium hover:opacity-90 transition-all duration-200 text-sm"
                   >
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                     Add Client
                   </button>
                 </div>
@@ -483,17 +483,17 @@ export default function FederatedLearning() {
 
               {/* Clients List */}
               <div>
-                <h3 className="text-lg font-semibold text-white mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">
                   Registered Clients ({clients.length})
                 </h3>
                 {clients.length === 0 ? (
-                  <div className="text-center py-12 text-slate-400">
-                    <Server className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p>No clients registered yet</p>
-                    <p className="text-sm mt-2">Add client devices using their IP addresses</p>
+                  <div className="text-center py-8 sm:py-12 text-slate-400">
+                    <Server className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 opacity-50" />
+                    <p className="text-sm sm:text-base">No clients registered yet</p>
+                    <p className="text-xs sm:text-sm mt-2">Add client devices using their IP addresses</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                     {clients.map((client) => {
                       const StatusIcon = getStatusIcon(client.status);
                       return (

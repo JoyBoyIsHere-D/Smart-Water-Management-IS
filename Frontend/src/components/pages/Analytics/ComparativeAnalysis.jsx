@@ -70,25 +70,76 @@ const calculateChange = (current, previous) => {
 
 export default function ComparativeAnalysis() {
   return (
-    <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500">
-          <BarChart3 className="w-5 h-5 text-white" />
+    <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-3 sm:p-4 lg:p-6">
+      <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+        <div className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex-shrink-0">
+          <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
         </div>
-        <div>
-          <h3 className="text-lg font-semibold text-white">Period Comparison</h3>
-          <p className="text-sm text-slate-400">Current vs Previous Period</p>
+        <div className="min-w-0">
+          <h3 className="text-base sm:text-lg font-semibold text-white">Period Comparison</h3>
+          <p className="text-xs sm:text-sm text-slate-400 hidden sm:block">Current vs Previous Period</p>
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      {/* Mobile Card View */}
+      <div className="sm:hidden space-y-3">
+        {comparisonData.map((item, index) => {
+          const change = calculateChange(item.current, item.previous);
+          const isPositiveChange = item.metric === 'Anomalies Detected' || item.metric === 'Avg. Turbidity'
+            ? change.direction === 'down'
+            : change.direction === 'up';
+
+          return (
+            <div key={index} className="bg-slate-700/30 rounded-xl p-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-white font-medium text-sm">{item.metric}</span>
+                <div className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg text-xs ${
+                  isPositiveChange
+                    ? 'bg-emerald-500/20 text-emerald-400'
+                    : change.direction === 'neutral'
+                      ? 'bg-slate-500/20 text-slate-400'
+                      : 'bg-red-500/20 text-red-400'
+                }`}>
+                  {change.direction === 'up' ? (
+                    <ArrowUpRight className="w-3 h-3" />
+                  ) : change.direction === 'down' ? (
+                    <ArrowDownRight className="w-3 h-3" />
+                  ) : (
+                    <Minus className="w-3 h-3" />
+                  )}
+                  <span className="font-medium">{change.value}%</span>
+                </div>
+              </div>
+              <div className="flex justify-between text-xs">
+                <div>
+                  <span className="text-slate-400">Current: </span>
+                  <span className="text-white font-semibold">
+                    {formatValue(item.current, item.format)}
+                    {item.unit && <span className="text-slate-400 ml-0.5">{item.unit}</span>}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-slate-400">Previous: </span>
+                  <span className="text-slate-300">
+                    {formatValue(item.previous, item.format)}
+                    {item.unit && <span className="text-slate-500 ml-0.5">{item.unit}</span>}
+                  </span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="border-b border-slate-700/50">
-              <th className="text-left text-slate-400 text-sm font-medium pb-4">Metric</th>
-              <th className="text-right text-slate-400 text-sm font-medium pb-4">Current</th>
-              <th className="text-right text-slate-400 text-sm font-medium pb-4">Previous</th>
-              <th className="text-right text-slate-400 text-sm font-medium pb-4">Change</th>
+              <th className="text-left text-slate-400 text-xs sm:text-sm font-medium pb-3 sm:pb-4">Metric</th>
+              <th className="text-right text-slate-400 text-xs sm:text-sm font-medium pb-3 sm:pb-4">Current</th>
+              <th className="text-right text-slate-400 text-xs sm:text-sm font-medium pb-3 sm:pb-4">Previous</th>
+              <th className="text-right text-slate-400 text-xs sm:text-sm font-medium pb-3 sm:pb-4">Change</th>
             </tr>
           </thead>
           <tbody>
@@ -97,47 +148,47 @@ export default function ComparativeAnalysis() {
               const isPositiveChange = item.metric === 'Anomalies Detected' || item.metric === 'Avg. Turbidity'
                 ? change.direction === 'down'
                 : change.direction === 'up';
-              
+
               return (
-                <tr 
-                  key={index} 
+                <tr
+                  key={index}
                   className="border-b border-slate-700/30 last:border-0"
                 >
-                  <td className="py-4">
-                    <span className="text-white font-medium">{item.metric}</span>
+                  <td className="py-3 sm:py-4">
+                    <span className="text-white font-medium text-sm">{item.metric}</span>
                   </td>
-                  <td className="py-4 text-right">
-                    <span className="text-white font-semibold">
+                  <td className="py-3 sm:py-4 text-right">
+                    <span className="text-white font-semibold text-sm">
                       {formatValue(item.current, item.format)}
                     </span>
                     {item.unit && (
-                      <span className="text-slate-400 text-sm ml-1">{item.unit}</span>
+                      <span className="text-slate-400 text-xs sm:text-sm ml-1">{item.unit}</span>
                     )}
                   </td>
-                  <td className="py-4 text-right">
-                    <span className="text-slate-400">
+                  <td className="py-3 sm:py-4 text-right">
+                    <span className="text-slate-400 text-sm">
                       {formatValue(item.previous, item.format)}
                     </span>
                     {item.unit && (
-                      <span className="text-slate-500 text-sm ml-1">{item.unit}</span>
+                      <span className="text-slate-500 text-xs sm:text-sm ml-1">{item.unit}</span>
                     )}
                   </td>
-                  <td className="py-4 text-right">
-                    <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg ${
-                      isPositiveChange 
-                        ? 'bg-emerald-500/20 text-emerald-400' 
+                  <td className="py-3 sm:py-4 text-right">
+                    <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs sm:text-sm ${
+                      isPositiveChange
+                        ? 'bg-emerald-500/20 text-emerald-400'
                         : change.direction === 'neutral'
                           ? 'bg-slate-500/20 text-slate-400'
                           : 'bg-red-500/20 text-red-400'
                     }`}>
                       {change.direction === 'up' ? (
-                        <ArrowUpRight className="w-4 h-4" />
+                        <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       ) : change.direction === 'down' ? (
-                        <ArrowDownRight className="w-4 h-4" />
+                        <ArrowDownRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       ) : (
-                        <Minus className="w-4 h-4" />
+                        <Minus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       )}
-                      <span className="text-sm font-medium">{change.value}%</span>
+                      <span className="font-medium">{change.value}%</span>
                     </div>
                   </td>
                 </tr>

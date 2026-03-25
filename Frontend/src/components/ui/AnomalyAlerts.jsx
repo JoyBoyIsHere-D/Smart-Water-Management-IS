@@ -26,34 +26,34 @@ const getSeverityIconColor = (severity) => {
 
 export default function AnomalyAlerts() {
   return (
-    <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-white">Anomaly Alerts</h3>
-        <span className="px-3 py-1 text-xs rounded-full bg-red-500/20 text-red-400 border border-red-500/30">
+    <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-6">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h3 className="text-base sm:text-lg font-semibold text-white">Anomaly Alerts</h3>
+        <span className="px-2 sm:px-3 py-1 text-xs rounded-full bg-red-500/20 text-red-400 border border-red-500/30">
           {anomalyData.length} Active
         </span>
       </div>
-      <div className="space-y-3">
+      <div className="space-y-2 sm:space-y-3">
         {anomalyData.map((anomaly) => (
           <div
             key={anomaly.id}
-            className={`p-4 rounded-xl border ${getSeverityStyle(anomaly.severity)} bg-opacity-50`}
+            className={`p-3 sm:p-4 rounded-xl border ${getSeverityStyle(anomaly.severity)} bg-opacity-50`}
           >
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="font-medium">{anomaly.type}</p>
-                <div className="flex items-center gap-3 mt-1 text-sm opacity-75">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0">
+                <p className="font-medium text-sm sm:text-base truncate">{anomaly.type}</p>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1 text-xs sm:text-sm opacity-75">
                   <span className="flex items-center gap-1">
-                    <MapPin className="w-3 h-3" />
+                    <MapPin className="w-3 h-3 flex-shrink-0" />
                     {anomaly.location}
                   </span>
                   <span className="flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
+                    <Clock className="w-3 h-3 flex-shrink-0" />
                     {anomaly.time}
                   </span>
                 </div>
               </div>
-              <AlertTriangle className={`w-5 h-5 ${getSeverityIconColor(anomaly.severity)}`} />
+              <AlertTriangle className={`w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 ${getSeverityIconColor(anomaly.severity)}`} />
             </div>
           </div>
         ))}

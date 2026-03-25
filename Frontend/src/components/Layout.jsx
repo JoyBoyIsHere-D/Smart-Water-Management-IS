@@ -24,8 +24,25 @@ const generateTimeSeriesData = () => {
 export default function Layout() {
   const [sensorData, setSensorData] = useState(generateTimeSeriesData());
   const [healthIndex, setHealthIndex] = useState(78);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date());
+
+  // Close sidebar on mobile when route changes or clicking outside
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+
+    // Set initial state
+    handleResize();
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Simulate real-time updates
   useEffect(() => {
@@ -45,6 +62,14 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -52,9 +77,14 @@ export default function Layout() {
       />
 
       {/* Main Content */}
-      <main className={`transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-20'}`}>
+      <main className={`transition-all duration-300 lg:ml-64 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'}`}>
         {/* Header */}
-        <Header lastUpdated={lastUpdated} onRefresh={handleRefresh} />
+        <Header
+          lastUpdated={lastUpdated}
+          onRefresh={handleRefresh}
+          onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
+          sidebarOpen={sidebarOpen}
+        />
 
         {/* Page Content - Rendered by React Router */}
         <Outlet context={{ sensorData, healthIndex, sidebarOpen, handleRefresh, setSensorData }} />

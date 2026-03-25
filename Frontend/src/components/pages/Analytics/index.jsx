@@ -84,32 +84,32 @@ export default function Analytics() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500">
-            <BarChart3 className="w-6 h-6 text-white" />
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="p-2 sm:p-3 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex-shrink-0">
+            <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
-          <div>
-            <h1 className="text-2xl font-bold text-white">Analytics Dashboard</h1>
-            <p className="text-slate-400">
+          <div className="min-w-0">
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-white truncate">Analytics Dashboard</h1>
+            <p className="text-slate-400 text-xs sm:text-sm">
               Comprehensive water quality analytics and insights
             </p>
           </div>
         </div>
-        
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-slate-400">
+
+        <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+          <span className="text-xs sm:text-sm text-slate-400 hidden sm:inline">
             Last updated: {lastUpdated.toLocaleTimeString()}
           </span>
           <button
             onClick={handleRefresh}
             disabled={isLoading}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-700/50 rounded-xl text-white hover:bg-slate-600/50 transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-700/50 rounded-xl text-white hover:bg-slate-600/50 transition-colors disabled:opacity-50 text-sm"
           >
             <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-            <span>Refresh</span>
+            <span className="hidden sm:inline">Refresh</span>
           </button>
         </div>
       </div>
@@ -127,10 +127,10 @@ export default function Analytics() {
 
       {/* Loading State */}
       {isLoading ? (
-        <div className="flex items-center justify-center py-20">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-            <span className="text-slate-400">Loading analytics data...</span>
+        <div className="flex items-center justify-center py-12 sm:py-20">
+          <div className="flex flex-col items-center gap-3 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+            <span className="text-slate-400 text-sm sm:text-base">Loading analytics data...</span>
           </div>
         </div>
       ) : (
@@ -142,20 +142,20 @@ export default function Analytics() {
           <TrendAnalysis data={analyticsData} selectedMetrics={selectedMetrics} />
 
           {/* Comparative & Statistical Analysis */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <ComparativeAnalysis />
             <StatisticalCharts data={analyticsData} />
           </div>
 
           {/* Anomaly Insights */}
           <div>
-            <h2 className="text-xl font-semibold text-white mb-4">Anomaly Insights</h2>
+            <h2 className="text-base sm:text-lg lg:text-xl font-semibold text-white mb-3 sm:mb-4">Anomaly Insights</h2>
             <AnomalyInsights />
           </div>
 
           {/* Consumption Analytics */}
           <div>
-            <h2 className="text-xl font-semibold text-white mb-4">Consumption Analytics</h2>
+            <h2 className="text-base sm:text-lg lg:text-xl font-semibold text-white mb-3 sm:mb-4">Consumption Analytics</h2>
             <ConsumptionAnalytics />
           </div>
         </>

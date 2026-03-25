@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Settings as SettingsIcon, User, Bell, Shield, Database, Palette, Save, Check } from 'lucide-react';
+import { Settings as SettingsIcon, User, Bell, Shield, Database, Palette, Save, Check, ChevronDown } from 'lucide-react';
 
 const settingsSections = [
   { id: 'profile', label: 'Profile', icon: User },
@@ -12,7 +12,8 @@ const settingsSections = [
 export default function SettingsPage() {
   const [activeSection, setActiveSection] = useState('profile');
   const [saved, setSaved] = useState(false);
-  
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const [thresholds, setThresholds] = useState({
     pH: { min: 6.5, max: 8.5 },
     turbidity: { max: 5 },
@@ -36,23 +37,25 @@ export default function SettingsPage() {
     setTimeout(() => setSaved(false), 2000);
   };
 
+  const activeIcon = settingsSections.find(s => s.id === activeSection)?.icon || User;
+
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700">
-            <SettingsIcon className="w-6 h-6 text-white" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 flex-shrink-0">
+            <SettingsIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Settings</h1>
-            <p className="text-slate-400">Configure your dashboard preferences</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-white">Settings</h1>
+            <p className="text-slate-400 text-xs sm:text-sm">Configure your dashboard preferences</p>
           </div>
         </div>
-        
+
         <button
           onClick={handleSave}
-          className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+          className={`flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-medium transition-all duration-200 w-full sm:w-auto ${
             saved
               ? 'bg-emerald-500 text-white'
               : 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:opacity-90'
@@ -60,21 +63,60 @@ export default function SettingsPage() {
         >
           {saved ? (
             <>
-              <Check className="w-5 h-5" />
+              <Check className="w-4 h-4 sm:w-5 sm:h-5" />
               Saved!
             </>
           ) : (
             <>
-              <Save className="w-5 h-5" />
+              <Save className="w-4 h-4 sm:w-5 sm:h-5" />
               Save Changes
             </>
           )}
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Settings Navigation */}
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-4">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6">
+        {/* Mobile Section Selector */}
+        <div className="lg:hidden">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="w-full flex items-center justify-between gap-3 px-4 py-3 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl border border-slate-700/50"
+          >
+            <div className="flex items-center gap-3">
+              {(() => {
+                const ActiveIcon = activeIcon;
+                return <ActiveIcon className="w-5 h-5 text-cyan-400" />;
+              })()}
+              <span className="font-medium text-white capitalize">{activeSection}</span>
+            </div>
+            <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${mobileMenuOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          {mobileMenuOpen && (
+            <div className="mt-2 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl border border-slate-700/50 p-2 space-y-1">
+              {settingsSections.map((section) => (
+                <button
+                  key={section.id}
+                  onClick={() => {
+                    setActiveSection(section.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                    activeSection === section.id
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30'
+                      : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'
+                  }`}
+                >
+                  <section.icon className="w-5 h-5" />
+                  <span className="font-medium">{section.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Settings Navigation */}
+        <div className="hidden lg:block bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-4">
           <nav className="space-y-2">
             {settingsSections.map((section) => (
               <button
@@ -94,12 +136,12 @@ export default function SettingsPage() {
         </div>
 
         {/* Settings Content */}
-        <div className="lg:col-span-3 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
+        <div className="lg:col-span-3 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-6">
           {/* Profile Settings */}
           {activeSection === 'profile' && (
-            <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-white">Profile Settings</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="text-base sm:text-lg font-semibold text-white">Profile Settings</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div>
                   <label className="block text-sm text-slate-400 mb-2">Full Name</label>
                   <input
@@ -138,48 +180,48 @@ export default function SettingsPage() {
 
           {/* Notifications Settings */}
           {activeSection === 'notifications' && (
-            <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-white">Notification Preferences</h3>
-              
-              <div className="space-y-4">
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="text-base sm:text-lg font-semibold text-white">Notification Preferences</h3>
+
+              <div className="space-y-3 sm:space-y-4">
                 <h4 className="text-sm font-medium text-slate-400">Delivery Methods</h4>
                 {[
                   { key: 'email', label: 'Email Notifications' },
                   { key: 'push', label: 'Push Notifications' },
                 ].map(({ key, label }) => (
-                  <div key={key} className="flex items-center justify-between p-4 bg-slate-700/30 rounded-xl">
-                    <span className="text-white">{label}</span>
+                  <div key={key} className="flex items-center justify-between p-3 sm:p-4 bg-slate-700/30 rounded-xl">
+                    <span className="text-white text-sm sm:text-base">{label}</span>
                     <button
                       onClick={() => setNotifications({ ...notifications, [key]: !notifications[key] })}
-                      className={`w-12 h-6 rounded-full transition-colors ${
+                      className={`w-11 sm:w-12 h-6 rounded-full transition-colors flex-shrink-0 ${
                         notifications[key] ? 'bg-cyan-500' : 'bg-slate-600'
                       }`}
                     >
                       <div className={`w-5 h-5 bg-white rounded-full transition-transform ${
-                        notifications[key] ? 'translate-x-6' : 'translate-x-0.5'
+                        notifications[key] ? 'translate-x-5 sm:translate-x-6' : 'translate-x-0.5'
                       }`} />
                     </button>
                   </div>
                 ))}
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 <h4 className="text-sm font-medium text-slate-400">Alert Levels</h4>
                 {[
                   { key: 'critical', label: 'Critical Alerts', color: 'text-red-400' },
                   { key: 'warning', label: 'Warning Alerts', color: 'text-amber-400' },
                   { key: 'info', label: 'Info Alerts', color: 'text-blue-400' },
                 ].map(({ key, label, color }) => (
-                  <div key={key} className="flex items-center justify-between p-4 bg-slate-700/30 rounded-xl">
-                    <span className={color}>{label}</span>
+                  <div key={key} className="flex items-center justify-between p-3 sm:p-4 bg-slate-700/30 rounded-xl">
+                    <span className={`${color} text-sm sm:text-base`}>{label}</span>
                     <button
                       onClick={() => setNotifications({ ...notifications, [key]: !notifications[key] })}
-                      className={`w-12 h-6 rounded-full transition-colors ${
+                      className={`w-11 sm:w-12 h-6 rounded-full transition-colors flex-shrink-0 ${
                         notifications[key] ? 'bg-cyan-500' : 'bg-slate-600'
                       }`}
                     >
                       <div className={`w-5 h-5 bg-white rounded-full transition-transform ${
-                        notifications[key] ? 'translate-x-6' : 'translate-x-0.5'
+                        notifications[key] ? 'translate-x-5 sm:translate-x-6' : 'translate-x-0.5'
                       }`} />
                     </button>
                   </div>
@@ -190,15 +232,15 @@ export default function SettingsPage() {
 
           {/* Threshold Settings */}
           {activeSection === 'thresholds' && (
-            <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-white">Alert Thresholds</h3>
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="text-base sm:text-lg font-semibold text-white">Alert Thresholds</h3>
               <p className="text-slate-400 text-sm">Configure when alerts are triggered for each metric</p>
-              
-              <div className="space-y-4">
+
+              <div className="space-y-3 sm:space-y-4">
                 {Object.entries(thresholds).map(([metric, values]) => (
-                  <div key={metric} className="p-4 bg-slate-700/30 rounded-xl">
-                    <h4 className="text-white font-medium mb-4 capitalize">{metric.replace(/([A-Z])/g, ' $1')}</h4>
-                    <div className="grid grid-cols-2 gap-4">
+                  <div key={metric} className="p-3 sm:p-4 bg-slate-700/30 rounded-xl">
+                    <h4 className="text-white font-medium mb-3 sm:mb-4 capitalize">{metric.replace(/([A-Z])/g, ' $1')}</h4>
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
                       {values.min !== undefined && (
                         <div>
                           <label className="block text-sm text-slate-400 mb-2">Minimum</label>
@@ -236,11 +278,11 @@ export default function SettingsPage() {
 
           {/* Data Management */}
           {activeSection === 'data' && (
-            <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-white">Data Management</h3>
-              
-              <div className="space-y-4">
-                <div className="p-4 bg-slate-700/30 rounded-xl">
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="text-base sm:text-lg font-semibold text-white">Data Management</h3>
+
+              <div className="space-y-3 sm:space-y-4">
+                <div className="p-3 sm:p-4 bg-slate-700/30 rounded-xl">
                   <h4 className="text-white font-medium mb-2">Data Retention</h4>
                   <p className="text-slate-400 text-sm mb-4">How long to keep historical sensor data</p>
                   <select className="w-full bg-slate-600/50 border border-slate-500 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-cyan-500">
@@ -250,19 +292,19 @@ export default function SettingsPage() {
                     <option>Forever</option>
                   </select>
                 </div>
-                
-                <div className="p-4 bg-slate-700/30 rounded-xl">
+
+                <div className="p-3 sm:p-4 bg-slate-700/30 rounded-xl">
                   <h4 className="text-white font-medium mb-2">Export Data</h4>
                   <p className="text-slate-400 text-sm mb-4">Download all sensor data as CSV</p>
-                  <button className="px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-500 transition-colors">
+                  <button className="w-full sm:w-auto px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-500 transition-colors">
                     Export All Data
                   </button>
                 </div>
-                
-                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+
+                <div className="p-3 sm:p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
                   <h4 className="text-red-400 font-medium mb-2">Danger Zone</h4>
                   <p className="text-slate-400 text-sm mb-4">Permanently delete all sensor data</p>
-                  <button className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors">
+                  <button className="w-full sm:w-auto px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors">
                     Delete All Data
                   </button>
                 </div>
@@ -272,25 +314,25 @@ export default function SettingsPage() {
 
           {/* Appearance */}
           {activeSection === 'appearance' && (
-            <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-white">Appearance</h3>
-              
-              <div className="space-y-4">
-                <div className="p-4 bg-slate-700/30 rounded-xl">
+            <div className="space-y-4 sm:space-y-6">
+              <h3 className="text-base sm:text-lg font-semibold text-white">Appearance</h3>
+
+              <div className="space-y-3 sm:space-y-4">
+                <div className="p-3 sm:p-4 bg-slate-700/30 rounded-xl">
                   <h4 className="text-white font-medium mb-4">Theme</h4>
-                  <div className="flex gap-4">
-                    <button className="flex-1 p-4 rounded-xl bg-slate-900 border-2 border-cyan-500 text-white">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                    <button className="flex-1 p-3 sm:p-4 rounded-xl bg-slate-900 border-2 border-cyan-500 text-white">
                       Dark
                     </button>
-                    <button className="flex-1 p-4 rounded-xl bg-slate-600 border-2 border-slate-500 text-slate-400">
+                    <button className="flex-1 p-3 sm:p-4 rounded-xl bg-slate-600 border-2 border-slate-500 text-slate-400">
                       Light (Coming Soon)
                     </button>
                   </div>
                 </div>
-                
-                <div className="p-4 bg-slate-700/30 rounded-xl">
+
+                <div className="p-3 sm:p-4 bg-slate-700/30 rounded-xl">
                   <h4 className="text-white font-medium mb-4">Accent Color</h4>
-                  <div className="flex gap-3">
+                  <div className="flex flex-wrap gap-3">
                     {['cyan', 'blue', 'purple', 'emerald', 'amber'].map((color) => (
                       <button
                         key={color}

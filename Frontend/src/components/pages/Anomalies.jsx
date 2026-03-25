@@ -104,49 +104,47 @@ export default function Anomalies() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500">
-            <AlertTriangle className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-white">Anomaly Detection</h1>
-            <p className="text-slate-400">Real-time anomaly monitoring and alerts</p>
-          </div>
+      <div className="flex items-center gap-3 sm:gap-4">
+        <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex-shrink-0">
+          <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        </div>
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Anomaly Detection</h1>
+          <p className="text-slate-400 text-xs sm:text-sm truncate">Real-time anomaly monitoring and alerts</p>
         </div>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-5">
-          <div className="text-slate-400 text-sm mb-1">Total Anomalies</div>
-          <div className="text-3xl font-bold text-white">{stats.total}</div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-5">
+          <div className="text-slate-400 text-xs sm:text-sm mb-1">Total Anomalies</div>
+          <div className="text-2xl sm:text-3xl font-bold text-white">{stats.total}</div>
         </div>
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-red-500/30 p-5">
-          <div className="text-red-400 text-sm mb-1">Critical</div>
-          <div className="text-3xl font-bold text-red-400">{stats.critical}</div>
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-red-500/30 p-4 sm:p-5">
+          <div className="text-red-400 text-xs sm:text-sm mb-1">Critical</div>
+          <div className="text-2xl sm:text-3xl font-bold text-red-400">{stats.critical}</div>
         </div>
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-amber-500/30 p-5">
-          <div className="text-amber-400 text-sm mb-1">Warnings</div>
-          <div className="text-3xl font-bold text-amber-400">{stats.warning}</div>
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-amber-500/30 p-4 sm:p-5">
+          <div className="text-amber-400 text-xs sm:text-sm mb-1">Warnings</div>
+          <div className="text-2xl sm:text-3xl font-bold text-amber-400">{stats.warning}</div>
         </div>
-        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-5">
-          <div className="text-slate-400 text-sm mb-1">Unacknowledged</div>
-          <div className="text-3xl font-bold text-white">{stats.unacknowledged}</div>
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-5">
+          <div className="text-slate-400 text-xs sm:text-sm mb-1">Unacknowledged</div>
+          <div className="text-2xl sm:text-3xl font-bold text-white">{stats.unacknowledged}</div>
         </div>
       </div>
 
       {/* Filter */}
-      <div className="flex items-center gap-2">
-        <Filter className="w-5 h-5 text-slate-400" />
+      <div className="flex items-center gap-2 overflow-x-auto pb-2">
+        <Filter className="w-5 h-5 text-slate-400 flex-shrink-0" />
         <div className="flex bg-slate-700/50 rounded-xl p-1">
           {['all', 'critical', 'warning', 'info'].map((type) => (
             <button
               key={type}
               onClick={() => setFilter(type)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 capitalize ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 capitalize whitespace-nowrap ${
                 filter === type
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
                   : 'text-slate-400 hover:text-white hover:bg-slate-600/50'
@@ -159,26 +157,26 @@ export default function Anomalies() {
       </div>
 
       {/* Anomalies List */}
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {filteredAnomalies.map((anomaly) => {
           const Icon = getAnomalyIcon(anomaly.type);
           const colorClass = getAnomalyColor(anomaly.type);
-          
+
           return (
             <div
               key={anomaly.id}
-              className={`bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border p-6 ${
+              className={`bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border p-4 sm:p-6 ${
                 anomaly.acknowledged ? 'border-slate-700/50 opacity-60' : colorClass.split(' ')[2]
               }`}
             >
-              <div className="flex items-start justify-between">
-                <div className="flex items-start gap-4">
-                  <div className={`p-3 rounded-xl ${colorClass.split(' ').slice(0, 2).join(' ')}`}>
-                    <Icon className="w-6 h-6" />
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-4">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className={`p-2 sm:p-3 rounded-xl ${colorClass.split(' ').slice(0, 2).join(' ')} flex-shrink-0`}>
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-3 mb-1">
-                      <span className="text-white font-semibold">{anomaly.metric}</span>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1">
+                      <span className="text-white font-semibold text-sm sm:text-base">{anomaly.metric}</span>
                       <span className={`px-2 py-0.5 rounded-lg text-xs font-medium capitalize ${colorClass.split(' ').slice(0, 2).join(' ')}`}>
                         {anomaly.type}
                       </span>
@@ -188,10 +186,10 @@ export default function Anomalies() {
                         </span>
                       )}
                     </div>
-                    <p className="text-slate-300">{anomaly.message}</p>
-                    <div className="flex items-center gap-4 mt-2 text-sm text-slate-500">
+                    <p className="text-slate-300 text-sm">{anomaly.message}</p>
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 text-xs sm:text-sm text-slate-500">
                       <span className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
+                        <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
                         {formatTimeAgo(anomaly.timestamp)}
                       </span>
                       <span>Value: {anomaly.value}</span>
@@ -199,14 +197,14 @@ export default function Anomalies() {
                     </div>
                   </div>
                 </div>
-                
+
                 {!anomaly.acknowledged && (
                   <button
                     onClick={() => handleAcknowledge(anomaly.id)}
-                    className="flex items-center gap-2 px-4 py-2 bg-slate-700/50 rounded-xl text-slate-300 hover:bg-slate-600/50 hover:text-white transition-colors"
+                    className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-slate-700/50 rounded-xl text-slate-300 hover:bg-slate-600/50 hover:text-white transition-colors text-sm w-full sm:w-auto flex-shrink-0"
                   >
                     <CheckCircle className="w-4 h-4" />
-                    Acknowledge
+                    <span>Acknowledge</span>
                   </button>
                 )}
               </div>

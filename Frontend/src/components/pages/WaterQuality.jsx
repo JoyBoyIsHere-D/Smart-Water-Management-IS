@@ -52,52 +52,85 @@ export default function WaterQuality() {
   const { sensorData } = useOutletContext();
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
       {/* Page Header */}
-      <div className="flex items-center gap-4">
-        <div className="p-3 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500">
-          <Waves className="w-6 h-6 text-white" />
+      <div className="flex items-center gap-3 sm:gap-4">
+        <div className="p-2.5 sm:p-3 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex-shrink-0">
+          <Waves className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </div>
-        <div>
-          <h1 className="text-2xl font-bold text-white">Water Quality</h1>
-          <p className="text-slate-400">Real-time water quality monitoring and analysis</p>
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-bold text-white">Water Quality</h1>
+          <p className="text-slate-400 text-xs sm:text-sm truncate">Real-time water quality monitoring and analysis</p>
         </div>
       </div>
 
       {/* Quality Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         {qualityMetrics.map((metric, index) => (
           <div
             key={index}
-            className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6"
+            className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-6"
           >
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-slate-400 font-medium">{metric.label}</span>
-              <div className={`p-2 rounded-lg bg-gradient-to-br ${metric.color}`}>
-                <metric.icon className="w-5 h-5 text-white" />
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
+              <span className="text-slate-400 text-xs sm:text-sm font-medium truncate pr-2">{metric.label}</span>
+              <div className={`p-1.5 sm:p-2 rounded-lg bg-gradient-to-br ${metric.color} flex-shrink-0`}>
+                <metric.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
             </div>
-            <div className="text-3xl font-bold text-white mb-2">{metric.value}</div>
-            <div className="flex items-center justify-between">
-              <span className={`px-2 py-1 rounded-lg text-xs font-medium ${getStatusColor(metric.status)}`}>
+            <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">{metric.value}</div>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
+              <span className={`px-2 py-0.5 sm:py-1 rounded-lg text-xs font-medium ${getStatusColor(metric.status)} w-fit`}>
                 {metric.status}
               </span>
-              <span className="text-xs text-slate-500">Range: {metric.range}</span>
+              <span className="text-xs text-slate-500 truncate">Range: {metric.range}</span>
             </div>
           </div>
         ))}
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <SensorChart data={sensorData} />
         <QualityPieChart />
       </div>
 
       {/* Quality Standards */}
-      <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6">
-        <h3 className="text-lg font-semibold text-white mb-4">WHO/EPA Water Quality Standards</h3>
-        <div className="overflow-x-auto">
+      <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-xl sm:rounded-2xl border border-slate-700/50 p-4 sm:p-6">
+        <h3 className="text-base sm:text-lg font-semibold text-white mb-4">WHO/EPA Water Quality Standards</h3>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden space-y-3">
+          {[
+            { param: 'pH Level', current: '7.2', who: '6.5 - 8.5', epa: '6.5 - 8.5', status: 'Compliant', statusColor: 'text-emerald-400 bg-emerald-500/20' },
+            { param: 'Turbidity', current: '2.3 NTU', who: '< 5 NTU', epa: '< 1 NTU', status: 'Review', statusColor: 'text-amber-400 bg-amber-500/20' },
+            { param: 'TDS', current: '342 ppm', who: '< 600 ppm', epa: '< 500 ppm', status: 'Compliant', statusColor: 'text-emerald-400 bg-emerald-500/20' },
+            { param: 'Dissolved Oxygen', current: '7.5 mg/L', who: '> 5 mg/L', epa: '> 6 mg/L', status: 'Compliant', statusColor: 'text-emerald-400 bg-emerald-500/20' },
+          ].map((item, idx) => (
+            <div key={idx} className="bg-slate-700/30 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-medium text-white">{item.param}</span>
+                <span className={`px-2 py-1 rounded-lg text-xs font-medium ${item.statusColor}`}>{item.status}</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-sm">
+                <div>
+                  <span className="text-slate-500 text-xs block">Current</span>
+                  <span className="text-white">{item.current}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-xs block">WHO</span>
+                  <span className="text-slate-400">{item.who}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 text-xs block">EPA</span>
+                  <span className="text-slate-400">{item.epa}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-slate-700/50">

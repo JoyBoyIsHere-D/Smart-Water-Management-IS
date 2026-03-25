@@ -15,7 +15,7 @@ const getApiUrl = () => {
 
   // Otherwise derive from the current browser host (works for localhost and LAN IP)
   const hostname = window.location.hostname;
-  return `http://${hostname}:5000`;
+  return `http://${hostname}:5111`;
 };
 
 export const API_URL = getApiUrl();

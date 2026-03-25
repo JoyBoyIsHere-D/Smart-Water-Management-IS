@@ -190,21 +190,21 @@ export default function UserManagement() {
 
   // ─── Render ────────────────────────────────────────
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-4 sm:space-y-6 p-3 sm:p-4 lg:p-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl">
-              <Users className="w-7 h-7 text-white" />
+          <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2 sm:gap-3">
+            <div className="p-1.5 sm:p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg sm:rounded-xl">
+              <Users className="w-5 h-5 sm:w-7 sm:h-7 text-white" />
             </div>
             User Management
           </h1>
-          <p className="text-slate-400 mt-2 ml-1">Register and manage portal users</p>
+          <p className="text-slate-400 mt-1 sm:mt-2 ml-1 text-sm">Register and manage portal users</p>
         </div>
         <button
           onClick={() => { resetForm(); setShowForm(!showForm); }}
-          className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl text-white font-medium hover:shadow-lg hover:shadow-cyan-500/30 transition-all hover:scale-105 active:scale-95"
+          className="flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl text-white font-medium hover:shadow-lg hover:shadow-cyan-500/30 transition-all w-full sm:w-auto"
         >
           {showForm ? <ChevronUp className="w-5 h-5" /> : <UserPlus className="w-5 h-5" />}
           {showForm ? 'Hide Form' : 'Add New User'}
@@ -213,60 +213,60 @@ export default function UserManagement() {
 
       {/* Statistics Cards */}
       {!loading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-5 hover:border-cyan-500/30 transition-all group">
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2.5 bg-cyan-500/10 rounded-lg group-hover:bg-cyan-500/20 transition-all">
-                <Users className="w-5 h-5 text-cyan-400" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 sm:p-5 hover:border-cyan-500/30 transition-all group">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <div className="p-2 sm:p-2.5 bg-cyan-500/10 rounded-lg group-hover:bg-cyan-500/20 transition-all">
+                <Users className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
               </div>
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
+              <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
             </div>
-            <div className="space-y-1">
-              <p className="text-2xl font-bold text-white">{stats.total}</p>
-              <p className="text-sm text-slate-400">Total Users</p>
+            <div className="space-y-0.5 sm:space-y-1">
+              <p className="text-xl sm:text-2xl font-bold text-white">{stats.total}</p>
+              <p className="text-xs sm:text-sm text-slate-400">Total Users</p>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-5 hover:border-emerald-500/30 transition-all group">
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2.5 bg-emerald-500/10 rounded-lg group-hover:bg-emerald-500/20 transition-all">
-                <UserCheck className="w-5 h-5 text-emerald-400" />
+          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 sm:p-5 hover:border-emerald-500/30 transition-all group">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <div className="p-2 sm:p-2.5 bg-emerald-500/10 rounded-lg group-hover:bg-emerald-500/20 transition-all">
+                <UserCheck className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
               </div>
-              <span className="text-xs text-emerald-400 font-medium px-2 py-1 bg-emerald-500/10 rounded-full">
+              <span className="text-xs text-emerald-400 font-medium px-1.5 sm:px-2 py-0.5 sm:py-1 bg-emerald-500/10 rounded-full">
                 {stats.total ? Math.round((stats.active / stats.total) * 100) : 0}%
               </span>
             </div>
-            <div className="space-y-1">
-              <p className="text-2xl font-bold text-white">{stats.active}</p>
-              <p className="text-sm text-slate-400">Active Users</p>
+            <div className="space-y-0.5 sm:space-y-1">
+              <p className="text-xl sm:text-2xl font-bold text-white">{stats.active}</p>
+              <p className="text-xs sm:text-sm text-slate-400">Active Users</p>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-5 hover:border-red-500/30 transition-all group">
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2.5 bg-red-500/10 rounded-lg group-hover:bg-red-500/20 transition-all">
-                <UserX className="w-5 h-5 text-red-400" />
+          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 sm:p-5 hover:border-red-500/30 transition-all group">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <div className="p-2 sm:p-2.5 bg-red-500/10 rounded-lg group-hover:bg-red-500/20 transition-all">
+                <UserX className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />
               </div>
-              <span className="text-xs text-red-400 font-medium px-2 py-1 bg-red-500/10 rounded-full">
+              <span className="text-xs text-red-400 font-medium px-1.5 sm:px-2 py-0.5 sm:py-1 bg-red-500/10 rounded-full">
                 {stats.total ? Math.round((stats.inactive / stats.total) * 100) : 0}%
               </span>
             </div>
-            <div className="space-y-1">
-              <p className="text-2xl font-bold text-white">{stats.inactive}</p>
-              <p className="text-sm text-slate-400">Inactive Users</p>
+            <div className="space-y-0.5 sm:space-y-1">
+              <p className="text-xl sm:text-2xl font-bold text-white">{stats.inactive}</p>
+              <p className="text-xs sm:text-sm text-slate-400">Inactive Users</p>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-5 hover:border-blue-500/30 transition-all group">
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2.5 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-all">
-                <Activity className="w-5 h-5 text-blue-400" />
+          <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 sm:p-5 hover:border-blue-500/30 transition-all group">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <div className="p-2 sm:p-2.5 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-all">
+                <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
               </div>
-              <Calendar className="w-4 h-4 text-blue-400" />
+              <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
             </div>
-            <div className="space-y-1">
-              <p className="text-2xl font-bold text-white">{stats.recentLogins}</p>
-              <p className="text-sm text-slate-400">Active This Week</p>
+            <div className="space-y-0.5 sm:space-y-1">
+              <p className="text-xl sm:text-2xl font-bold text-white">{stats.recentLogins}</p>
+              <p className="text-xs sm:text-sm text-slate-400">Active This Week</p>
             </div>
           </div>
         </div>
@@ -413,85 +413,88 @@ export default function UserManagement() {
       )}
 
       {/* Search and Filters */}
-      <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-5">
-        <div className="flex flex-col lg:flex-row gap-4">
+      <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl p-4 sm:p-5">
+        <div className="flex flex-col gap-3 sm:gap-4">
           {/* Search */}
-          <div className="flex-1 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+          <div className="relative">
+            <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by ID, name or email…"
-              className="w-full pl-12 pr-4 py-3 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent focus:outline-none transition-all"
+              className="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:border-transparent focus:outline-none transition-all text-sm sm:text-base"
             />
           </div>
-          
-          {/* Status Filter */}
-          <div className="flex gap-2">
-            <button
-              onClick={() => setFilterStatus('all')}
-              className={`px-4 py-3 rounded-xl font-medium transition-all ${
-                filterStatus === 'all'
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20'
-                  : 'bg-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700'
-              }`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => setFilterStatus('active')}
-              className={`px-4 py-3 rounded-xl font-medium transition-all flex items-center gap-2 ${
-                filterStatus === 'active'
-                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                  : 'bg-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700'
-              }`}
-            >
-              <UserCheck className="w-4 h-4" />
-              Active
-            </button>
-            <button
-              onClick={() => setFilterStatus('inactive')}
-              className={`px-4 py-3 rounded-xl font-medium transition-all flex items-center gap-2 ${
-                filterStatus === 'inactive'
-                  ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                  : 'bg-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700'
-              }`}
-            >
-              <UserX className="w-4 h-4" />
-              Inactive
-            </button>
+
+          {/* Filters Row */}
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+            {/* Status Filter */}
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              <button
+                onClick={() => setFilterStatus('all')}
+                className={`px-3 sm:px-4 py-2 sm:py-3 rounded-xl font-medium transition-all text-sm whitespace-nowrap ${
+                  filterStatus === 'all'
+                    ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20'
+                    : 'bg-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700'
+                }`}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setFilterStatus('active')}
+                className={`px-3 sm:px-4 py-2 sm:py-3 rounded-xl font-medium transition-all flex items-center gap-1.5 sm:gap-2 text-sm whitespace-nowrap ${
+                  filterStatus === 'active'
+                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                    : 'bg-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700'
+                }`}
+              >
+                <UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                Active
+              </button>
+              <button
+                onClick={() => setFilterStatus('inactive')}
+                className={`px-3 sm:px-4 py-2 sm:py-3 rounded-xl font-medium transition-all flex items-center gap-1.5 sm:gap-2 text-sm whitespace-nowrap ${
+                  filterStatus === 'inactive'
+                    ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                    : 'bg-slate-700/50 text-slate-400 hover:text-white hover:bg-slate-700'
+                }`}
+              >
+                <UserX className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                Inactive
+              </button>
+            </div>
+
+            {/* Sort */}
+            <div className="relative sm:ml-auto sm:min-w-[160px]">
+              <Filter className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full pl-9 sm:pl-11 pr-4 py-2.5 sm:py-3 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent focus:outline-none transition-all appearance-none cursor-pointer text-sm"
+              >
+                <option value="name">Sort by Name</option>
+                <option value="id">Sort by ID</option>
+                <option value="recent">Recent Login</option>
+              </select>
+              <ChevronDown className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+            </div>
           </div>
-          
-          {/* Sort */}
-          <div className="relative min-w-[160px]">
-            <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:ring-2 focus:ring-cyan-500 focus:border-transparent focus:outline-none transition-all appearance-none cursor-pointer"
-            >
-              <option value="name">Sort by Name</option>
-              <option value="id">Sort by ID</option>
-              <option value="recent">Recent Login</option>
-            </select>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+
+          {/* Results count */}
+          <div className="flex items-center justify-between text-xs sm:text-sm">
+            <span className="text-slate-400">
+              Showing <span className="text-white font-medium">{filtered.length}</span> of <span className="text-white font-medium">{users.length}</span> users
+            </span>
+            {(search || filterStatus !== 'all') && (
+              <button
+                onClick={() => { setSearch(''); setFilterStatus('all'); }}
+                className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1"
+              >
+                <X className="w-3 h-3 sm:w-4 sm:h-4" />
+                Clear
+              </button>
+            )}
           </div>
-        </div>
-        
-        {/* Results count */}
-        <div className="mt-4 flex items-center justify-between text-sm">
-          <span className="text-slate-400">
-            Showing <span className="text-white font-medium">{filtered.length}</span> of <span className="text-white font-medium">{users.length}</span> users
-          </span>
-          {(search || filterStatus !== 'all') && (
-            <button
-              onClick={() => { setSearch(''); setFilterStatus('all'); }}
-              className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1"
-            >
-              <X className="w-4 h-4" />
-              Clear filters
-            </button>
-          )}
         </div>
       </div>
 
@@ -532,7 +535,83 @@ export default function UserManagement() {
         </div>
       ) : (
         <div className="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 rounded-xl overflow-hidden shadow-2xl">
-          <div className="overflow-x-auto">
+          {/* Mobile Card View */}
+          <div className="md:hidden p-3 space-y-3">
+            {filtered.map((u) => (
+              <div key={u.id} className="bg-slate-700/30 rounded-xl p-4 space-y-3">
+                <div className="flex items-start justify-between">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Shield className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                      <span className="font-mono text-sm text-cyan-400">{u.unique_id}</span>
+                    </div>
+                    <p className="font-medium text-white truncate">{u.full_name}</p>
+                  </div>
+                  <button
+                    onClick={() => toggleActive(u)}
+                    disabled={actionLoading === u.id}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all flex-shrink-0 ${
+                      u.is_active
+                        ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                        : 'bg-red-500/10 text-red-400 border border-red-500/30'
+                    }`}
+                  >
+                    {actionLoading === u.id ? (
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                    ) : (
+                      u.is_active ? 'Active' : 'Inactive'
+                    )}
+                  </button>
+                </div>
+
+                <div className="space-y-1.5 text-xs text-slate-400">
+                  {u.email && (
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-3 h-3 flex-shrink-0" />
+                      <span className="truncate">{u.email}</span>
+                    </div>
+                  )}
+                  {u.phone && (
+                    <div className="flex items-center gap-2">
+                      <Phone className="w-3 h-3 flex-shrink-0" />
+                      <span>{u.phone}</span>
+                    </div>
+                  )}
+                  {u.address && (
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-3 h-3 flex-shrink-0" />
+                      <span className="truncate">{u.address}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-slate-600/50">
+                  <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                    <Calendar className="w-3 h-3" />
+                    {u.last_sign_in ? new Date(u.last_sign_in).toLocaleDateString() : 'Never'}
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => startEdit(u)}
+                      className="p-2 hover:bg-cyan-500/10 rounded-lg text-slate-400 hover:text-cyan-400 transition-all"
+                    >
+                      <Edit3 className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(u.id)}
+                      disabled={actionLoading === u.id}
+                      className="p-2 hover:bg-red-500/10 rounded-lg text-slate-400 hover:text-red-400 transition-all"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-slate-700/30 border-b border-slate-700/50">
