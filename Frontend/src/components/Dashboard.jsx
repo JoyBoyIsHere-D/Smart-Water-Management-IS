@@ -23,7 +23,6 @@ const generateTimeSeriesData = () => {
     data.push({
       time: time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
       pH: (6.5 + Math.random() * 1.5).toFixed(2),
-      turbidity: (1 + Math.random() * 4).toFixed(2),
       tds: Math.floor(200 + Math.random() * 300),
       temperature: (20 + Math.random() * 10).toFixed(1),
       flowRate: (50 + Math.random() * 50).toFixed(1),

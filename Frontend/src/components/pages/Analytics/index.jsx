@@ -26,7 +26,6 @@ const generateTimeSeriesData = (days = 7) => {
       }),
       timestamp: time.getTime(),
       pH: (6.5 + Math.random() * 1.5).toFixed(2),
-      turbidity: (1 + Math.random() * 4).toFixed(2),
       tds: Math.floor(200 + Math.random() * 300),
       temperature: (20 + Math.random() * 10).toFixed(1),
       flowRate: (50 + Math.random() * 50).toFixed(1),
@@ -39,7 +38,7 @@ const generateTimeSeriesData = (days = 7) => {
 export default function Analytics() {
   const [selectedRange, setSelectedRange] = useState('7d');
   const [granularity, setGranularity] = useState('hourly');
-  const [selectedMetrics, setSelectedMetrics] = useState(['pH', 'turbidity']);
+  const [selectedMetrics, setSelectedMetrics] = useState(['pH', 'flowRate']);
   const [analyticsData, setAnalyticsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());

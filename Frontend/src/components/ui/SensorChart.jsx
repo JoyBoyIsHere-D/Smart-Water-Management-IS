@@ -8,7 +8,7 @@ export default function SensorChart({ data }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
         <h3 className="text-base sm:text-lg font-semibold text-white">Real-time Sensor Data</h3>
         <div className="flex flex-wrap gap-2">
-          {['pH', 'Turbidity', 'TDS'].map((metric) => (
+          {['pH', 'Flow Rate', 'TDS'].map((metric) => (
             <span key={metric} className="px-2 sm:px-3 py-1 text-xs rounded-full bg-slate-700/50 text-slate-300">
               {metric}
             </span>
@@ -22,7 +22,7 @@ export default function SensorChart({ data }) {
               <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} />
               <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
             </linearGradient>
-            <linearGradient id="colorTurbidity" x1="0" y1="0" x2="0" y2="1">
+            <linearGradient id="colorFlowRate" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
               <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
             </linearGradient>
@@ -41,7 +41,7 @@ export default function SensorChart({ data }) {
           />
           <Legend wrapperStyle={{ fontSize: '12px' }} />
           <Area type="monotone" dataKey="pH" stroke="#8b5cf6" fillOpacity={1} fill="url(#colorPh)" strokeWidth={2} />
-          <Area type="monotone" dataKey="turbidity" stroke="#06b6d4" fillOpacity={1} fill="url(#colorTurbidity)" strokeWidth={2} />
+          <Area type="monotone" dataKey="flowRate" stroke="#06b6d4" fillOpacity={1} fill="url(#colorFlowRate)" strokeWidth={2} />
         </AreaChart>
       </ResponsiveContainer>
     </div>

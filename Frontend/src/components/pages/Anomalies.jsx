@@ -15,8 +15,8 @@ const mockAnomalies = [
   {
     id: 2,
     type: 'warning',
-    metric: 'Turbidity',
-    message: 'Turbidity spike detected (8.2 NTU)',
+    metric: 'Flow Rate',
+    message: 'Flow rate spike detected (8.2 L/min)',
     timestamp: new Date(Date.now() - 3600000),
     acknowledged: true,
     value: 8.2,

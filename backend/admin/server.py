@@ -46,7 +46,7 @@ except ImportError:
     print("Warning: TensorFlow not available. Model training will be simulated.")
 
 # Import route modules
-from routes import clients_router, data_router, model_router, training_router, users_router
+from routes import clients_router, data_router, model_router, training_router, users_router, sensors_router
 
 # Create FastAPI app
 app = FastAPI(
@@ -80,6 +80,7 @@ app.include_router(data_router)
 app.include_router(model_router)
 app.include_router(training_router)
 app.include_router(users_router)
+app.include_router(sensors_router)
 
 # Lifecycle events
 if AUTH_AVAILABLE:
@@ -156,6 +157,14 @@ async def index():
                 "GET /api/model/info": "Get model information",
                 "GET /api/model/download": "Download trained model",
                 "POST /api/model/predict": "Make water quality prediction"
+            },
+            "Sensor Readings": {
+                "POST /api/sensors/readings": "Submit IoT sensor reading",
+                "GET /api/sensors/readings/{unique_id}": "Get user's readings",
+                "GET /api/sensors/readings/{unique_id}/latest": "Get latest reading",
+                "GET /api/sensors/readings/{unique_id}/statistics": "Get statistics",
+                "GET /api/sensors/readings/{unique_id}/range": "Get readings by date range",
+                "GET /api/sensors/dashboard/all-users": "Get all users' latest readings"
             },
             "Health": {
                 "GET /api/health": "Server health check"

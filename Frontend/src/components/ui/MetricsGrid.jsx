@@ -3,7 +3,7 @@ import { Droplets, Activity, Waves, Beaker } from 'lucide-react';
 const metrics = [
   { label: 'TDS', key: 'tds', unit: 'ppm', icon: Droplets, color: 'from-blue-500 to-cyan-500' },
   { label: 'Dissolved Oxygen', key: 'dissolvedOxygen', unit: 'mg/L', icon: Waves, color: 'from-emerald-500 to-teal-500' },
-  { label: 'Turbidity', key: 'turbidity', unit: 'NTU', icon: Beaker, color: 'from-amber-500 to-orange-500' },
+  { label: 'Flow Rate', key: 'flowRate', unit: 'L/min', icon: Beaker, color: 'from-amber-500 to-orange-500' },
   { label: 'Active Sensors', key: 'sensors', unit: 'online', icon: Activity, color: 'from-purple-500 to-pink-500' },
 ];
 

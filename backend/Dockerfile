@@ -23,6 +23,6 @@ COPY . .
 # Expose both server ports
 EXPOSE 5000 5001
 
-# Default: run the admin server
-# Override in docker-compose for the client server
-CMD ["python", "admin/server.py"]
+# Default: run seed script then admin server
+# Can be overridden in docker-compose for client server
+CMD ["sh", "-c", "python seed_data.py || echo 'Seed completed'; python admin/server.py"]

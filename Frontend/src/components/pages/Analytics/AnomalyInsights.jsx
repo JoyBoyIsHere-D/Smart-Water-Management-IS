@@ -16,10 +16,10 @@ import { AlertTriangle, TrendingUp } from 'lucide-react';
 // Mock anomaly type data
 const anomalyTypeData = [
   { name: 'pH Deviation', value: 35, color: '#8b5cf6' },
-  { name: 'Turbidity Spike', value: 25, color: '#06b6d4' },
+  { name: 'Flow Rate Spike', value: 25, color: '#06b6d4' },
   { name: 'TDS Anomaly', value: 18, color: '#3b82f6' },
   { name: 'Temperature', value: 12, color: '#f97316' },
-  { name: 'Flow Rate', value: 10, color: '#10b981' },
+  { name: 'Dissolved O₂', value: 10, color: '#10b981' },
 ];
 
 // Mock anomaly frequency data (last 14 days)
@@ -42,9 +42,9 @@ const frequencyData = generateAnomalyFrequency();
 
 const topAnomalies = [
   { metric: 'pH Level', count: 12, severity: 'critical', trend: 'decreasing' },
-  { metric: 'Turbidity', count: 8, severity: 'warning', trend: 'stable' },
+  { metric: 'Flow Rate', count: 8, severity: 'warning', trend: 'stable' },
   { metric: 'TDS', count: 6, severity: 'warning', trend: 'increasing' },
-  { metric: 'Flow Rate', count: 4, severity: 'info', trend: 'decreasing' },
+  { metric: 'Dissolved O₂', count: 4, severity: 'info', trend: 'decreasing' },
 ];
 
 const getSeverityColor = (severity) => {

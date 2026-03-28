@@ -6,7 +6,8 @@ Replaces Supabase client with direct PostgreSQL access.
 import os
 import sys
 import asyncpg
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Union
+from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -81,8 +82,10 @@ async def ensure_tables():
     async with pool.acquire() as conn:
         await conn.execute(CREATE_TABLE_SQL)
         await conn.execute(CREATE_PORTAL_USERS_TABLE_SQL)
+        await conn.execute(CREATE_SENSOR_READINGS_TABLE_SQL)
     print("✓ admin_users table ensured")
     print("✓ portal_users table ensured")
+    print("✓ sensor_readings table ensured")
 
 
 async def get_user_by_email(email: str) -> Optional[Dict[str, Any]]:
@@ -308,3 +311,237 @@ async def update_portal_user_last_sign_in(user_id: str):
         await conn.execute(
             "UPDATE portal_users SET last_sign_in = now() WHERE id = $1::uuid", user_id
         )
+
+
+# ==================== SQL helpers for sensor_readings table ====================
+
+CREATE_SENSOR_READINGS_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS sensor_readings (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES portal_users(id) ON DELETE CASCADE,
+    unique_id TEXT NOT NULL,
+
+    -- Sensor measurements
+    ph NUMERIC(5, 2),
+    pressure NUMERIC(8, 2),
+    flow_rate NUMERIC(10, 2),
+    total_volume_passed NUMERIC(14, 2),
+    temperature NUMERIC(6, 2),
+    tds INTEGER,
+    dissolved_oxygen NUMERIC(6, 2),
+
+    -- Quality assessment (from AI model)
+    water_quality TEXT,
+    risk_level TEXT,
+
+    -- Metadata
+    device_id TEXT,
+    location TEXT,
+    timestamp TIMESTAMPTZ NOT NULL DEFAULT now(),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Indexes for fast queries
+CREATE INDEX IF NOT EXISTS idx_sensor_user_timestamp
+    ON sensor_readings(user_id, timestamp DESC);
+
+CREATE INDEX IF NOT EXISTS idx_sensor_unique_id_timestamp
+    ON sensor_readings(unique_id, timestamp DESC);
+
+CREATE INDEX IF NOT EXISTS idx_sensor_timestamp
+    ON sensor_readings(timestamp DESC);
+"""
+
+
+async def ensure_sensor_readings_table():
+    """Create the sensor_readings table if it does not exist."""
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        await conn.execute(CREATE_SENSOR_READINGS_TABLE_SQL)
+    print("✓ sensor_readings table ensured")
+
+
+async def create_sensor_reading(
+    user_id: str,
+    unique_id: str,
+    ph: float = None,
+    pressure: float = None,
+    flow_rate: float = None,
+    total_volume_passed: float = None,
+    temperature: float = None,
+    tds: int = None,
+    dissolved_oxygen: float = None,
+    water_quality: str = None,
+    risk_level: str = None,
+    device_id: str = None,
+    location: str = None,
+    timestamp: Union[datetime, str] = None,
+) -> Dict[str, Any]:
+    """Insert a new sensor reading into the database."""
+    # Convert string timestamp to datetime if needed
+    if timestamp and isinstance(timestamp, str):
+        timestamp = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        if timestamp:
+            row = await conn.fetchrow(
+                """
+                INSERT INTO sensor_readings (
+                    user_id, unique_id, ph, pressure, flow_rate,
+                    total_volume_passed, temperature, tds, dissolved_oxygen,
+                    water_quality, risk_level, device_id, location, timestamp
+                )
+                VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14::timestamptz)
+                RETURNING *
+                """,
+                user_id, unique_id, ph, pressure, flow_rate,
+                total_volume_passed, temperature, tds, dissolved_oxygen,
+                water_quality, risk_level, device_id, location, timestamp
+            )
+        else:
+            row = await conn.fetchrow(
+                """
+                INSERT INTO sensor_readings (
+                    user_id, unique_id, ph, pressure, flow_rate,
+                    total_volume_passed, temperature, tds, dissolved_oxygen,
+                    water_quality, risk_level, device_id, location
+                )
+                VALUES ($1::uuid, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+                RETURNING *
+                """,
+                user_id, unique_id, ph, pressure, flow_rate,
+                total_volume_passed, temperature, tds, dissolved_oxygen,
+                water_quality, risk_level, device_id, location
+            )
+    return dict(row)
+
+
+async def get_sensor_readings_by_user(
+    user_id: str,
+    limit: int = 100,
+    offset: int = 0
+) -> List[Dict[str, Any]]:
+    """Get sensor readings for a specific user."""
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT * FROM sensor_readings
+            WHERE user_id = $1::uuid
+            ORDER BY timestamp DESC
+            LIMIT $2 OFFSET $3
+            """,
+            user_id, limit, offset
+        )
+    return [dict(row) for row in rows]
+
+
+async def get_sensor_readings_by_unique_id(
+    unique_id: str,
+    limit: int = 100,
+    offset: int = 0
+) -> List[Dict[str, Any]]:
+    """Get sensor readings by unique_id."""
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT * FROM sensor_readings
+            WHERE unique_id = $1
+            ORDER BY timestamp DESC
+            LIMIT $2 OFFSET $3
+            """,
+            unique_id, limit, offset
+        )
+    return [dict(row) for row in rows]
+
+
+async def get_latest_reading_by_unique_id(unique_id: str) -> Optional[Dict[str, Any]]:
+    """Get the most recent sensor reading for a user."""
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow(
+            """
+            SELECT * FROM sensor_readings
+            WHERE unique_id = $1
+            ORDER BY timestamp DESC
+            LIMIT 1
+            """,
+            unique_id
+        )
+    return dict(row) if row else None
+
+
+async def get_sensor_readings_by_date_range(
+    unique_id: str,
+    start_date: str,
+    end_date: str
+) -> List[Dict[str, Any]]:
+    """Get sensor readings within a date range."""
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT * FROM sensor_readings
+            WHERE unique_id = $1
+            AND timestamp BETWEEN $2::timestamptz AND $3::timestamptz
+            ORDER BY timestamp DESC
+            """,
+            unique_id, start_date, end_date
+        )
+    return [dict(row) for row in rows]
+
+
+async def get_sensor_statistics(unique_id: str) -> Dict[str, Any]:
+    """Get statistical summary for a user's sensor readings."""
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow(
+            """
+            SELECT
+                COUNT(*) as total_readings,
+                AVG(ph) as avg_ph,
+                AVG(pressure) as avg_pressure,
+                AVG(flow_rate) as avg_flow_rate,
+                AVG(temperature) as avg_temperature,
+                AVG(tds) as avg_tds,
+                AVG(dissolved_oxygen) as avg_dissolved_oxygen,
+                MIN(ph) as min_ph,
+                MAX(ph) as max_ph,
+                MIN(temperature) as min_temp,
+                MAX(temperature) as max_temp,
+                SUM(CASE WHEN water_quality = 'Safe' THEN 1 ELSE 0 END) as safe_count,
+                SUM(CASE WHEN water_quality = 'Unsafe' THEN 1 ELSE 0 END) as unsafe_count
+            FROM sensor_readings
+            WHERE unique_id = $1
+            """,
+            unique_id
+        )
+    return dict(row) if row else {}
+
+
+async def get_all_users_latest_readings() -> List[Dict[str, Any]]:
+    """Get the latest reading for each user (for admin dashboard)."""
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT DISTINCT ON (unique_id) *
+            FROM sensor_readings
+            ORDER BY unique_id, timestamp DESC
+            """
+        )
+    return [dict(row) for row in rows]
+
+
+async def delete_sensor_readings_by_user(user_id: str) -> int:
+    """Delete all sensor readings for a user. Returns count deleted."""
+    pool = await get_pool()
+    async with pool.acquire() as conn:
+        result = await conn.execute(
+            "DELETE FROM sensor_readings WHERE user_id = $1::uuid",
+            user_id
+        )
+    # Extract count from result like "DELETE 5"
+    return int(result.split()[-1]) if result else 0

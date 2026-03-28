@@ -16,10 +16,10 @@ const comparisonData = [
     format: 'decimal'
   },
   {
-    metric: 'Avg. Turbidity',
+    metric: 'Avg. Flow Rate',
     current: 2.8,
     previous: 3.2,
-    unit: 'NTU',
+    unit: 'L/min',
     format: 'decimal'
   },
   {
@@ -85,7 +85,7 @@ export default function ComparativeAnalysis() {
       <div className="sm:hidden space-y-3">
         {comparisonData.map((item, index) => {
           const change = calculateChange(item.current, item.previous);
-          const isPositiveChange = item.metric === 'Anomalies Detected' || item.metric === 'Avg. Turbidity'
+          const isPositiveChange = item.metric === 'Anomalies Detected'
             ? change.direction === 'down'
             : change.direction === 'up';
 
@@ -145,7 +145,7 @@ export default function ComparativeAnalysis() {
           <tbody>
             {comparisonData.map((item, index) => {
               const change = calculateChange(item.current, item.previous);
-              const isPositiveChange = item.metric === 'Anomalies Detected' || item.metric === 'Avg. Turbidity'
+              const isPositiveChange = item.metric === 'Anomalies Detected'
                 ? change.direction === 'down'
                 : change.direction === 'up';
 

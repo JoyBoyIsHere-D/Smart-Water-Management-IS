@@ -18,11 +18,10 @@ const granularityOptions = [
 
 const metricOptions = [
   { label: 'pH Level', value: 'pH', color: 'bg-purple-500' },
-  { label: 'Turbidity', value: 'turbidity', color: 'bg-cyan-500' },
+  { label: 'Flow Rate', value: 'flowRate', color: 'bg-cyan-500' },
   { label: 'TDS', value: 'tds', color: 'bg-blue-500' },
   { label: 'Temperature', value: 'temperature', color: 'bg-orange-500' },
-  { label: 'Flow Rate', value: 'flowRate', color: 'bg-emerald-500' },
-  { label: 'Dissolved O₂', value: 'dissolvedOxygen', color: 'bg-pink-500' },
+  { label: 'Dissolved O₂', value: 'dissolvedOxygen', color: 'bg-emerald-500' },
 ];
 
 export default function TimeRangeSelector({ 

@@ -7,6 +7,7 @@ from .data import router as data_router
 from .model import router as model_router
 from .training import router as training_router
 from .users import router as users_router
+from .sensors import router as sensors_router
 
 __all__ = [
     "clients_router",
@@ -14,4 +15,5 @@ __all__ = [
     "model_router",
     "training_router",
     "users_router",
+    "sensors_router",
 ]

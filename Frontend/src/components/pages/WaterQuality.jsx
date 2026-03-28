@@ -12,10 +12,10 @@ const qualityMetrics = [
     color: 'from-purple-500 to-purple-600'
   },
   {
-    label: 'Turbidity',
-    value: '2.3 NTU',
+    label: 'Flow Rate',
+    value: '2.3 L/min',
     status: 'good',
-    range: '< 5 NTU',
+    range: '< 100 L/min',
     icon: Droplets,
     color: 'from-cyan-500 to-blue-500'
   },
@@ -102,7 +102,7 @@ export default function WaterQuality() {
         <div className="md:hidden space-y-3">
           {[
             { param: 'pH Level', current: '7.2', who: '6.5 - 8.5', epa: '6.5 - 8.5', status: 'Compliant', statusColor: 'text-emerald-400 bg-emerald-500/20' },
-            { param: 'Turbidity', current: '2.3 NTU', who: '< 5 NTU', epa: '< 1 NTU', status: 'Review', statusColor: 'text-amber-400 bg-amber-500/20' },
+            { param: 'Flow Rate', current: '65 L/min', who: '< 100 L/min', epa: '< 80 L/min', status: 'Review', statusColor: 'text-amber-400 bg-amber-500/20' },
             { param: 'TDS', current: '342 ppm', who: '< 600 ppm', epa: '< 500 ppm', status: 'Compliant', statusColor: 'text-emerald-400 bg-emerald-500/20' },
             { param: 'Dissolved Oxygen', current: '7.5 mg/L', who: '> 5 mg/L', epa: '> 6 mg/L', status: 'Compliant', statusColor: 'text-emerald-400 bg-emerald-500/20' },
           ].map((item, idx) => (
@@ -150,10 +150,10 @@ export default function WaterQuality() {
                 <td className="py-3"><span className="px-2 py-1 rounded-lg text-xs font-medium text-emerald-400 bg-emerald-500/20">Compliant</span></td>
               </tr>
               <tr className="border-b border-slate-700/30">
-                <td className="py-3 text-white">Turbidity</td>
-                <td className="py-3 text-white">2.3 NTU</td>
-                <td className="py-3 text-slate-400">&lt; 5 NTU</td>
-                <td className="py-3 text-slate-400">&lt; 1 NTU</td>
+                <td className="py-3 text-white">Flow Rate</td>
+                <td className="py-3 text-white">65 L/min</td>
+                <td className="py-3 text-slate-400">&lt; 100 L/min</td>
+                <td className="py-3 text-slate-400">&lt; 80 L/min</td>
                 <td className="py-3"><span className="px-2 py-1 rounded-lg text-xs font-medium text-amber-400 bg-amber-500/20">Review</span></td>
               </tr>
               <tr className="border-b border-slate-700/30">

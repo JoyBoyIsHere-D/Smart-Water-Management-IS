@@ -1,7 +1,7 @@
 import { AlertTriangle, MapPin, Clock } from 'lucide-react';
 
 const anomalyData = [
-  { id: 1, type: 'High Turbidity', location: 'Sensor #12', time: '2 min ago', severity: 'high' },
+  { id: 1, type: 'High Flow Rate', location: 'Sensor #12', time: '2 min ago', severity: 'high' },
   { id: 2, type: 'pH Deviation', location: 'Sensor #07', time: '15 min ago', severity: 'medium' },
   { id: 3, type: 'Flow Rate Drop', location: 'Sensor #03', time: '1 hour ago', severity: 'low' },
 ];

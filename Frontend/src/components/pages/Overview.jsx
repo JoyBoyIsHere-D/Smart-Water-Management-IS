@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 import {
   Activity, Beaker, Thermometer, Gauge, TrendingUp, TrendingDown,
   Zap, Users, Droplets, AlertTriangle, ChevronDown, MapPin, Clock,
@@ -8,7 +9,13 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell,
 } from 'recharts';
-import { DUMMY_USERS, USER_SENSOR_DATA, getMasterDashboard, getUserData } from '../../data/dummyData';
+import {
+  getMasterDashboardWithAPI,
+  getUserDataWithAPI,
+  fetchPortalUsers,
+  getEmptyMasterDashboard,
+  getEmptyUserData
+} from '../../data/dummyData';
 
 // ── colour / style helpers ──────────────────────────────────────────────────
 const hColor = (i) =>
@@ -22,10 +29,68 @@ const sevBadge = (s) =>
 const PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'];
 
 export default function Overview() {
+  const { user } = useAuth();
   const [view, setView] = useState('master'); // 'master' | unique_id
-  const master = getMasterDashboard();
+  const [masterData, setMasterData] = useState(null);
+  const [selectedUserData, setSelectedUserData] = useState(null);
+  const [portalUsers, setPortalUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const selectedUser = view !== 'master' ? getUserData(view) : null;
+  // Fetch portal users list
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const users = await fetchPortalUsers();
+        setPortalUsers(users);
+      } catch (err) {
+        console.error('Failed to fetch users:', err);
+        setPortalUsers([]);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  // Fetch dashboard data when view changes
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      setLoading(true);
+      try {
+        if (view === 'master') {
+          const data = await getMasterDashboardWithAPI(user);
+          setMasterData(data);
+          setSelectedUserData(null);
+        } else {
+          // Find user info for the selected unique_id
+          const userInfo = portalUsers.find(u => u.unique_id === view);
+          const data = await getUserDataWithAPI(view, userInfo);
+          setSelectedUserData(data);
+          setMasterData(null);
+        }
+        setError(null);
+      } catch (err) {
+        console.error('Failed to fetch dashboard data:', err);
+        setError(err.message);
+        if (view === 'master') {
+          setMasterData(getEmptyMasterDashboard());
+        } else {
+          setSelectedUserData(getEmptyUserData(view));
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, [view, portalUsers]);
+
+  if (loading) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-[400px]">
+        <div className="text-slate-400">Loading dashboard...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
@@ -33,12 +98,12 @@ export default function Overview() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
         <div className="min-w-0">
           <h1 className="text-xl sm:text-2xl font-bold text-white truncate">
-            {view === 'master' ? 'Master Dashboard' : `${selectedUser.user.full_name}'s Dashboard`}
+            {view === 'master' ? 'Master Dashboard' : `${selectedUserData?.user?.full_name || view}'s Dashboard`}
           </h1>
           <p className="text-slate-400 text-xs sm:text-sm mt-0.5">
             {view === 'master'
               ? 'Aggregated overview of all registered users'
-              : `${selectedUser.user.area}`}
+              : `${selectedUserData?.user?.area || 'Unknown Area'}`}
           </p>
         </div>
 
@@ -49,7 +114,7 @@ export default function Overview() {
             className="appearance-none w-full sm:w-auto pl-4 pr-10 py-2.5 rounded-xl bg-slate-800/70 border border-slate-700/50 text-white text-sm focus:ring-2 focus:ring-cyan-500 focus:outline-none cursor-pointer"
           >
             <option value="master">Master Dashboard</option>
-            {DUMMY_USERS.map((u) => (
+            {portalUsers.map((u) => (
               <option key={u.unique_id} value={u.unique_id}>
                 {u.full_name} — {u.area}
               </option>
@@ -59,8 +124,18 @@ export default function Overview() {
         </div>
       </div>
 
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-red-400 text-sm">
+          Error loading data: {error}
+        </div>
+      )}
+
       {/* ── Conditionally render Master or Individual ───────── */}
-      {view === 'master' ? <MasterView data={master} onSelect={setView} /> : <IndividualView data={selectedUser} />}
+      {view === 'master' ? (
+        masterData ? <MasterView data={masterData} onSelect={setView} /> : <div>Loading master data...</div>
+      ) : (
+        selectedUserData ? <IndividualView data={selectedUserData} /> : <div>Loading user data...</div>
+      )}
     </div>
   );
 }
@@ -82,7 +157,7 @@ function MasterView({ data, onSelect }) {
       {/* Averages */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5">
         <SmallKpi title="Avg pH" value={data.avgPh} icon={Beaker} gradient="from-purple-500 to-purple-600" />
-        <SmallKpi title="Avg Turbidity" value={data.avgTurbidity} unit="NTU" icon={Gauge} gradient="from-cyan-500 to-blue-500" />
+        <SmallKpi title="Avg Flow Rate" value={data.avgFlowRate} unit="L/min" icon={Gauge} gradient="from-cyan-500 to-blue-500" />
         <SmallKpi title="Avg Temperature" value={data.avgTemp} unit="°C" icon={Thermometer} gradient="from-orange-500 to-red-500" />
       </div>
 
@@ -117,8 +192,8 @@ function MasterView({ data, onSelect }) {
                   <p className="text-slate-300">{u.pH}</p>
                 </div>
                 <div>
-                  <span className="text-slate-400 text-xs">Turbidity</span>
-                  <p className="text-slate-300">{u.turbidity}</p>
+                  <span className="text-slate-400 text-xs">Flow Rate</span>
+                  <p className="text-slate-300">{u.flowRate}</p>
                 </div>
                 <div>
                   <span className="text-slate-400 text-xs">Consumption</span>
@@ -144,7 +219,7 @@ function MasterView({ data, onSelect }) {
                 <th className="px-4 lg:px-5 py-3">Area</th>
                 <th className="px-4 lg:px-5 py-3">Health</th>
                 <th className="px-4 lg:px-5 py-3">pH</th>
-                <th className="px-4 lg:px-5 py-3">Turbidity</th>
+                <th className="px-4 lg:px-5 py-3">Flow Rate</th>
                 <th className="px-4 lg:px-5 py-3">Consumption</th>
                 <th className="px-4 lg:px-5 py-3">Anomalies</th>
                 <th className="px-4 lg:px-5 py-3"></th>
@@ -162,7 +237,7 @@ function MasterView({ data, onSelect }) {
                     <span className={`font-semibold ${hColor(u.healthIndex)}`}>{u.healthIndex}</span>
                   </td>
                   <td className="px-4 lg:px-5 py-3 text-slate-300">{u.pH}</td>
-                  <td className="px-4 lg:px-5 py-3 text-slate-300">{u.turbidity}</td>
+                  <td className="px-4 lg:px-5 py-3 text-slate-300">{u.flowRate}</td>
                   <td className="px-4 lg:px-5 py-3 text-slate-300">{u.consumption} L</td>
                   <td className="px-4 lg:px-5 py-3">
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${u.anomalies > 0 ? 'bg-red-500/10 text-red-400 border-red-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'}`}>
@@ -236,7 +311,7 @@ function IndividualView({ data: d }) {
             <AreaChart data={d.series} margin={{ top: 5, right: 5, left: -15, bottom: 5 }}>
               <defs>
                 <linearGradient id="aPh" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} /><stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} /></linearGradient>
-                <linearGradient id="aTurb" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} /><stop offset="95%" stopColor="#06b6d4" stopOpacity={0} /></linearGradient>
+                <linearGradient id="aFlowRate" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} /><stop offset="95%" stopColor="#06b6d4" stopOpacity={0} /></linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
               <XAxis dataKey="time" stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 10 }} />
@@ -244,7 +319,7 @@ function IndividualView({ data: d }) {
               <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: 12, color: '#fff' }} />
               <Legend wrapperStyle={{ fontSize: '12px' }} />
               <Area type="monotone" dataKey="pH" stroke="#8b5cf6" fill="url(#aPh)" strokeWidth={2} />
-              <Area type="monotone" dataKey="turbidity" stroke="#06b6d4" fill="url(#aTurb)" strokeWidth={2} />
+              <Area type="monotone" dataKey="flowRate" stroke="#06b6d4" fill="url(#aFlowRate)" strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
         </div>

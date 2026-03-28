@@ -13,10 +13,10 @@ import { BarChart2, ChevronDown } from 'lucide-react';
 
 const metricOptions = [
   { label: 'pH Level', value: 'pH' },
-  { label: 'Turbidity', value: 'turbidity' },
+  { label: 'Flow Rate', value: 'flowRate' },
   { label: 'TDS', value: 'tds' },
   { label: 'Temperature', value: 'temperature' },
-  { label: 'Flow Rate', value: 'flowRate' },
+  { label: 'Dissolved O₂', value: 'dissolvedOxygen' },
 ];
 
 // Generate histogram data

@@ -1,14 +1,66 @@
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Bell, AlertCircle, Clock } from 'lucide-react';
-import { getUserData, DUMMY_USERS } from '../../data/dummyData';
+import { getUserDataWithAPI, getEmptyUserData } from '../../data/dummyData';
 
 export default function UserAlerts() {
   const { user } = useAuth();
-  
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user?.unique_id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const data = await getUserDataWithAPI(user.unique_id, user);
+        setUserData(data);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to fetch user data:', err);
+        setError(err.message);
+        setUserData(getEmptyUserData(user.unique_id, user));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [user?.unique_id]);
+
   if (!user) return null;
-  
-  const uid = user.unique_id || DUMMY_USERS[0].unique_id;
-  const d = getUserData(uid);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-slate-400">Loading alerts...</div>
+      </div>
+    );
+  }
+
+  if (!userData || userData.noData) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+            <Bell className="w-6 h-6 text-cyan-400" />
+            Alerts & Notifications
+          </h1>
+          <p className="text-slate-400 mt-1 text-sm">No alerts available</p>
+        </div>
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8 text-center">
+          <Bell className="w-16 h-16 text-slate-500 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-white mb-2">No Alerts</h3>
+          <p className="text-slate-400">No alerts or notifications are available for your account.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

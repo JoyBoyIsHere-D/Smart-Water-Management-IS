@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import {
   Droplets, User, MapPin, Activity, Beaker, Thermometer,
@@ -8,7 +8,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell,
 } from 'recharts';
-import { getUserData, DUMMY_USERS } from '../../data/dummyData';
+import { getUserDataWithAPI, getEmptyUserData } from '../../data/dummyData';
 
 // ── colour helpers ──────────────────────────────────────────────────────────
 const healthColor = (i) =>
@@ -24,14 +24,55 @@ const PIE_COLORS = ['#10b981', '#3b82f6', '#f59e0b', '#ef4444'];
 
 export default function UserDashboard() {
   const { user } = useAuth();
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user?.unique_id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const data = await getUserDataWithAPI(user.unique_id, user);
+        setUserData(data);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to fetch user data:', err);
+        setError(err.message);
+        // Set empty data for error state
+        setUserData(getEmptyUserData(user.unique_id, user));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [user?.unique_id]);
 
   if (!user) return null;
 
-  // Resolve dummy data – match by unique_id if available, else first user
-  const uid = user.unique_id || DUMMY_USERS[0].unique_id;
-  const d = getUserData(uid);
-  const latest = d.latest;
-  const pie = Object.entries(d.qualityBreakdown).map(([k, v]) => ({ name: k, value: v }));
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-slate-400">Loading your dashboard...</div>
+      </div>
+    );
+  }
+
+  if (!userData) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-slate-400">No data available</div>
+      </div>
+    );
+  }
+
+  const latest = userData.latest;
+  const pie = Object.entries(userData.qualityBreakdown).map(([k, v]) => ({ name: k, value: v }));
 
   // Weekly consumption dummy bars
   const weekBars = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => ({
@@ -39,13 +80,34 @@ export default function UserDashboard() {
     litres: Math.floor(80 + Math.random() * 100),
   }));
 
+  // Show empty state for users with no data
+  if (userData.noData && !latest) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Welcome, {user.full_name || user.unique_id}</h1>
+          <p className="text-slate-400 mt-0.5 flex items-center gap-1 text-sm">
+            <MapPin className="w-3.5 h-3.5" /> {userData.user.area} — No sensor data available
+          </p>
+        </div>
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8 text-center">
+          <Droplets className="w-16 h-16 text-slate-500 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-white mb-2">No Sensor Data</h3>
+          <p className="text-slate-400 max-w-md mx-auto">
+            No sensor readings are available for your account yet. Please check back later or contact support if this seems incorrect.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Greeting */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Welcome back, {user.full_name}</h1>
+        <h1 className="text-2xl font-bold text-white">Welcome back, {user.full_name || user.unique_id}</h1>
         <p className="text-slate-400 mt-0.5 flex items-center gap-1 text-sm">
-          <MapPin className="w-3.5 h-3.5" /> {d.user.area} &mdash; Live sensor readings for your area
+          <MapPin className="w-3.5 h-3.5" /> {userData.user.area} &mdash; Live sensor readings for your area
         </p>
       </div>
 
@@ -55,14 +117,14 @@ export default function UserDashboard() {
           <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-5">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-slate-400 text-sm font-medium">Health Index</h3>
-              <div className={`p-2 rounded-lg bg-gradient-to-br ${healthBg(d.healthIndex)}`}>
+              <div className={`p-2 rounded-lg bg-gradient-to-br ${healthBg(userData.healthIndex)}`}>
                 <Activity className="w-4 h-4 text-white" />
               </div>
             </div>
-            <span className={`text-4xl font-bold ${healthColor(d.healthIndex)}`}>{d.healthIndex}</span>
+            <span className={`text-4xl font-bold ${healthColor(userData.healthIndex)}`}>{userData.healthIndex}</span>
             <span className="text-slate-500 text-sm ml-1">/100</span>
             <div className="mt-3 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-              <div className={`h-full bg-gradient-to-r ${healthBg(d.healthIndex)} transition-all`} style={{ width: `${d.healthIndex}%` }} />
+              <div className={`h-full bg-gradient-to-r ${healthBg(userData.healthIndex)} transition-all`} style={{ width: `${userData.healthIndex}%` }} />
             </div>
           </div>
 
@@ -80,10 +142,10 @@ export default function UserDashboard() {
           <div className="lg:col-span-2 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl border border-slate-700/50 p-6">
             <h3 className="text-lg font-semibold text-white mb-4">Sensor Readings (24 h)</h3>
             <ResponsiveContainer width="100%" height={280}>
-              <AreaChart data={d.series}>
+              <AreaChart data={userData.series}>
                 <defs>
                   <linearGradient id="uPh" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} /><stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} /></linearGradient>
-                  <linearGradient id="uTurb" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} /><stop offset="95%" stopColor="#06b6d4" stopOpacity={0} /></linearGradient>
+                  <linearGradient id="uFlowRate" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} /><stop offset="95%" stopColor="#06b6d4" stopOpacity={0} /></linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                 <XAxis dataKey="time" stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 11 }} />
@@ -91,7 +153,7 @@ export default function UserDashboard() {
                 <Tooltip contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: 12, color: '#fff' }} />
                 <Legend />
                 <Area type="monotone" dataKey="pH" stroke="#8b5cf6" fill="url(#uPh)" strokeWidth={2} />
-                <Area type="monotone" dataKey="turbidity" stroke="#06b6d4" fill="url(#uTurb)" strokeWidth={2} />
+                <Area type="monotone" dataKey="flowRate" stroke="#06b6d4" fill="url(#uFlowRate)" strokeWidth={2} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -125,8 +187,8 @@ export default function UserDashboard() {
               </BarChart>
             </ResponsiveContainer>
             <div className="mt-3 flex items-center gap-6 text-sm text-slate-400">
-              <span>Monthly: <strong className="text-white">{d.monthlyConsumption} L</strong></span>
-              <span>Daily Avg: <strong className="text-white">{d.dailyAvgConsumption} L</strong></span>
+              <span>Monthly: <strong className="text-white">{userData.monthlyConsumption} L</strong></span>
+              <span>Daily Avg: <strong className="text-white">{userData.dailyAvgConsumption} L</strong></span>
             </div>
           </div>
 
@@ -135,11 +197,11 @@ export default function UserDashboard() {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-white">Anomaly Alerts</h3>
               <span className="px-2.5 py-1 text-xs rounded-full bg-red-500/20 text-red-400 border border-red-500/30">
-                {d.anomalies.length} Active
+                {userData.anomalies.length} Active
               </span>
             </div>
             <div className="space-y-3">
-              {d.anomalies.map((a) => (
+              {userData.anomalies.map((a) => (
                 <div key={a.id} className={`p-3 rounded-xl border ${sevStyle(a.severity)}`}>
                   <div className="flex items-start justify-between">
                     <div>

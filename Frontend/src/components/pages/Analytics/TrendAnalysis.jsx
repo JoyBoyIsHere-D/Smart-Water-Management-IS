@@ -14,19 +14,17 @@ import { TrendingUp, Maximize2, Eye, EyeOff } from 'lucide-react';
 
 const metricColors = {
   pH: '#8b5cf6',
-  turbidity: '#06b6d4',
+  flowRate: '#06b6d4',
   tds: '#3b82f6',
   temperature: '#f97316',
-  flowRate: '#10b981',
-  dissolvedOxygen: '#ec4899',
+  dissolvedOxygen: '#10b981',
 };
 
 const metricLabels = {
   pH: 'pH Level',
-  turbidity: 'Turbidity (NTU)',
+  flowRate: 'Flow Rate (L/min)',
   tds: 'TDS (ppm)',
   temperature: 'Temperature (°C)',
-  flowRate: 'Flow Rate (L/min)',
   dissolvedOxygen: 'Dissolved O₂ (mg/L)',
 };
 

@@ -16,10 +16,9 @@ export default function SettingsPage() {
 
   const [thresholds, setThresholds] = useState({
     pH: { min: 6.5, max: 8.5 },
-    turbidity: { max: 5 },
+    flowRate: { max: 100 },
     tds: { max: 500 },
     temperature: { min: 15, max: 30 },
-    flowRate: { max: 100 },
   });
 
   const [notifications, setNotifications] = useState({

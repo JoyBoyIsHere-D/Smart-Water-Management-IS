@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import {
   BarChart3, LineChart, TrendingUp, TrendingDown, Calendar,
@@ -8,17 +8,83 @@ import {
   LineChart as ReLineChart, Line, BarChart, Bar, XAxis, YAxis,
   CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area,
 } from 'recharts';
-import { getUserData, DUMMY_USERS } from '../../data/dummyData';
+import { getUserDataWithAPI, getEmptyUserData } from '../../data/dummyData';
 
 export default function UserAnalytics() {
   const { user } = useAuth();
   const [timeRange, setTimeRange] = useState('7d'); // '24h' | '7d' | '30d'
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user?.unique_id) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const data = await getUserDataWithAPI(user.unique_id, user);
+        setUserData(data);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to fetch user data:', err);
+        setError(err.message);
+        // Set empty data for error state
+        setUserData(getEmptyUserData(user.unique_id, user));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [user?.unique_id]);
 
   if (!user) return null;
 
-  const uid = user.unique_id || DUMMY_USERS[0].unique_id;
-  const d = getUserData(uid);
-  const latest = d.latest;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-slate-400">Loading analytics...</div>
+      </div>
+    );
+  }
+
+  if (!userData) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-slate-400">No analytics data available</div>
+      </div>
+    );
+  }
+
+  const latest = userData.latest;
+
+  // Show empty state for users with no data
+  if (userData.noData && !latest) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+            <BarChart3 className="w-6 h-6 text-cyan-400" />
+            Analytics Dashboard
+          </h1>
+          <p className="text-slate-400 mt-1 flex items-center gap-1 text-sm">
+            <MapPin className="w-3.5 h-3.5" /> {userData.user.area} — No data available
+          </p>
+        </div>
+        <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8 text-center">
+          <BarChart3 className="w-16 h-16 text-slate-500 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-white mb-2">No Analytics Data</h3>
+          <p className="text-slate-400 max-w-md mx-auto">
+            No sensor readings are available for analytics. Please check back later or contact support if this seems incorrect.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -30,7 +96,7 @@ export default function UserAnalytics() {
             Analytics Dashboard
           </h1>
           <p className="text-slate-400 mt-1 flex items-center gap-1 text-sm">
-            <MapPin className="w-3.5 h-3.5" /> {d.user.area} — Detailed insights and trends
+            <MapPin className="w-3.5 h-3.5" /> {userData.user.area} — Detailed insights and trends
           </p>
         </div>
 
@@ -63,7 +129,7 @@ export default function UserAnalytics() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <AnalyticsKpi
           label="Avg Daily Usage"
-          value={d.dailyAvgConsumption}
+          value={userData.dailyAvgConsumption}
           unit="L/day"
           trend="+5.2%"
           trendUp={false}
@@ -81,7 +147,7 @@ export default function UserAnalytics() {
         />
         <AnalyticsKpi
           label="Avg pH"
-          value={latest.pH}
+          value={latest?.pH || 0}
           unit=""
           trend="Within range"
           trendUp={true}
@@ -90,7 +156,7 @@ export default function UserAnalytics() {
         />
         <AnalyticsKpi
           label="Quality Score"
-          value={d.healthIndex}
+          value={userData.healthIndex}
           unit="/100"
           trend="+2 pts"
           trendUp={true}
@@ -101,14 +167,14 @@ export default function UserAnalytics() {
 
       {/* Trend Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* pH & Turbidity Trend */}
+        {/* pH & Flow Rate Trend */}
         <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-2xl border border-slate-700/50 p-6">
           <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
             <LineChart className="w-5 h-5 text-purple-400" />
             Water Quality Trends
           </h3>
           <ResponsiveContainer width="100%" height={280}>
-            <ReLineChart data={d.series}>
+            <ReLineChart data={userData.series}>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
               <XAxis dataKey="time" stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 11 }} />
               <YAxis stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 11 }} />
@@ -122,7 +188,7 @@ export default function UserAnalytics() {
               />
               <Legend />
               <Line type="monotone" dataKey="pH" stroke="#8b5cf6" strokeWidth={2} dot={false} />
-              <Line type="monotone" dataKey="turbidity" stroke="#06b6d4" strokeWidth={2} dot={false} />
+              <Line type="monotone" dataKey="flowRate" stroke="#06b6d4" strokeWidth={2} dot={false} />
             </ReLineChart>
           </ResponsiveContainer>
         </div>
@@ -134,7 +200,7 @@ export default function UserAnalytics() {
             Temperature & Flow Rate
           </h3>
           <ResponsiveContainer width="100%" height={280}>
-            <ReLineChart data={d.series}>
+            <ReLineChart data={userData.series}>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
               <XAxis dataKey="time" stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 11 }} />
               <YAxis stroke="#64748b" tick={{ fill: '#94a3b8', fontSize: 11 }} />
@@ -240,9 +306,9 @@ export default function UserAnalytics() {
         <StatBox label="Min pH" value={Math.min(...d.series.map((s) => Number(s.pH))).toFixed(2)} />
         <StatBox label="Max pH" value={Math.max(...d.series.map((s) => Number(s.pH))).toFixed(2)} />
         <StatBox
-          label="Avg Turbidity"
-          value={(d.series.reduce((s, p) => s + Number(p.turbidity), 0) / d.series.length).toFixed(2)}
-          unit="NTU"
+          label="Avg Flow Rate"
+          value={(d.series.reduce((s, p) => s + Number(p.flowRate), 0) / d.series.length).toFixed(2)}
+          unit="L/min"
         />
         <StatBox
           label="Avg Temperature"
