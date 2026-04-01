@@ -1,292 +1,328 @@
-# Smart Water Management System
+# Smart Water Management IS
 
-A comprehensive intelligent water management system using federated machine learning to monitor water quality, detect anomalies, and provide real-time insights through an interactive dashboard.
+Smart Water Management IS is a full-stack platform for water quality monitoring, anomaly tracking, user management, and federated model operations.
 
-## Features
+It includes:
+- Admin dashboard for system-wide monitoring and control.
+- Portal-user dashboard for individual usage, alerts, and profile access.
+- FastAPI backend with PostgreSQL, JWT auth, sensor APIs, and federated learning endpoints.
+- Dockerized deployment for frontend, admin backend, client backend, and database.
 
-- 📊 **Real-time Dashboard** - Live monitoring of water quality metrics
-- 🎯 **Water Health Index** - Comprehensive health scoring system (0-100)
-- 📈 **Advanced Analytics** - Interactive charts for pH, TDS, temperature, flow rate, and dissolved oxygen
-- ⚠️ **Anomaly Detection** - Real-time alerts for water quality issues
-- 🤖 **AI-Powered Predictions** - Machine learning model for water quality classification
-- 🔄 **Federated Learning** - Distributed training across multiple client devices
-- 🔐 **Authentication** - JWT-based auth with admin and portal user roles
-- 📱 **Responsive Design** - Works seamlessly on PC, laptop, tablet, and mobile
-- 🌐 **IoT Integration** - API endpoints for IoT sensor data submission
+## Implemented Features
+
+### Admin Dashboard
+- Master overview and per-user dashboard view switch.
+- KPI cards for health index, consumption, anomaly counts, and sensor trends.
+- Water quality page with charting and standards comparison.
+- Anomaly management page with severity filters and acknowledge actions.
+- Analytics workspace with:
+   - Time range and granularity controls.
+   - Metric selection controls.
+   - Trend, comparative, statistical, anomaly, and consumption analytics panels.
+   - CSV export.
+   - PDF report export (implemented via jsPDF).
+- Federated Learning control center:
+   - Register/remove clients.
+   - Client health checks.
+   - Fetch aggregated client data and metrics.
+   - Start/stop federated training rounds.
+   - View training status and round history.
+   - View model information and download model file.
+   - Run prediction from manual input payload.
+- User management for portal users:
+   - Create, edit, activate/deactivate, search/filter/sort, and delete users.
+- Settings UI for profile, notifications, thresholds, data management, and appearance.
+
+### Portal User Experience
+- Dedicated login using unique ID only.
+- User dashboard with personalized KPIs, charts, and anomaly snapshot.
+- User analytics page with trend and usage visualizations.
+- User alerts page for notification feed.
+- User profile page for account information.
+
+### Backend and API
+- JWT-based admin authentication with register/login/refresh/logout/profile/update/password flows.
+- Portal-user auth flow using unique ID and token issuance.
+- Sensor ingestion and retrieval APIs:
+   - Submit readings.
+   - Latest, history, date-range, and statistics retrieval.
+   - Dashboard endpoint for all users.
+- Federated modules:
+   - Client registry and health checks.
+   - Distributed data/metrics aggregation.
+   - Federated training status/history/start/stop.
+   - Model info/download/predict.
+- PostgreSQL-backed persistence for admin users, portal users, and sensor readings.
+
+### Data and Research Assets
+- Seed script for demo users and sample sensor records.
+- Synthetic datasets under backend/data.
+- Notebook assets for modeling and federated learning experimentation:
+   - Data_Model.ipynb
+   - federated_learning.ipynb
 
 ## Tech Stack
 
 ### Frontend
-- **React 19** + **Vite** - Modern build tooling
-- **Tailwind CSS 4** - Utility-first styling
-- **Recharts** - Data visualization
-- **Lucide React** - Icon library
+- React 19
+- Vite 7
+- Tailwind CSS 4
+- Recharts
+- Lucide React
+- jsPDF
 
 ### Backend
-- **FastAPI** - High-performance Python API framework
-- **PostgreSQL 15** - Relational database
-- **asyncpg** - Async PostgreSQL driver
-- **TensorFlow/Keras** - Machine learning
-- **JWT** - Authentication tokens
+- FastAPI
+- asyncpg
+- PostgreSQL 15
+- python-jose + passlib (JWT and password hashing)
+- TensorFlow / Keras (with simulated fallback behavior in some flows if unavailable)
+- pandas, numpy, scikit-learn
 
 ### Infrastructure
-- **Docker** - Containerization
-- **Docker Compose** - Multi-container orchestration
+- Docker + Docker Compose
 
----
+## Repository Structure
 
-## Quick Start
-
-### Prerequisites
-- Docker & Docker Compose
-- Node.js v18+ (for local development)
-- Python 3.10+ (for local development)
-
-### 1. Clone and Setup
-
-```bash
-git clone <repository-url>
-cd Smart-Water-Management-IS
+```text
+Smart-Water-Management-IS/
+|-- Frontend/
+|   |-- src/
+|   |   |-- components/
+|   |   |   |-- pages/
+|   |   |   |-- ui/
+|   |   |-- context/
+|   |   |-- config/
+|   |   |-- data/
+|   |   |-- hooks/
+|   |   |-- services/
+|-- backend/
+|   |-- admin/
+|   |-- client/
+|   |-- auth/
+|   |-- routes/
+|   |-- core/
+|   |-- data/
+|   |-- seed_data.py
+|-- docker-compose.yml
+|-- Data_Model.ipynb
+|-- federated_learning.ipynb
+|-- README.md
 ```
 
-### 2. Configure Environment
+## Prerequisites
+
+- Docker and Docker Compose (recommended path)
+- For local non-Docker development:
+   - Node.js 18+
+   - Python 3.11+
+   - PostgreSQL 15+
+
+## Environment Setup
+
+### Backend env
+
+Create backend/.env from backend/.env.example.
+
+PowerShell:
+
+```powershell
+Copy-Item backend/.env.example backend/.env
+```
+
+Bash:
 
 ```bash
-# Copy example env file
 cp backend/.env.example backend/.env
-
-# Edit with your settings (or use defaults)
 ```
 
-### 3. Start with Docker
+Important backend variables:
+- DATABASE_URL
+- JWT_SECRET_KEY
+- SERVER_HOST (default 0.0.0.0)
+- SERVER_PORT (default 5000)
+- CORS_ALLOW_ORIGINS
+- CLIENT_HOST and CLIENT_PORT (client server)
+
+### Frontend env
+
+Frontend/.env.example sets VITE_API_URL=http://localhost:5000.
+
+If you change VITE_API_URL for production, rebuild the frontend image/bundle.
+
+## Run Commands
+
+### Option A: Docker (recommended)
+
+From repository root:
 
 ```bash
-# Build and start all services
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
+docker compose up --build -d
 ```
 
-### 4. Seed Sample Data
+Useful commands:
 
 ```bash
-# Run the seed script to create sample users and data
-docker exec -it smart-water-admin python seed_data.py
+docker compose ps
+docker compose logs -f backend-admin
+docker compose logs -f frontend
+docker compose down
 ```
 
-Or if running locally:
+Services and ports (default):
+- Frontend: http://localhost:3000
+- Admin API: http://localhost:5000
+- Client API: http://localhost:5001
+- PostgreSQL: localhost:5432
+
+Seed data is already executed by backend startup command, but you can rerun it manually:
+
+```bash
+docker compose exec backend-admin python seed_data.py
+```
+
+### Option B: Local development
+
+#### 1) Backend admin server
+
 ```bash
 cd backend
+python -m venv .venv
+```
+
+Activate environment:
+
+PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Bash:
+
+```bash
+source .venv/bin/activate
+```
+
+Install dependencies and run:
+
+```bash
+pip install -r requirements.txt
 python seed_data.py
+python admin/server.py
 ```
 
----
+#### 2) Backend client server (new terminal)
 
-## 🔐 Sample Login Credentials
-
-After running the seed script, you can login with these credentials:
-
-### Admin User
-| Field | Value |
-|-------|-------|
-| **Email** | `admin@waterwatch.com` |
-| **Password** | `Admin@123` |
-| **Role** | Administrator (full access) |
-
-### Portal Users (Water Consumers)
-Login using **Unique ID only** (no password required):
-
-| Unique ID | Name | Area |
-|-----------|------|------|
-| `WU-2024-001` | Rajesh Kumar | Sector 14, Gurgaon |
-| `WU-2024-002` | Priya Sharma | Connaught Place, New Delhi |
-| `WU-2024-003` | Amit Patel | Bandra West, Mumbai |
-
----
-
-## API Endpoints
-
-### Base URL
-- **Local**: `http://localhost:5111`
-- **Docker**: `http://localhost:5111`
-
-### Authentication
-```
-POST /api/auth/register     - Register new admin
-POST /api/auth/login        - Admin login (email/password)
-POST /api/auth/refresh      - Refresh access token
-POST /api/auth/logout       - Logout
-GET  /api/auth/me           - Get current user
-PUT  /api/auth/profile      - Update profile
+```bash
+cd backend
+python client/server.py
 ```
 
-### Portal Users
-```
-POST /api/users/login       - Portal user login (unique_id only)
-POST /api/users/register    - Admin creates portal user
-GET  /api/users             - List all portal users
-GET  /api/users/{id}        - Get user by ID
-PUT  /api/users/{id}        - Update user
-DELETE /api/users/{id}      - Delete user
-```
+#### 3) Frontend (new terminal)
 
-### Sensor Readings (IoT Integration)
-```
-POST /api/sensors/readings                    - Submit sensor reading
-GET  /api/sensors/readings/{unique_id}        - Get user's readings
-GET  /api/sensors/readings/{unique_id}/latest - Get latest reading
-GET  /api/sensors/readings/{unique_id}/statistics - Get statistics
-GET  /api/sensors/readings/{unique_id}/range  - Get readings by date range
-GET  /api/sensors/dashboard/all-users         - Admin: all users' latest data
-```
-
-### IoT Device Payload Example
-```json
-POST /api/sensors/readings
-{
-  "unique_id": "WU-2024-001",
-  "ph": 7.2,
-  "pressure": 2.5,
-  "flow_rate": 65.3,
-  "total_volume_passed": 1500.5,
-  "temperature": 24.5,
-  "tds": 342,
-  "dissolved_oxygen": 7.5,
-  "device_id": "ESP32-001",
-  "location": "Main Tank"
-}
-```
-
-### Model & Training
-```
-GET  /api/model/info        - Model information
-GET  /api/model/download    - Download trained model
-POST /api/model/predict     - Make water quality prediction
-
-GET  /api/training/status   - Training status
-GET  /api/training/history  - Training history
-POST /api/training/start    - Start federated training
-POST /api/training/stop     - Stop training
-```
-
----
-
-## Project Structure
-
-```
-Smart-Water-Management-IS/
-├── Frontend/                    # React frontend
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── pages/           # Page components
-│   │   │   │   ├── Analytics/   # Analytics dashboard
-│   │   │   │   ├── Anomalies.jsx
-│   │   │   │   ├── Overview.jsx
-│   │   │   │   └── ...
-│   │   │   └── ui/              # Reusable UI components
-│   │   ├── context/             # React context (Auth)
-│   │   ├── services/            # API services
-│   │   ├── hooks/               # Custom hooks
-│   │   └── data/                # Data utilities
-│   └── Dockerfile
-│
-├── backend/                     # Python backend
-│   ├── admin/                   # Admin server
-│   │   └── server.py            # Main FastAPI app
-│   ├── client/                  # Client server (federated)
-│   │   └── server.py
-│   ├── auth/                    # Authentication
-│   │   ├── routes.py
-│   │   ├── database.py
-│   │   └── jwt_handler.py
-│   ├── routes/                  # API routes
-│   │   ├── sensors.py           # IoT sensor endpoints
-│   │   ├── users.py
-│   │   ├── clients.py
-│   │   ├── data.py
-│   │   ├── model.py
-│   │   └── training.py
-│   ├── core/                    # ML model
-│   ├── data/                    # Training data
-│   ├── seed_data.py             # Sample data generator
-│   └── Dockerfile
-│
-├── docker-compose.yml           # Container orchestration
-└── README.md
-```
-
----
-
-## Database Schema
-
-### Tables
-
-1. **admin_users** - Administrator accounts
-   - Email/password authentication
-   - Full system access
-
-2. **portal_users** - Water consumers
-   - Unique ID login (no password)
-   - Limited access to own data
-
-3. **sensor_readings** - IoT sensor data
-   - Linked to portal_users
-   - Stores pH, TDS, temperature, flow rate, etc.
-   - Water quality predictions
-
----
-
-## Development
-
-### Frontend (Local)
 ```bash
 cd Frontend
 npm install
 npm run dev
-# Runs on http://localhost:5173
 ```
 
-### Backend (Local)
+Local dev URLs:
+- Frontend Vite: http://localhost:5173
+- Admin API: http://localhost:5000
+- Client API: http://localhost:5001
+
+## Seeded Demo Credentials
+
+The seed script creates these demo identities:
+
+### Admin login
+- Email: admin@waterwatch.com
+- Password: Admin@123
+
+### Portal user login (unique ID only)
+- WU-2024-001
+- WU-2024-002
+- WU-2024-003
+
+## API Summary
+
+Main route groups:
+- /api/auth: register, login, refresh, logout, profile, verify, password actions, health
+- /api/users: portal-user login and admin CRUD for portal users
+- /api/sensors: reading ingestion, latest/history/range/statistics, dashboard aggregation
+- /api/clients: federated client registry and health checks
+- /api/all-clients-data and /api/all-clients-metrics: distributed data and metric collection
+- /api/training: status, history, start, stop
+- /api/model: info, download, predict
+- /api/health: admin server health check
+
+Interactive docs are available at:
+- http://localhost:5000/docs
+
+## Testing Directions
+
+This repository currently does not include a committed automated unit/integration test suite.
+
+Recommended verification flow is static checks + API smoke tests + UI/E2E checks.
+
+### 1) Frontend static checks
+
 ```bash
-cd backend
-pip install -r requirements.txt
-
-# Start admin server
-python admin/server.py
-# Runs on http://localhost:5111
+cd Frontend
+npm run lint
+npm run build
 ```
 
-### Environment Variables
+### 2) Backend API smoke checks
 
-Create `backend/.env`:
-```env
-DATABASE_URL=postgresql://wateradmin:Water2024Secure@localhost:5432/water_management
-JWT_SECRET=your-secret-key-here
-JWT_ALGORITHM=HS256
-SERVER_HOST=0.0.0.0
-SERVER_PORT=5111
-```
+Run these after services are up:
 
----
-
-## Deployment
-
-### Docker Compose (Recommended)
 ```bash
-docker-compose up -d --build
+curl http://localhost:5000/api/health
+curl http://localhost:5000/api/auth/health
+curl http://localhost:5000/api/sensors/health
+curl http://localhost:5001/api/health
 ```
 
-### Services
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:5111
-- **PostgreSQL**: localhost:5432
+Optional sensor ingestion smoke test:
 
----
+```bash
+curl -X POST http://localhost:5000/api/sensors/readings \
+   -H "Content-Type: application/json" \
+   -d '{
+      "unique_id": "WU-2024-001",
+      "ph": 7.2,
+      "pressure": 2.4,
+      "flow_rate": 62.3,
+      "total_volume_passed": 1450.2,
+      "temperature": 24.1,
+      "tds": 320,
+      "dissolved_oxygen": 7.1,
+      "device_id": "ESP32-001",
+      "location": "Main Tank"
+   }'
+```
 
-## Contributing
+Then verify:
 
-This is a project for Smart Water Management IS. For contributions or questions, please contact the development team.
+```bash
+curl http://localhost:5000/api/sensors/readings/WU-2024-001/latest
+```
+
+### 3) Manual UI test checklist
+
+1. Sign in as admin and verify admin routes load.
+2. Open Analytics and confirm CSV and PDF report downloads work.
+3. Open Federated Learning and verify client add/remove and health checks.
+4. Start and stop a training round from the Training tab.
+5. Run a model prediction from the Model tab.
+6. Sign in as portal user and verify dashboard, analytics, alerts, and profile views.
+
+## Notes
+
+- The frontend DataUploadPage component exists, but its route is currently disabled in app routing.
+- For Docker, use docker compose (space) commands.
 
 ## License
 
