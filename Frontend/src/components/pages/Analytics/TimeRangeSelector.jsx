@@ -31,6 +31,7 @@ export default function TimeRangeSelector({
   setGranularity,
   selectedMetrics,
   setSelectedMetrics,
+  isExporting = false,
   onExport 
 }) {
   const [showMetricDropdown, setShowMetricDropdown] = useState(false);
@@ -141,11 +142,12 @@ export default function TimeRangeSelector({
             </button>
             <button
               onClick={() => onExport('pdf')}
-              className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg px-2 sm:px-4 py-1.5 sm:py-2 text-white text-xs sm:text-sm hover:opacity-90 transition-opacity"
+              disabled={isExporting}
+              className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg px-2 sm:px-4 py-1.5 sm:py-2 text-white text-xs sm:text-sm hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
             >
               <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">PDF Report</span>
-              <span className="sm:hidden">PDF</span>
+              <span className="hidden sm:inline">{isExporting ? 'Generating...' : 'PDF Report'}</span>
+              <span className="sm:hidden">{isExporting ? '...' : 'PDF'}</span>
             </button>
           </div>
         </div>
